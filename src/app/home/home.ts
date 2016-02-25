@@ -25,10 +25,6 @@ import {XLarge} from './directives/x-large';
   styles: [ require('./home.css') ],
   // Every Angular template is first compiled by the browser before Angular runs it's compiler
   template: require('!jade!./home.jade')()
-  //template: require('./homeDEAD.html')
-
-  //  @Component({
-  // template: require('!jade!./your_file.jade')(),
 })
 export class Home {
   // Set our default values

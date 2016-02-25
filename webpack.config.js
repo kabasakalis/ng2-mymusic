@@ -40,7 +40,7 @@ module.exports = {
 
   resolve: {
     // ensure loader extensions match
-    extensions: prepend(['.ts','.js','.json','.css','.html','.jade'], '.async') // ensure .async.ts etc also works
+    extensions: prepend(['.ts','.js','.json','.css','scss','.html','.jade'], '.async') // ensure .async.ts etc also works
   },
 
   module: {
@@ -58,6 +58,11 @@ module.exports = {
 
       // Support for *.json files.
       { test: /\.json$/,  loader: 'json-loader' },
+
+      {
+        test: /\.scss$/,
+        loaders: ['raw-loader', 'sass-loader?sourceMap']
+      },
 
       // Support for CSS as raw text
       { test: /\.css$/,   loader: 'raw-loader' },
