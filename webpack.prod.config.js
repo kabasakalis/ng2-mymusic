@@ -105,6 +105,9 @@ module.exports = {
       // support for .html as raw text
       { test: /\.html$/,  loader: 'raw-loader', exclude: [ root('src/index.html') ] }
 
+      // // support for .html as raw text
+      // { test: /\.jade$/,  loader: 'jade-html-loader' }
+
       // if you add a loader include the file extension
     ]
   },

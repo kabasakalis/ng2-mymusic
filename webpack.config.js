@@ -10,7 +10,7 @@ var HtmlWebpackPlugin  = require('html-webpack-plugin');
 var ENV = process.env.ENV = process.env.NODE_ENV = 'development';
 
 var metadata = {
-  title: 'Angular2 Webpack Starter by @gdi2990 from @AngularClass',
+  title: 'Mymusic',
   baseUrl: '/',
   host: 'localhost',
   port: 3000,
@@ -40,7 +40,7 @@ module.exports = {
 
   resolve: {
     // ensure loader extensions match
-    extensions: prepend(['.ts','.js','.json','.css','.html'], '.async') // ensure .async.ts etc also works
+    extensions: prepend(['.ts','.js','.json','.css','.html','.jade'], '.async') // ensure .async.ts etc also works
   },
 
   module: {
@@ -63,11 +63,19 @@ module.exports = {
       { test: /\.css$/,   loader: 'raw-loader' },
 
       // support for .html as raw text
-      { test: /\.html$/,  loader: 'raw-loader', exclude: [ root('src/index.html') ] }
+      { test: /\.html$/,  loader: 'raw-loader', exclude: [ root('src/index.html') ] },
+
+      // support for .jade
+      { test: /\.jade$/,  loader: 'jade' }
 
       // if you add a loader include the resolve file extension above
     ]
   },
+
+  // resolve: {
+  //    modulesDirectories: ['node_modules', 'bower_components', 'web_modules']
+  //  },
+
 
   plugins: [
     new webpack.optimize.OccurenceOrderPlugin(true),
@@ -75,7 +83,10 @@ module.exports = {
     // static assets
     new CopyWebpackPlugin([ { from: 'src/assets', to: 'assets' } ]),
     // generating html
-    new HtmlWebpackPlugin({ template: 'src/index.html' }),
+    new HtmlWebpackPlugin({
+      // template: 'src/index.html'
+      template: 'src/index.jade'
+       }),
     // replace
     new webpack.DefinePlugin({
       'process.env': {
