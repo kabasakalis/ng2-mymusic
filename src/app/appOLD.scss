@@ -1,0 +1,54 @@
+$md-font-url: "node_modules/ng2-material/dist/";
+@import "node_modules/ng2-material/dist/font.scss";
+@import "node_modules/ng2-material/source/all";
+
+
+//colors
+$color_blue: cyan;
+
+nav {
+  ul {
+    display: inline;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 60px;
+  }
+  li {
+    display: inline;
+    &.active {
+      background-color: $color_blue;
+    }
+  }
+}
+
+
+
+
+
+
+
+
+section {
+  background: #f7f7f7;
+  border-radius: 3px;
+  text-align: center;
+  margin: 1em;
+  position: relative !important;
+  padding-bottom: 10px;
+  [md-button], [md-raised-button], [md-fab] {
+    margin-top: 16px;
+    margin-bottom: 16px;
+  }
+}
+md-content {
+  margin-right: 7px;
+  margin-left: 5px;
+}
+.label {
+  position: absolute;
+  bottom: 5px;
+  left: 7px;
+  font-size: 14px;
+  opacity: 0.54;
+}

@@ -89,8 +89,8 @@ module.exports = {
     new CopyWebpackPlugin([ { from: 'src/assets', to: 'assets' } ]),
     // generating html
     new HtmlWebpackPlugin({
-      // template: 'src/index.html'
-      template: 'src/index.jade'
+       //template: 'src/index.html'
+       template: 'src/index.jade'
        }),
     // replace
     new webpack.DefinePlugin({

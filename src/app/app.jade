@@ -1,68 +1,37 @@
-header
-  nav
-    h1 Jaded Hello {{ name }}
-    ul
-      li(router-active='')
-        a([routerLink]=" ['Index'] ") Index
-      li(router-active='')
-        a([routerLink]=" ['Home'] ") Home
-      li(router-active='')
-        a([routerLink]=" ['About'] ") About
-main
-  router-outlet
-footer
-  | WebPack Jaded Angular 2 Starter by
-  a([href]='url') @AngularClass
-  div
-    img([src]='angularclassLogo', width='10%')
-
-
-
-md-content
-  section(layout='row', layout-sm='column', layout-align='center center', layout-wrap='')
-    button(md-button='') {{title1}}
-    button.md-primary(md-button='', md-no-ink='') Primary (md-noink)
-    button.md-primary(md-button='', disabled='true') Disabled
-    button.md-warn(md-button='') {{title4}}
-    .label Flat
-  section(layout='row', layout-sm='column', layout-align='center center', layout-wrap='')
-    button.md-raised(md-raised-button='') Button
-    button.md-raised.md-primary(md-raised-button='') Primary
-    button.md-raised.md-primary(md-raised-button='', disabled='true') Disabled
-    button.md-raised.md-warn(md-raised-button='') Warn
-    .label Raised
-  section(layout='row', layout-sm='column', layout-align='center center', layout-wrap='')
-    button.md-fab(md-fab='', aria-label='Eat cake')
-      i(md-icon='') cake
-    button.md-primary(md-fab='', aria-label='Use Android')
-      i(md-icon='') android
-    button(md-fab='', disabled='true', aria-label='Comment')
-      i(md-icon='') comment
-    button.md-primary.md-hue-2(md-fab='', aria-label='Profile')
-      i(md-icon='') people
-    button.md-mini(md-fab='', aria-label='Eat cake')
-      i(md-icon='') cake
-    button.md-mini.md-primary(md-fab='', aria-label='Use Android')
-      i(md-icon='') android
-    .label FAB
-  section(layout='row', layout-sm='column', layout-align='center center', layout-wrap='')
-    a(md-button='', [href]='googleUrl', target='_blank') Default Link
-    a.md-primary(md-button='', [href]='googleUrl', target='_blank') Primary Link
-    button(md-button='') Default Button
-    .label Link vs. Button
-  section(layout='row', layout-sm='column', layout-align='center center', layout-wrap='')
-    button.md-primary.md-hue-1(md-button='') Primary Hue 1
-    button.md-warn.md-hue-2(md-raised-button='') Warn Hue 2
-    button.md-accent(md-button='') Accent
-    button.md-accent.md-hue-1(md-raised-button='') Accent Hue 1
-    .label Themed
-  section(layout='row', layout-sm='column', layout-align='center center', layout-wrap='')
-    button.md-icon-button.md-primary(md-button='', aria-label='Settings')
-      i(md-icon='') menu
-    button.md-icon-button.md-accent(md-button='', aria-label='Favorite')
-      i(md-icon='') favorite
-    button.md-icon-button(md-button='', aria-label='More')
-      i(md-icon='') more_vert
-    a.md-icon-button.launch(md-button='', href='#', title='Launch Google.com in new window', target='_blank', disabled='true', aria-label='Google.com')
-      i(md-icon='') launch
-    .label Icon Button
+.demo-layout.mdl-layout.mdl-js-layout.mdl-layout--fixed-drawer.mdl-layout--fixed-header
+  header.demo-header.mdl-layout__header.mdl-color--grey-100.mdl-color-text--grey-600
+    .mdl-layout__header-row
+      span.mdl-layout-title Home
+      .mdl-layout-spacer
+      .mdl-textfield.mdl-js-textfield.mdl-textfield--expandable
+        label.mdl-button.mdl-js-button.mdl-button--icon(for='search')
+          i.material-icons search
+        .mdl-textfield__expandable-holder
+          input#search.mdl-textfield__input(type='text')
+          label.mdl-textfield__label(for='search') Enter your query...
+      button#hdrbtn.mdl-button.mdl-js-button.mdl-js-ripple-effect.mdl-button--icon
+        i.material-icons more_vert
+      ul.mdl-menu.mdl-js-menu.mdl-js-ripple-effect.mdl-menu--bottom-right(for='hdrbtn')
+        li.mdl-menu__item About
+        li.mdl-menu__item Contact
+        li.mdl-menu__item Legal information
+  .demo-drawer.mdl-layout__drawer.mdl-color--blue-grey-900.mdl-color-text--blue-grey-50
+    header.demo-drawer-header
+      img.demo-avatar(src='assets/img/user.jpg')
+      .demo-avatar-dropdown
+        span hello@example.com
+        .mdl-layout-spacer
+        button#accbtn.mdl-button.mdl-js-button.mdl-js-ripple-effect.mdl-button--icon
+          i.material-icons(role='presentation') arrow_drop_down
+          span.visuallyhidden Accounts
+        ul.mdl-menu.mdl-menu--bottom-right.mdl-js-menu.mdl-js-ripple-effect(for='accbtn')
+          li.mdl-menu__item hello@example.com
+          li.mdl-menu__item info@example.com
+          li.mdl-menu__item
+            i.material-icons add
+            | Add another account...
+    include nav.jade
+  main.mdl-layout__content.mdl-color--grey-100
+    .mdl-grid.demo-content
+      include main.jade
+      include sidebar.jade
