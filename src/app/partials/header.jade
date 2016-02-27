@@ -1,6 +1,15 @@
 header.demo-header.mdl-layout__header.mdl-color--grey-100.mdl-color-text--grey-600
   .mdl-layout__header-row
-    span.mdl-layout-title Home
+    nav
+      md-content
+        section(layout='row', layout-sm='column', layout-align='center center', layout-wrap='')
+          a([routerLink]=" ['Home'] ")
+            button.md-raised.md-primary(md-raised-button) Home
+          a([routerLink]=" ['Artists'] ")
+            button.md-raised.md-primary(md-raised-button='') Artists
+          a([routerLink]=" ['About'] ")
+            button.md-raised.md-primary(md-raised-button='') About
+    //span.mdl-layout-title Home
     .mdl-layout-spacer
     .mdl-textfield.mdl-js-textfield.mdl-textfield--expandable
       label.mdl-button.mdl-js-button.mdl-button--icon(for='search')
@@ -14,18 +23,4 @@ header.demo-header.mdl-layout__header.mdl-color--grey-100.mdl-color-text--grey-6
       li.mdl-menu__item About
       li.mdl-menu__item Contact
       li.mdl-menu__item Legal information
-.demo-drawer.mdl-layout__drawer.mdl-color--blue-grey-900.mdl-color-text--blue-grey-50
-  header.demo-drawer-header
-    img.demo-avatar(src='assets/img/user.jpg')
-    .demo-avatar-dropdown
-      span hello@example.com
-      .mdl-layout-spacer
-      button#accbtn.mdl-button.mdl-js-button.mdl-js-ripple-effect.mdl-button--icon
-        i.material-icons(role='presentation') arrow_drop_down
-        span.visuallyhidden Accounts
-      ul.mdl-menu.mdl-menu--bottom-right.mdl-js-menu.mdl-js-ripple-effect(for='accbtn')
-        li.mdl-menu__item hello@example.com
-        li.mdl-menu__item info@example.com
-        li.mdl-menu__item
-          i.material-icons add
           | Add another account...

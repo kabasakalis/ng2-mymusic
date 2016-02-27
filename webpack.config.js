@@ -13,7 +13,7 @@ var metadata = {
   title: 'Mymusic',
   baseUrl: '/',
   host: 'localhost',
-  port: 3000,
+  port: 1111,
   ENV: ENV
 };
 /*
@@ -71,7 +71,12 @@ module.exports = {
       { test: /\.html$/,  loader: 'raw-loader', exclude: [ root('src/index.html') ] },
 
       // support for .jade
-      { test: /\.jade$/,  loader: 'jade' }
+      { test: /\.jade$/,  loader: 'jade' },
+
+      {
+        test: /\.jpg$/,
+        loader: 'url-loader?prefix=imasag/&mimetype=image/jpg'
+      }
 
       // if you add a loader include the resolve file extension above
     ]

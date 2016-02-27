@@ -23,11 +23,11 @@ import {Home} from './home/home';
   template: require('!jade!./app.jade')()
 })
 @RouteConfig([
-  { path: '/', component: Home, name: 'Index' },
-  { path: '/home', component: Home, name: 'Home' },
+  { path: '/', component: Home, name: 'Home' },
+  { path: '/artists', loader: () => require('./artists/artists')('Artists'), name: 'Artists' },
   // Async load a component using Webpack's require with es6-promise-loader
   { path: '/about', loader: () => require('./about/about')('About'), name: 'About' },
-  { path: '/**', redirectTo: ['Index'] }
+  { path: '/**', redirectTo: ['Home'] }
 ])
 export class App {
   angularclassLogo = 'assets/img/angularclass-avatar.png';

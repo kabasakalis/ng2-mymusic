@@ -1,10 +1,12 @@
-$md-font-url: "node_modules/ng2-material/dist/";
+//ng-material
+//$md-font-url: "node_modules/ng2-material/dist/";
+$md-font-url: "assets/fonts/";
 @import "node_modules/ng2-material/dist/font.scss";
 @import "node_modules/ng2-material/source/all";
 
 
 
-
+//app
 //colors
 $black_54: rgba(0, 0, 0, 0.54);
 $white_56: rgba(255, 255, 255, 0.56);
@@ -23,8 +25,6 @@ $font_0: Roboto;
 $font_1: Helvetica;
 $font_2: sans-serif;
 
-//urls
-$url_0: url(images/dog.png);
 
 html {
   font-family: $font_0, $font_1, $font_2;
@@ -196,7 +196,6 @@ _:-ms-input-placeholder {
 }
 .demo-updates .mdl-card__title {
   min-height: 200px;
-  background-image: $url_0;
   background-position: 90% 100%;
   background-repeat: no-repeat;
 }

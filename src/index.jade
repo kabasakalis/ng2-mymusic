@@ -16,9 +16,9 @@ html(lang='en')
   head
     meta(charset='utf-8')
     meta(http-equiv='X-UA-Compatible', content='IE=edge')
-    meta(name='description', content='A front-end template that helps you build fast, modern mobile web apps.')
+    meta(name='description', content="#{webpackConfig.metadata.title}")
     meta(name='viewport', content='width=device-width, initial-scale=1')
-    title Material Design Lite
+    title My Music
     // Add to homescreen for Chrome on Android
     meta(name='mobile-web-app-capable', content='yes')
     link(rel='icon', sizes='192x192', href='assets/img/android-desktop.png')
@@ -36,8 +36,23 @@ html(lang='en')
       <link rel="canonical" href="http://www.example.com/">
     link(rel='stylesheet', href='https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&lang=en')
     link(rel='stylesheet', href='https://fonts.googleapis.com/icon?family=Material+Icons')
-    link(rel='stylesheet', href='https://code.getmdl.io/1.1.1/material.cyan-light_blue.min.css')
-    link(rel='stylesheet', href='styles.css')
+    link(rel='stylesheet', href='https://code.getmdl.io/1.1.1/material.deep_purple-purple.min.css')
+    base(href="#{webpackConfig.metadata.baseUrl}")
   body
     app
-    script(src='https://code.getmdl.io/1.1.1/material.min.js')
+    // Google Analytics: change UA-71073175-1 to be your site's ID
+    script.
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-71073175-1', 'auto');
+      ga('send', 'pageview');
+    script(src='https://code.angularjs.org/tools/system.js')
+    //script(src='node_modules/rxjs/bundles/Rx.js')
+    script(src='https://code.angularjs.org/2.0.0-beta.7/Rx.js')
+    //script(src='https://code.getmdl.io/1.1.1/material.min.js')
+    if webpackConfig.metadata.ENV === 'development'
+      script(src="http://#{webpackConfig.metadata.host}:#{webpackConfig.metadata.port}/webpack-dev-server.js")
+
+
