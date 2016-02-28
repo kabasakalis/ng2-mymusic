@@ -3,6 +3,9 @@
  */
 import {Component} from 'angular2/core';
 import {RouteConfig, Router, ROUTER_DIRECTIVES} from 'angular2/router';
+//import {_} from 'lodash';
+import * as _ from 'lodash';
+
 import {FORM_PROVIDERS} from 'angular2/common';
 
 import {MATERIAL_DIRECTIVES, MATERIAL_PROVIDERS} from "ng2-material/all";
