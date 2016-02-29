@@ -1,14 +1,19 @@
-import {Component, OnInit} from 'angular2/core';
+import {View, Component, OnInit} from 'angular2/core';
 import {Artist}              from './artist';
 import {ArtistService}       from './artist.service';
 import {ApiService}       from '../services/api.service';
 import {Observable}     from 'rxjs/Observable';
+import {Whiteframe}     from './whiteframe.component';
 import * as _ from 'lodash';
+//import {MATERIAL_DIRECTIVES, MATERIAL_PROVIDERS} from "ng2-material/all";
+import {PaginatePipe, PAGINATION_DIRECTIVES, PaginationService} from 'ng2-pagination';
 
 @Component({
   selector: 'artists-list',
   template: require('!jade!./index.jade')(),
-  providers: [ApiService]
+  providers: [ApiService],
+  styles: [require('./artists.scss')],
+  directives: [Whiteframe]
  })
 
 

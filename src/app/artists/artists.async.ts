@@ -28,8 +28,9 @@ console.log('`Artists` component loaded asynchronously');
   directives: [IndexComponent],
   providers: [
       HTTP_PROVIDERS,
-      ArtistService,
-  ]
+      ArtistService
+  ],
+  styles: [require('./artists.scss')]
 })
 export class Artists {
   constructor() {

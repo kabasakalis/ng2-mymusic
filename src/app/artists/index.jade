@@ -1,4 +1,4 @@
-h3 Artists:
+h3 Artistssss:
 ul
   li(*ngFor='#artist of artists')
     | {{ artist.properties.title }}
@@ -7,3 +7,4 @@ input(#newArtist='')
 button((click)="addArtist(newArtist.value); newArtist.value=''")
   | Add Artist
 .error(*ngIf='errorMessage') {{errorMessage}}
+wf

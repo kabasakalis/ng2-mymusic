@@ -8,7 +8,7 @@ import * as _ from 'lodash';
 
 import {FORM_PROVIDERS} from 'angular2/common';
 
-import {MATERIAL_DIRECTIVES, MATERIAL_PROVIDERS} from "ng2-material/all";
+// import {MATERIAL_DIRECTIVES, MATERIAL_PROVIDERS} from "ng2-material/all";
 
 import {RouterActive} from './directives/router-active';
 import {Home} from './home/home';

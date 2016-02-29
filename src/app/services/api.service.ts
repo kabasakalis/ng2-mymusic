@@ -12,7 +12,7 @@ export class ApiService {
   static API_BASE_URL = 'http://api.app.me:3000/v1/'
   static DEFAULT_HEADERS = {
     'Content-Type' : 'application/siren',
-    'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0NTY2Njc1NTcsImF1ZCI6Ik15IE11c2ljIFVzZXJzIiwiaWQiOjEsImVtYWlsIjoia2FiYXNha2FsaXNAZ21haWwuY29tIn0.uLE4XkS_wdbky-JflBXtvd6UZLhntoBngcxr8TZ_DSU'
+    'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0NTY4MzY0NTIsImF1ZCI6Ik15IE11c2ljIFVzZXJzIiwiaWQiOjEsImVtYWlsIjoia2FiYXNha2FsaXNAZ21haWwuY29tIn0.acBYbFDIHKqUriN5mJ1esDB-8DyAcnRvHl8nGVAPSBk'
   };
 
   get(uri: string = '', _headers: Object = ApiService.DEFAULT_HEADERS, _options: any = {}) {
