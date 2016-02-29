@@ -1,0 +1,11 @@
+h2 Artists
+div.wf-container
+  div(layout='row', layout-padding='', layout-wrap='', layout-fill='', style='padding-bottom: 32px;', ng-cloak='')
+    md-whiteframe.md-whiteframe-1dp(*ngFor='#artist of artists' flex-sm='45', flex-gt-sm='35', flex-gt-md='25', layout='', layout-align='center center')
+      strong {{ artist.properties.title }}
+      //pre.
+        {{ artist.properties | json }}
+//- input(#newArtist='')
+//- button((click)="addArtist(newArtist.value); newArtist.value=''")
+//-   | Add Artist
+//- .error(*ngIf='errorMessage') {{errorMessage}}

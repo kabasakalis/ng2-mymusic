@@ -2,9 +2,9 @@ import {Component} from 'angular2/core';
 import {RouteConfig, Router, ROUTER_DIRECTIVES} from 'angular2/router';
 import {HTTP_PROVIDERS}    from 'angular2/http';
 import {Artist}              from './artist';
-import {IndexComponent} from './index.component';
+import {ArtistIndex}     from './artist-index.component';
 //import {ShowComponent} from './show.component';
-import {ArtistService}       from './artist.service';
+
 
 /*
  * We're loading this component asynchronously
@@ -25,12 +25,11 @@ console.log('`Artists` component loaded asynchronously');
   selector: 'artists',
   //template: `kabasakalis@gmail.com`
   template: require('!jade!./artists.jade')(),
-  directives: [IndexComponent],
-  providers: [
-      HTTP_PROVIDERS,
-      ArtistService
-  ],
-  styles: [require('./artists.scss')]
+  directives: [ArtistIndex],
+  // providers: [
+  //     HTTP_PROVIDERS,
+  // ],
+  //styles: [require('./artists.scss')]
 })
 export class Artists {
   constructor() {

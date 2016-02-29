@@ -29,16 +29,16 @@ export class ApiService {
 
   // addArtist(title: string): Observable<Artist> {
 
-  //   let body = JSON.stringify({ title });
-  //   let headers = new Headers({
-  //     'Content-Type': 'application/siren',
-  //     'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0NTY2Njc1NTcsImF1ZCI6Ik15IE11c2ljIFVzZXJzIiwiaWQiOjEsImVtYWlsIjoia2FiYXNha2FsaXNAZ21haWwuY29tIn0.uLE4XkS_wdbky-JflBXtvd6UZLhntoBngcxr8TZ_DSU'
-  //   });
-  //   let options = new RequestOptions({ headers: headers });
+  //     let body = JSON.stringify({ title });
+  //     let headers = new Headers({
+  //         'Content-Type': 'application/siren',
+  //         'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0NTY2Njc1NTcsImF1ZCI6Ik15IE11c2ljIFVzZXJzIiwiaWQiOjEsImVtYWlsIjoia2FiYXNha2FsaXNAZ21haWwuY29tIn0.uLE4XkS_wdbky-JflBXtvd6UZLhntoBngcxr8TZ_DSU'
+  //     });
+  //     let options = new RequestOptions({ headers: headers });
 
-  //   return this.http.post(this._artistsUrl, body, options)
-  //     .map(res => <Artist>res.json().data)
-  //     .catch(this.handleError)
+  //     return this.http.post(this._artistsUrl, body, options)
+  //         .map(res => <Artist>res.json().data)
+  //         .catch(this.handleError)
   // }
 
   private handleError(error: Response) {
