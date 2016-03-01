@@ -25,7 +25,7 @@ export class ArtistIndex implements OnInit {
 
   getArtists() {
       //req(_method: string, _uri: string, _params: Object, _body: Object, _headers: Object)
-     this._apiService.req('get', 'artists', { 'page': '3' })
+     this._apiService.req('get', 'artists', { 'page': '3' },null,null)
     .subscribe(
       artists => this.artists = artists.entities,
       error =>  this.errorMessage = <any>error
