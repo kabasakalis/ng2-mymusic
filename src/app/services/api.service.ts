@@ -1,6 +1,6 @@
 import {Injectable}     from 'angular2/core';
 import {Http, Response} from 'angular2/http';
-import {Headers, RequestOptions} from 'angular2/http';
+import {Request, RequestOptions, RequestOptionsArgs, Headers, URLSearchParams, RequestMethod} from 'angular2/http';
 import {Artist}           from '../artists/artist';
 import {Observable}     from 'rxjs/Observable';
 //import { ARTISTS } from './mock-artists';
@@ -12,16 +12,35 @@ export class ApiService {
   static API_BASE_URL = 'http://api.app.me:3000/v1/'
   static DEFAULT_HEADERS = {
     'Content-Type' : 'application/siren',
-    'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0NTY4MzY0NTIsImF1ZCI6Ik15IE11c2ljIFVzZXJzIiwiaWQiOjEsImVtYWlsIjoia2FiYXNha2FsaXNAZ21haWwuY29tIn0.acBYbFDIHKqUriN5mJ1esDB-8DyAcnRvHl8nGVAPSBk'
+    'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0NTY4NjI4MTIsImF1ZCI6Ik15IE11c2ljIFVzZXJzIiwiaWQiOjEsImVtYWlsIjoia2FiYXNha2FsaXNAZ21haWwuY29tIn0.lltOWCmViFmcRddqKJhC15mLG2K9m_oJDdhvdg-jQtE'
   };
 
-  get(uri: string = '', _headers: Object = ApiService.DEFAULT_HEADERS, _options: any = {}) {
+  req(_method: string, _uri: string, _params: Object, _body: Object, _headers: Object) {
 
-    let headers = Object.assign(ApiService.DEFAULT_HEADERS, _headers);
-    let option_params = Object.assign({ headers: headers }, _options);
-    let options = new RequestOptions(option_params);
+    let method = _method ? _method : 'get'
+    let url = _uri ? ApiService.API_BASE_URL + _uri : ApiService.API_BASE_URL
+    let headers = new Headers(Object.assign(ApiService.DEFAULT_HEADERS, _headers))
+    let body = _body ? JSON.stringify(_body) : JSON.stringify(new Object)
+    let search = new URLSearchParams()
+    for (var param in _params) {
+      if (_params.hasOwnProperty(param)) {
+          var value = _params[param];
+          search.append(param, value)
+      }
+    }
 
-    return this.http.get(ApiService.API_BASE_URL + uri, options)
+    let request_options_args: RequestOptionsArgs = {
+      method: method,
+      url: url,
+      body: body,
+      search: search,
+      headers: headers
+    };
+
+    let request_options = new RequestOptions(request_options_args)
+    let request = new Request(request_options);
+
+    return this.http.request(request)
       .map(res => <any>res.json())
       .do(data => console.log(data)) // eyeball results in the console
       .catch(this.handleError);

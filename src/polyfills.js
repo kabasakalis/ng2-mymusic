@@ -21,9 +21,9 @@ else {
     // RxJS
     // In development we are including every operator
     // Observable Operators
-    require('rxjs/add/operator/combineLatest-static');
-    require('rxjs/add/operator/concat-static');
-    require('rxjs/add/operator/merge-static');
+    require('rxjs/add/operator/combineLatest');
+    require('rxjs/add/operator/concat');
+    require('rxjs/add/operator/merge');
     require('rxjs/add/observable/bindCallback');
     require('rxjs/add/observable/defer');
     require('rxjs/add/observable/empty');
@@ -38,7 +38,7 @@ else {
     require('rxjs/add/observable/range');
     require('rxjs/add/observable/throw');
     require('rxjs/add/observable/timer');
-    require('rxjs/add/operator/zip-static');
+    require('rxjs/add/operator/zip');
     // Operators
     require('rxjs/add/operator/buffer');
     require('rxjs/add/operator/bufferCount');

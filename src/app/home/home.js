@@ -42,7 +42,7 @@ var Home = (function () {
             // Our list of styles in our component. We may add more to compose many styles together
             styles: [require('./home.css')],
             // Every Angular template is first compiled by the browser before Angular runs it's compiler
-            template: require('./home.html')
+            template: require('!jade!./home.jade')()
         }), 
         __metadata('design:paramtypes', [title_1.Title])
     ], Home);
