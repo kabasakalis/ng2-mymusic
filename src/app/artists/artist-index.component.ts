@@ -3,15 +3,18 @@ import {MATERIAL_DIRECTIVES, MATERIAL_PROVIDERS} from "ng2-material/all";
 import {Observable}     from 'rxjs/Observable';
 import {Artist}              from './artist';
 import {ApiService}       from '../services/api.service';
-import {PaginatePipe, PAGINATION_DIRECTIVES, PaginationService} from 'ng2-pagination';
+//import {PaginatePipe, PaginationControlsCmp, PAGINATION_DIRECTIVES, PaginationService} from 'ng2-pagination';
+import {PaginatePipe, PaginationService, PAGINATION_DIRECTIVES} from 'ng2-pagination';
 
 
 @Component({
   selector: 'artist-index',
   template: require('!jade!./artist-index.jade')(),
   styles: [require('./artist-index.scss')],
-  providers: [ApiService]
-  //directives: [MATERIAL_DIRECTIVES]
+  //directives: [PaginationControlsCmp],
+  pipes: [PaginatePipe],
+  directives: [PAGINATION_DIRECTIVES],
+  providers: [PaginationService, ApiService]
  })
 
 export class ArtistIndex implements OnInit {
