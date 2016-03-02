@@ -25,14 +25,9 @@ export class ArtistIndex implements OnInit {
   total_pages : number;
   total_count: number;
   page_size: number;
+  //paging_config: IPaginationInstance;
   ngOnInit() { this.getArtists(1); }
 
- public config: IPaginationInstance = {
-         id: 'custom',
-         itemsPerPage: 12,
-         currentPage: 1,
-         totalItems: 64
-     };
 
 
  //{ id: 'server', itemsPerPage: page_size, currentPage: page, totalItems: total_count }
