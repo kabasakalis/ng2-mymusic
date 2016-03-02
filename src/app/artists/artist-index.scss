@@ -19,7 +19,9 @@ $white: white;
   transform: translate3D(0, 0, 0);
 }
 
-
+a {
+  cursor: pointer!important;
+}
 
 md-whiteframe {
   background: #fff;

@@ -1,12 +1,29 @@
 h2 Artists
 div.wf-container
   div(layout='row', layout-padding='', layout-wrap='', layout-fill='', style='padding-bottom: 32px;', ng-cloak='')
-    md-whiteframe.md-whiteframe-1dp(*ngFor='#artist of artists' flex-sm='45', flex-gt-sm='35', flex-gt-md='25', layout='', layout-align='center center')
-      strong {{ artist.properties.title }}
+    md-whiteframe.md-whiteframe-1dp(*ngFor="#artist of artists | paginate: config" flex-sm='45', flex-gt-sm='35', flex-gt-md='25', layout='', layout-align='center center')
+      a(style='cursor: pointer;') {{ artist.properties.title }}
+
       //pre.
         {{ artist.properties | json }}
 //- input(#newArtist='')
 //- button((click)="addArtist(newArtist.value); newArtist.value=''")
 //-   | Add Artist
 //- .error(*ngIf='errorMessage') {{errorMessage}}
-pagination-controls#some_id((pagechange)='pageChanged($event)', maxsize='9', directionlinks='true', autohide='true')
+//- ul.meal-list
+//-   li(*ngFor="#meal of asyncMeals | async | paginate: { id: 'server', itemsPerPage: 10, currentPage: p, totalItems: total }")
+//-     | {{ meal }}
+.is-text-centered
+//pagination-controls#server((pageChange)='getArtists($event)')
+
+pagination-controls(#p, [id]='config.id', (pageChange)='config.currentPage = $event;getArtists($event)' style='cursor: pointer!important;')
+  .custom-pagination
+    .pagination-previous([class.disabled]='p.isFirstPage()', *ngIf='p.directionLinks')
+      a( *ngIf='!p.isFirstPage()', (click)='p.previous()' )
+    div(*ngFor='#page of p.pages', [class.current]='p.getCurrent() === page.value')
+      a(  (click)='p.setCurrent(page.value)', *ngIf='p.getCurrent() !== page.value')
+        span {{ page.label }}
+      div(*ngIf='p.getCurrent() === page.value')
+        span {{ page.label }}
+    .pagination-next([class.disabled]='p.isLastPage()', *ngIf='p.directionLinks')
+      a(*ngIf='!p.isLastPage()', (click)='p.next()' )
