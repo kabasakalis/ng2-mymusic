@@ -27,7 +27,11 @@
       button.md-mini(md-fab='', aria-label='Eat cake')
         i(md-icon='') cake
       button.md-mini.md-primary(md-fab='', aria-label='Use Android')
-        i(md-icon='') android
+        i.material-icons( md-icon='') add
+      button.md-mini.md-primary(md-fab, aria-label='Use Android')
+        i.material-icons( md-icon) clear
+      button.md-mini.md-primary(md-fab, aria-label='Use Android')
+        i.material-icons( md-icon) create
       .label FAB
     section(layout='row', layout-sm='column', layout-align='center center', layout-wrap='')
       a(md-button='', [href]='googleUrl', target='_blank') Default Link

@@ -40,4 +40,8 @@ export class Artists {
     console.log('hello `Artists` component');
   }
 
+
+  // show(artist: Artist) {
+  //   console.log('ARTIST IN ARTISTS', artist)
+  // }
 }

@@ -204,3 +204,55 @@ _:-ms-input-placeholder {
 a {
  cursor: pointer;
 }
+
+
+//ICONS
+
+//colors
+$black_54: rgba(0, 0, 0, 0.54);
+$black_26: rgba(0, 0, 0, 0.26);
+$white: white;
+$white_30: rgba(255, 255, 255, 0.3);
+
+//fonts
+$font_0: Material Icons;
+
+//urls
+$url_0: url(assets/fonts/MaterialIcons-Regular.eot);
+$url_1: url(assets/fonts/MaterialIcons-Regular.woff2);
+$url_2: url(assets/fonts/MaterialIcons-Regular.woff);
+$url_3: url(assets/fonts/MaterialIcons-Regular.ttf);
+
+@font-face {
+  font-family: $font_0;
+  font-style: normal;
+  font-weight: 400;
+  src: $url_0;
+  src: local("assets/fonts/Material Icons"), local("assets/fonts/MaterialIcons-Regular"), $url_1 format("woff2"), $url_2 format("woff"), $url_3 format("truetype");
+}
+i.material-icons {
+  &.md-18 {
+    font-size: 18px;
+  }
+  &.md-24 {
+    font-size: 24px;
+  }
+  &.md-36 {
+    font-size: 36px;
+  }
+  &.md-48 {
+    font-size: 48px;
+  }
+  &.md-dark {
+    color: $black_54;
+    &.md-inactive {
+      color: $black_26;
+    }
+  }
+  &.md-light {
+    color: $white;
+    &.md-inactive {
+      color: $white_30;
+    }
+  }
+}

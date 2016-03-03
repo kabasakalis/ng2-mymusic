@@ -12,6 +12,14 @@ import {FORM_PROVIDERS} from 'angular2/common';
 
 import {RouterActive} from './directives/router-active';
 import {Home} from './home/home';
+import {Details} from './details/details.cmp';
+import {Artist}              from './artists/artist';
+
+
+
+
+//import {Artist}              from './artist';
+//import {ApiService}       from './services/api.service';
 
 /*
  * App Component
@@ -19,8 +27,8 @@ import {Home} from './home/home';
  */
 @Component({
   selector: 'app',
-  providers: [ ...FORM_PROVIDERS ],
-  directives: [...ROUTER_DIRECTIVES, RouterActive],
+  providers: [...FORM_PROVIDERS],
+  directives: [...ROUTER_DIRECTIVES, RouterActive, Details],
   pipes: [],
   styles: [require('./app.scss')],
   template: require('!jade!./app.jade')()
@@ -37,8 +45,16 @@ export class App {
   name = 'Angular 2 Webpack';
   url = 'https://twitter.com/AngularClass';
   constructor() {
+    // _details.selected_object = {
+    //        id: 2,
+    //        title: 'I am an Object from APP'
 
+    //    };
   }
+
+  // show(artist: Artist) {
+  //   console.log('ARTIST IN APP', artist)
+  // }
 }
 
 /*

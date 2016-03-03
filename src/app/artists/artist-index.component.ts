@@ -1,4 +1,4 @@
-import {View, Component, OnInit } from 'angular2/core';
+import {View, Component, OnInit, Output, EventEmitter } from 'angular2/core';
 import {MATERIAL_DIRECTIVES, MATERIAL_PROVIDERS} from "ng2-material/all";
 import {Observable}     from 'rxjs/Observable';
 import {Artist}              from './artist';
@@ -21,10 +21,13 @@ export class ArtistIndex implements OnInit {
   constructor (private _apiService: ApiService) {}
   errorMessage: string;
   artists: any;
+  selected_artist: Artist;
   page: number = 1;
   total_pages : number;
   total_count: number;
   page_size: number;
+
+  @Output() artist_details = new EventEmitter<Artist>();
   //paging_config: IPaginationInstance;
   ngOnInit() { this.getArtists(1); }
 
@@ -50,6 +53,12 @@ export class ArtistIndex implements OnInit {
     this.page_size = response.page_size;
   }
 
+
+  show_details(artist:Artist) {
+    this.selected_artist = artist;
+    this.artist_details.next(artist);
+    //console.log('sele', this.selected_artist);
+  }
 
   // addArtist (title: string) {
   //   if (!title) {return;}

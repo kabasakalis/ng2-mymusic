@@ -1,8 +1,8 @@
 h2 Artists
 div.wf-container
   div(layout='row', layout-padding='', layout-wrap='', layout-fill='', style='padding-bottom: 32px;', ng-cloak='')
-    md-whiteframe.md-whiteframe-1dp(*ngFor="#artist of artists | paginate: { id: 'paging', itemsPerPage: page_size, currentPage: page, totalItems: total_count }" flex-sm='45', flex-gt-sm='35', flex-gt-md='25', layout='', layout-align='center center')
-      a(style='cursor: pointer;') {{ artist.properties.title }}
+    md-whiteframe.md-whiteframe-1dp(*ngFor="#artist of artists | paginate: { id: 'paging', itemsPerPage: page_size, currentPage: page, totalItems: total_count }" flex-sm='45', flex-gt-sm='35', flex-gt-md='25', layout='', layout-align='center center', style="cursor:pointer;" , (click)='show_details(artist)' )
+      strong {{ artist.properties.title }}
 
       //pre.
         {{ artist.properties | json }}
