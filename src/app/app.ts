@@ -14,6 +14,8 @@ import {RouterActive} from './directives/router-active';
 import {Home} from './home/home';
 import {Details} from './details/details.cmp';
 import {Artist}              from './artists/artist';
+import {Artists}              from './artists/artists';
+
 
 
 

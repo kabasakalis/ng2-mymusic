@@ -1,3 +1,4 @@
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -16,21 +17,28 @@ var common_1 = require('angular2/common');
 // import {MATERIAL_DIRECTIVES, MATERIAL_PROVIDERS} from "ng2-material/all";
 var router_active_1 = require('./directives/router-active');
 var home_1 = require('./home/home');
+var details_cmp_1 = require('./details/details.cmp');
+//import {Artist}              from './artist';
+//import {ApiService}       from './services/api.service';
 /*
  * App Component
  * Top Level Component
  */
 var App = (function () {
     function App() {
+        // _details.selected_object = {
+        //        id: 2,
+        //        title: 'I am an Object from APP'
         this.angularclassLogo = 'assets/img/angularclass-avatar.png';
         this.name = 'Angular 2 Webpack';
         this.url = 'https://twitter.com/AngularClass';
+        //    };
     }
     App = __decorate([
         core_1.Component({
             selector: 'app',
             providers: common_1.FORM_PROVIDERS.slice(),
-            directives: router_1.ROUTER_DIRECTIVES.concat([router_active_1.RouterActive]),
+            directives: router_1.ROUTER_DIRECTIVES.concat([router_active_1.RouterActive, details_cmp_1.Details]),
             pipes: [],
             styles: [require('./app.scss')],
             template: require('!jade!./app.jade')()
@@ -45,7 +53,7 @@ var App = (function () {
         __metadata('design:paramtypes', [])
     ], App);
     return App;
-})();
+}());
 exports.App = App;
 /*
  * Please review the https://github.com/AngularClass/angular2-examples/ repo for

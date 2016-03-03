@@ -1,3 +1,4 @@
+"use strict";
 // Polyfills
 require('es6-shim');
 // (these modules are what are in 'angular2/bundles/angular2-polyfills' so don't use that here)

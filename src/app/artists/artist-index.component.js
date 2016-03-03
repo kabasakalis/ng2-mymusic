@@ -1,3 +1,4 @@
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -9,17 +10,38 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('angular2/core');
 var api_service_1 = require('../services/api.service');
+var details_service_1 = require('../services/details.service');
 //import {PaginatePipe, PaginationControlsCmp, PAGINATION_DIRECTIVES, PaginationService} from 'ng2-pagination';
 var ng2_pagination_1 = require('ng2-pagination');
 var ArtistIndex = (function () {
-    function ArtistIndex(_apiService) {
+    function ArtistIndex(_apiService, _detailsService) {
         this._apiService = _apiService;
+        this._detailsService = _detailsService;
+        this.page = 1;
     }
-    ArtistIndex.prototype.ngOnInit = function () { this.getArtists(); };
-    ArtistIndex.prototype.getArtists = function () {
+    // @Output() artist_details = new EventEmitter<Artist>();
+    //paging_config: IPaginationInstance;
+    ArtistIndex.prototype.ngOnInit = function () { this.getArtists(1); };
+    //{ id: 'server', itemsPerPage: page_size, currentPage: page, totalItems: total_count }
+    ArtistIndex.prototype.getArtists = function (page, page_size) {
         var _this = this;
-        this._apiService.req({}, {}, { 'page': 5 })
-            .subscribe(function (artists) { return _this.artists = artists.entities; }, function (error) { return _this.errorMessage = error; });
+        if (page === void 0) { page = 1; }
+        if (page_size === void 0) { page_size = 12; }
+        var params = { page: page, per: page_size };
+        this._apiService.req('get', 'artists', params)
+            .subscribe(function (response) { return _this.success(response); }, function (error) { return _this.errorMessage = error; });
+    };
+    ArtistIndex.prototype.success = function (response) {
+        this.artists = response.entities;
+        console.log('ARTIST', this.artists);
+        this.total_pages = response.total_pages;
+        this.total_count = response.total_count;
+        this.page_size = response.page_size;
+    };
+    ArtistIndex.prototype.show_details = function (artist) {
+        this.selected_artist = artist;
+        this._detailsService.show(artist);
+        console.log('selected in ArtistIndex', this.selected_artist);
     };
     ArtistIndex = __decorate([
         core_1.Component({
@@ -31,9 +53,9 @@ var ArtistIndex = (function () {
             directives: [ng2_pagination_1.PAGINATION_DIRECTIVES],
             providers: [ng2_pagination_1.PaginationService, api_service_1.ApiService]
         }), 
-        __metadata('design:paramtypes', [api_service_1.ApiService])
+        __metadata('design:paramtypes', [api_service_1.ApiService, details_service_1.DetailsService])
     ], ArtistIndex);
     return ArtistIndex;
-})();
+}());
 exports.ArtistIndex = ArtistIndex;
 //# sourceMappingURL=artist-index.component.js.map

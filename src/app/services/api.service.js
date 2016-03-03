@@ -1,3 +1,4 @@
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -16,38 +17,24 @@ var ApiService = (function () {
     function ApiService(http) {
         this.http = http;
     }
-    ApiService.prototype.req = function (url, _headers, _options) {
-        if (url === void 0) { url = ''; }
-        if (_headers === void 0) { _headers = ApiService.DEFAULT_HEADERS; }
-        if (_options === void 0) { _options = {}; }
-        console.log('_options', _options);
-        //let _headers = Object.assign(ApiService.DEFAULT_HEADERS, _headers);
-        var option_params = Object.assign({ headers: _headers }, _options);
-        var options = new http_2.RequestOptions(option_params);
-        var search_params = new http_2.URLSearchParams();
-        options.search = search_params;
-        console.log('options', options);
-        // return this.http.get(ApiService.API_BASE_URL + uri, options)
-        //   .map(res => <any>res.json())
-        //   .do(data => console.log(data)) // eyeball results in the console
-        //   .catch(this.handleError);
-        // return this.http.request(ApiService.API_BASE_URL + uri, options)
-        //   .map(res => <any>res.json())
-        //   .do(data => console.log(data)) // eyeball results in the console
-        //   .catch(this.handleError);
-        var method = method ? method : 'get';
-        var url = url ? ApiService.API_BASE_URL + url || ApiService.API_BASE_URL
-            :
-                //let headers = new Headers(_headers)
-                let, body = {};
+    ApiService.prototype.req = function (_method, _uri, _params, _body, _headers) {
+        var method = _method ? _method : 'get';
+        var url = _uri ? ApiService.API_BASE_URL + _uri : ApiService.API_BASE_URL;
+        var headers = new http_2.Headers(Object.assign(ApiService.DEFAULT_HEADERS, _headers));
+        var body = _body ? JSON.stringify(_body) : JSON.stringify(new Object);
         var search = new http_2.URLSearchParams();
-        search.append('page', '6');
+        for (var param in _params) {
+            if (_params.hasOwnProperty(param)) {
+                var value = _params[param];
+                search.append(param, value);
+            }
+        }
         var request_options_args = {
             method: method,
             url: url,
-            body: null,
+            body: body,
             search: search,
-            headers: new http_2.Headers(ApiService.DEFAULT_HEADERS)
+            headers: headers
         };
         var request_options = new http_2.RequestOptions(request_options_args);
         var request = new http_2.Request(request_options);
@@ -76,14 +63,14 @@ var ApiService = (function () {
     ApiService.API_BASE_URL = 'http://api.app.me:3000/v1/';
     ApiService.DEFAULT_HEADERS = {
         'Content-Type': 'application/siren',
-        'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0NTY4MzY0NTIsImF1ZCI6Ik15IE11c2ljIFVzZXJzIiwiaWQiOjEsImVtYWlsIjoia2FiYXNha2FsaXNAZ21haWwuY29tIn0.acBYbFDIHKqUriN5mJ1esDB-8DyAcnRvHl8nGVAPSBk'
+        'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0NTcwNDc0NTgsImF1ZCI6Ik15IE11c2ljIFVzZXJzIiwiaWQiOjEsImVtYWlsIjoia2FiYXNha2FsaXNAZ21haWwuY29tIn0.le8WH3zf-JdO21ekEHNWwhAMxPsprU5PtG60nJSv3tQ'
     };
     ApiService = __decorate([
         core_1.Injectable(), 
         __metadata('design:paramtypes', [http_1.Http])
     ], ApiService);
     return ApiService;
-})();
+}());
 exports.ApiService = ApiService;
 /*
 Copyright 2016 Google Inc. All Rights Reserved.

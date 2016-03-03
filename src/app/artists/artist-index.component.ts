@@ -3,6 +3,7 @@ import {MATERIAL_DIRECTIVES, MATERIAL_PROVIDERS} from "ng2-material/all";
 import {Observable}     from 'rxjs/Observable';
 import {Artist}              from './artist';
 import {ApiService}       from '../services/api.service';
+import {DetailsService}       from '../services/details.service';
 //import {PaginatePipe, PaginationControlsCmp, PAGINATION_DIRECTIVES, PaginationService} from 'ng2-pagination';
 import {PaginatePipe, PaginationService, PAGINATION_DIRECTIVES, IPaginationInstance} from 'ng2-pagination';
 
@@ -18,7 +19,12 @@ import {PaginatePipe, PaginationService, PAGINATION_DIRECTIVES, IPaginationInsta
  })
 
 export class ArtistIndex implements OnInit {
-  constructor (private _apiService: ApiService) {}
+  constructor (
+               private _apiService: ApiService,
+               private _detailsService: DetailsService
+               ) {}
+
+
   errorMessage: string;
   artists: any;
   selected_artist: Artist;
@@ -27,7 +33,7 @@ export class ArtistIndex implements OnInit {
   total_count: number;
   page_size: number;
 
-  @Output() artist_details = new EventEmitter<Artist>();
+  // @Output() artist_details = new EventEmitter<Artist>();
   //paging_config: IPaginationInstance;
   ngOnInit() { this.getArtists(1); }
 
@@ -56,8 +62,8 @@ export class ArtistIndex implements OnInit {
 
   show_details(artist:Artist) {
     this.selected_artist = artist;
-    this.artist_details.next(artist);
-    //console.log('sele', this.selected_artist);
+    this._detailsService.show(artist);
+    console.log('selected in ArtistIndex', this.selected_artist);
   }
 
   // addArtist (title: string) {

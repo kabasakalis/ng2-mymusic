@@ -1,3 +1,4 @@
+"use strict";
 exports.ARTISTS = [
     { "id": 11, "title": "King Diamond" },
     { "id": 12, "title": "Annihilator" },

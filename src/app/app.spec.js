@@ -1,3 +1,4 @@
+"use strict";
 var testing_1 = require('angular2/testing');
 // Load the implementations that should be tested
 var app_1 = require('./app');

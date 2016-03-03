@@ -3,6 +3,8 @@ import {MATERIAL_DIRECTIVES, MATERIAL_PROVIDERS} from "ng2-material/all";
 import {Observable}     from 'rxjs/Observable';
 //import {Artist}              from './artist';
 import {ApiService}       from '../services/api.service';
+import {DetailsService}   from '../services/details.service';
+import {KeysValuesPipe}   from '../utils/keys_values.pipe';
 
 
 
@@ -13,25 +15,33 @@ import {ApiService}       from '../services/api.service';
   //directives: [PaginationControlsCmp],
   //pipes: [PaginatePipe],
   directives: [],
-  providers: [ApiService]
+  providers: [ApiService],
+  pipes: [KeysValuesPipe]
  })
 
 export class Details implements OnInit {
-  constructor (private _apiService: ApiService) {}
+  constructor(private _apiService: ApiService, private _detailsService: DetailsService) {
+
+  }
   errorMessage: string;
   artists: any;
-  selected_object: any;
+  public selected_object: any ={properties :{id:10, title: 'sadd'}};
   //paging_config: IPaginationInstance;
   ngOnInit() {
+    this._detailsService.show_details$.subscribe(object => this.onObjectShow(object));
     console.log('Details started')
     this.selected_object = {
+      properties: {
         id: 1,
         title: 'I am an Object'
-
+      }
     };
     }
 
-
+  onObjectShow(object: Object) {
+    this.selected_object = object
+    console.log('object in DetailsCmp', object);
+  }
 
   // getArtists(page : number = 1, page_size : number = 12) {
 

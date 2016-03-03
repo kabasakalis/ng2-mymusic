@@ -1,3 +1,4 @@
+"use strict";
 var testing_1 = require('angular2/testing');
 var core_1 = require('angular2/core');
 var http_1 = require('angular2/http');
