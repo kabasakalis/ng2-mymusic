@@ -13,6 +13,7 @@ export class KeysValuesPipe implements PipeTransform {
           if (keyName) { value[key][keyName] = key; };
            valuesArr.push(value[key])
            keysArr.push(key)
+           keys_and_values.push([key, value[key]])
         });
 
         if(args[1]) {
@@ -21,8 +22,10 @@ export class KeysValuesPipe implements PipeTransform {
             });
         }
 
-        keys_and_values.push(keysArr);
-        keys_and_values.push(valuesArr);
+        // keys_and_values.push(keysArr);
+        // keys_and_values.push(valuesArr);
+        console.log(keys_and_values);
         return keys_and_values;
+
     }
 }

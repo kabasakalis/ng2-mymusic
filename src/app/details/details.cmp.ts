@@ -11,7 +11,7 @@ import {KeysValuesPipe}   from '../utils/keys_values.pipe';
 @Component({
   selector: 'selected-details',
   template: require('!jade!./details.jade')(),
- // styles: [require('./art.scss')],
+  styles: [require('./details.scss')],
   //directives: [PaginationControlsCmp],
   //pipes: [PaginatePipe],
   directives: [],
