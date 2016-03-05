@@ -18,6 +18,13 @@ export class DetailsService {
      console.log('show in DetailsService', object);
    }
 
+   // public delete(object: any): void {
+   //   //this.show_details$.next(object);
+   //   console.log('object delete in DetailsService', object);
+   //   console.log('object class delete in DetailsService', object.class[0]);
+   // }
+
+
   private handleError(error: Response) {
     // in a real world app, we may send the error to some remote logging infrastructure
     // instead of just logging it to the console

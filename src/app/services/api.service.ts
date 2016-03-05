@@ -12,7 +12,7 @@ export class ApiService {
   static API_BASE_URL = 'http://api.app.me:3000/v1/'
   static DEFAULT_HEADERS = {
     'Content-Type' : 'application/siren',
-    'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0NTcxMzM5NzQsImF1ZCI6Ik15IE11c2ljIFVzZXJzIiwiaWQiOjEsImVtYWlsIjoia2FiYXNha2FsaXNAZ21haWwuY29tIn0.B2CLkAkTQz8CF1y1gaE0FWwzCdFb2T9_tGXZN03pIGQ'
+    'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0NTcyNDU4OTksImF1ZCI6Ik15IE11c2ljIFVzZXJzIiwiaWQiOjEsImVtYWlsIjoia2FiYXNha2FsaXNAZ21haWwuY29tIn0.U5y58FIgVcEN-zJrxyiKjzbs_tXJkRFV478ICq5P4yw'
   };
 
   req(_method: string, _uri: string, _params?: Object, _body?: Object, _headers?: Object) {
@@ -41,9 +41,9 @@ export class ApiService {
     let request = new Request(request_options);
 
     return this.http.request(request)
-      .map(res => <any>res.json())
-      .do(data => console.log(data)) // eyeball results in the console
-      .catch(this.handleError);
+
+      //.do(data => console.log(data)) // eyeball results in the console
+      //.catch(this.handleError(error,src,caught));
   }
 
   // addArtist(title: string): Observable<Artist> {
@@ -60,12 +60,15 @@ export class ApiService {
   //         .catch(this.handleError)
   // }
 
-  private handleError(error: Response) {
-    // in a real world app, we may send the error to some remote logging infrastructure
-    // instead of just logging it to the console
-    console.error(error);
-    return Observable.throw(error.json().error || 'Server error');
-  }
+  // private handleError(error,src,caught) {
+  //   console.log(error,'error in handleError');
+  //   console.log(src, 'src in handleError');
+  //   console.log(caught, 'caught in handleError');
+  //   // in a real world app, we may send the error to some remote logging infrastructure
+  //   // instead of just logging it to the console
+  //   //console.error(error);
+  //   return Observable.throw(error.json().error || 'Server error');
+  // }
 }
 
 /*

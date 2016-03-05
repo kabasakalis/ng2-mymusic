@@ -45,6 +45,7 @@ export class ArtistIndex implements OnInit {
 
      let params = { page: page, per: page_size }
      this._apiService.req('get', 'artists', params)
+     .map(response => <any>response.json())
     .subscribe(
       response => this.success(response),
       error =>  this.errorMessage = <any>error

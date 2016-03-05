@@ -6,19 +6,19 @@ import {Component} from 'angular2/core';
  * see https://github.com/gdi2290/es6-promise-loader for more info
  */
 
-console.log('`About` component loaded asynchronously');
+console.log('`details_default` component loaded asynchronously');
 
 @Component({
-  selector: 'about',
-  template: `patrick@AngularClass.com`
+  selector: 'details-default',
+  template: require('!jade!./details_default.jade')(),
 })
-export class About {
+export class DetailsDefault {
   constructor() {
 
   }
 
   ngOnInit() {
-    console.log('hello `About` component');
+    console.log('hello details_default cmp');
   }
 
 }

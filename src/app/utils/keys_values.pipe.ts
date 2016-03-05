@@ -22,9 +22,6 @@ export class KeysValuesPipe implements PipeTransform {
             });
         }
 
-        // keys_and_values.push(keysArr);
-        // keys_and_values.push(valuesArr);
-        console.log(keys_and_values);
         return keys_and_values;
 
     }

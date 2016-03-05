@@ -2,9 +2,12 @@
  * Angular 2 decorators and services
  */
 import {Component} from 'angular2/core';
-import {RouteConfig, Router, ROUTER_DIRECTIVES} from 'angular2/router';
+//import {RouteConfig, Router, ROUTER_DIRECTIVES} from 'angular2/router'
+import {ROUTER_DIRECTIVES, RouteConfig, Router, Route, AuxRoute} from 'angular2/router';
 //import {_} from 'lodash';
 import * as _ from 'lodash';
+//import {pluralize} from '../../typings/browser/ambient/pluralize/pluralize'
+
 
 import {FORM_PROVIDERS} from 'angular2/common';
 
@@ -12,6 +15,7 @@ import {FORM_PROVIDERS} from 'angular2/common';
 
 import {RouterActive} from './directives/router-active';
 import {Home} from './home/home';
+import {About} from './about/about.async';
 import {Details} from './details/details.cmp';
 import {Artist}              from './artists/artist';
 import {Artists}              from './artists/artists';
@@ -30,7 +34,7 @@ import {Artists}              from './artists/artists';
 @Component({
   selector: 'app',
   providers: [...FORM_PROVIDERS],
-  directives: [...ROUTER_DIRECTIVES, RouterActive, Details],
+  directives: [...ROUTER_DIRECTIVES, RouterActive],
   pipes: [],
   styles: [require('./app.scss')],
   template: require('!jade!./app.jade')()
@@ -40,6 +44,10 @@ import {Artists}              from './artists/artists';
   { path: '/artists', loader: () => require('./artists/artists')('Artists'), name: 'Artists' },
   // Async load a component using Webpack's require with es6-promise-loader
   { path: '/about', loader: () => require('./about/about')('About'), name: 'About' },
+  //{ path: '/details/...', component: Details, name: 'Details' },
+   //new AuxRoute({ path: '/details', component: Details, name: 'Details' }),
+   { path: '/details',aux: 'detailz', component: Details, name: 'Details' },
+  //new AuxRoute({ path: '/about', component: About, name: 'About' }),
   { path: '/**', redirectTo: ['Home'] }
 ])
 export class App {
@@ -52,6 +60,8 @@ export class App {
     //        title: 'I am an Object from APP'
 
     //    };
+
+
   }
 
   // show(artist: Artist) {

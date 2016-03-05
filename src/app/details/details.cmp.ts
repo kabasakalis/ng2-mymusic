@@ -1,64 +1,38 @@
-import {View, Component, OnInit } from 'angular2/core';
-import {MATERIAL_DIRECTIVES, MATERIAL_PROVIDERS} from "ng2-material/all";
-import {Observable}     from 'rxjs/Observable';
-//import {Artist}              from './artist';
-import {ApiService}       from '../services/api.service';
-import {DetailsService}   from '../services/details.service';
-import {KeysValuesPipe}   from '../utils/keys_values.pipe';
+import {Component} from 'angular2/core';
+import {ROUTER_DIRECTIVES, RouteConfig, Router} from 'angular2/router';
+import {FORM_PROVIDERS, FORM_DIRECTIVES, Control} from 'angular2/common';
+import {Http} from 'angular2/http';
 
 
+
+import {DetailsDefault}   from './details_default.cmp';
+import {DetailsShow} from './details_show.cmp';
 
 @Component({
-  selector: 'selected-details',
+  selector: 'details-root',
+  providers: [ FORM_PROVIDERS ],
   template: require('!jade!./details.jade')(),
-  styles: [require('./details.scss')],
-  //directives: [PaginationControlsCmp],
-  //pipes: [PaginatePipe],
-  directives: [],
-  providers: [ApiService],
-  pipes: [KeysValuesPipe]
- })
+  directives: [ROUTER_DIRECTIVES, FORM_DIRECTIVES, DetailsShow, DetailsDefault],
+  pipes: []
+})
+// Routing is set up with the RouteConfig decorator
+@RouteConfig([
+    { path: '/', component: DetailsDefault, name: 'DetailsDefault', useAsDefault: true },
+  { path: '/show', component: DetailsShow, name: 'DetailsShow'},
+  //{ path: '/**', redirectTo: ['DetailsDefault'] },
+  //{ path: '/users/:userLogin/...', component: Users, name: 'Users' }
+])
+export class Details {
+  // users: Array<Object> = [];
+  // searchTerm: Control = new Control();
 
-export class Details implements OnInit {
-  constructor(private _apiService: ApiService, private _detailsService: DetailsService) {
+  // We want an instance of router so we can route manually
+  constructor(private _router: Router) {}
 
+
+
+  goDefault() {
+    // Example of manual routing
+    this._router.navigate(['DetailsDefault']);
   }
-  errorMessage: string;
-  artists: any;
-  public selected_object: any ={properties :{id:10, title: 'sadd'}};
-  //paging_config: IPaginationInstance;
-  ngOnInit() {
-    this._detailsService.show_details$.subscribe(object => this.onObjectShow(object));
-    console.log('Details started')
-    this.selected_object = {
-      properties: {
-        id: 1,
-        title: 'I am an Object'
-      }
-    };
-    }
-
-  onObjectShow(object: Object) {
-    this.selected_object = object
-    console.log('object in DetailsCmp', object);
-  }
-
-  // getArtists(page : number = 1, page_size : number = 12) {
-
-  //    let params = { page: page, per: page_size }
-  //    this._apiService.req('get', 'artists', params)
-  //   .subscribe(
-  //     response => this.success(response),
-  //     error =>  this.errorMessage = <any>error
-  //   );
-  // }
-
-  // success(response: any) {
-  //   this.artists = response.entities;
-  //   console.log('ARTIST', this.artists);
-  //   this.total_pages = response.total_pages;
-  //   this.total_count = response.total_count;
-  //   this.page_size = response.page_size;
-  // }
-
 }

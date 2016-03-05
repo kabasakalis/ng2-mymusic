@@ -81,7 +81,8 @@ module.exports = {
       // if you add a loader include the resolve file extension above
     ]
   },
-
+  //resolve: { fallback: path.join(__dirname, "node_modules") },
+  //resolveLoader: { fallback: path.join(__dirname, "node_modules") }
   // resolve: {
   //    modulesDirectories: ['node_modules', 'bower_components', 'web_modules']
   //  },
