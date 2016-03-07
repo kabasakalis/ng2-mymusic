@@ -47,6 +47,8 @@ export class ArtistForm implements OnInit {
     },
     class: ['artist']
   };
+  artist_genre: any;
+  genres: any[];
 
 
   constructor(private fb: FormBuilder, private _detailsService: DetailsService, private _apiService: ApiService) {
@@ -54,7 +56,7 @@ export class ArtistForm implements OnInit {
   }
 
   ngOnInit() {
-
+    this.getGenres(1, 12);
     this.artistForm = this.fb.group({
       'title': [this.artist.properties.title, Validators.compose([
         Validators.required,
@@ -125,8 +127,8 @@ export class ArtistForm implements OnInit {
          artist: this.artistForm.value
          }
       //artist_payload.artist.id=this.artist.properties.id;
-      artist_payload.artist.albums_attributes = [{title: 'testAlbum',year: '1921'}];
-      artist_payload.artist.genre_attributes = {title: 'GNREEEE'};
+      //artist_payload.artist.albums_attributes = [{title: 'fgtestAlbum',year: 'dfdfff1921'}];
+      //artist_payload.artist.genre_attributes = {title: 'GNREEEE'};
 
       console.log('artist_paylod in artist_form   ', artist_payload);
 
@@ -137,8 +139,6 @@ export class ArtistForm implements OnInit {
           response => this.updateSuccess(response),
           error =>  this.updateError = <any>error
         );
-
-
     }
 
     updateSuccess(response: any) {
@@ -156,4 +156,35 @@ export class ArtistForm implements OnInit {
       //this.total_count = response.total_count;
       //this.page_size = response.page_size;
     };
+
+   getGenres(page : number = 1, page_size : number = 12) {
+
+      let params = { page: page, per: page_size }
+      this._apiService.req('get', 'genres', params)
+      .map(response => <any>response.json())
+     .subscribe(
+        response => this.getGenresSuccess(response),
+        error => this.getGenresError = <any>error
+     );
+   }
+
+   getGenresSuccess(response: any) {
+     //this.artists = response.entities;
+     console.log('GENRES GET SUCCESSFUL ', response);
+     //this.total_pages = response.total_pages;
+     //this.total_count = response.total_count;
+     //this.page_size = response.page_size;
+     this.genres = response.entities;
+     console.log('GENRES', this.genres);
+   };
+
+   getGenresError(error: any) {
+     //this.artists = response.entities;
+     console.log('ERROR GET GENRES', error);
+     //this.total_pages = response.total_pages;
+     //this.total_count = response.total_count;
+     //this.page_size = response.page_size;
+   };
+
+
 }

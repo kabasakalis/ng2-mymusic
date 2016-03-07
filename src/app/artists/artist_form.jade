@@ -20,6 +20,12 @@
                 //input#country(md-input='', ngControl='country')
                 div(md-messages='country', role='alert')
                   div(md-message='required') This is required.
+              md-input-container.md-block.md-input-mymusic(flex-gt-sm='')
+                label Genre
+                select([(value)]='artist.properties.genre_id')
+                  option(*ngFor='#genre of genres', [value]='genre.properties.id')
+                    | {{genre.properties.title}}
+
               md-input-container.md-block
                 button(type='submit') Update
             strong Model
