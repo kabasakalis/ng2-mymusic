@@ -1,4 +1,4 @@
-import {Component} from 'angular2/core';
+import {Component, OnInit} from 'angular2/core';
 import {ROUTER_DIRECTIVES, RouteConfig, Router} from 'angular2/router';
 import {FORM_PROVIDERS, FORM_DIRECTIVES, Control} from 'angular2/common';
 import {Http} from 'angular2/http';
@@ -22,12 +22,17 @@ import {DetailsShow} from './details_show.cmp';
   //{ path: '/**', redirectTo: ['DetailsDefault'] },
   //{ path: '/users/:userLogin/...', component: Users, name: 'Users' }
 ])
-export class Details {
+export class Details implements OnInit {
   // users: Array<Object> = [];
   // searchTerm: Control = new Control();
 
   // We want an instance of router so we can route manually
   constructor(private _router: Router) {}
+
+  ngOnInit() {
+    //this._router.navigate(['DetailsShow']);
+   // this._router.parent.navigate(['/About']);
+     }
 
 
 

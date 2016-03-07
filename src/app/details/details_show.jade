@@ -1,10 +1,23 @@
-.mdl-card__title.mdl-card--expand.mdl-color--teal-300
-  h2.mdl-card__title-text {{selected_object?.properties.title}}
-.mdl-card__supporting-text.mdl-color-text--grey-600
-  div
+.demo-updates.mdl-card.mdl-shadow--2dp.mdl-cell.mdl-cell--4-col.mdl-cell--4-col-tablet.mdl-cell--12-col-desktop
+  .mdl-card__title.mdl-card--expand.mdl-color--teal-300
+    h2.mdl-card__title-text {{selected_object?.properties.title}}
+  .mdl-card__supporting-text.mdl-color-text--grey-600
+    div
+      md-content
+        md-list
+          md-list-item.md-2-line(*ngFor="#key_value of selected_object.properties | keys_values" )
+            .md-list-item-text(layout='column')
+              strong {{key_value[0]}}
+              span  {{key_value[1]}}
+  .mdl-card__actions.mdl-card--border
+  .demo-graphs.mdl-shadow--2dp.mdl-color--white.mdl-cell.mdl-cell--8-col
     md-content
-      md-list
-        md-list-item.md-2-line(*ngFor="#key_value of selected_object.properties | keys_values" )
-          .md-list-item-text(layout='column')
-            strong {{key_value[0]}}
-            span  {{key_value[1]}}
+      section(layout='row', layout-sm='column', layout-align='center center', layout-wrap='')
+        button.md-mini.md-primary(md-fab, aria-label='Delete', (click)='delete(selected_object)' )
+          i.material-icons( md-icon) clear
+        button.md-mini.md-primary(md-fab, aria-label='Update')
+          i.material-icons( md-icon) create
+  a.mdl-button.mdl-js-button.mdl-js-ripple-effect(href='#') See Albums
+
+
+//<li *ngFor='#bandMember of beatles | values:"key":true'>

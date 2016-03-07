@@ -1,7 +1,7 @@
 /*
  * Angular 2 decorators and services
  */
-import {Component} from 'angular2/core';
+import {Component, OnInit } from 'angular2/core';
 //import {RouteConfig, Router, ROUTER_DIRECTIVES} from 'angular2/router'
 import {ROUTER_DIRECTIVES, RouteConfig, Router, Route, AuxRoute} from 'angular2/router';
 //import {_} from 'lodash';
@@ -16,7 +16,8 @@ import {FORM_PROVIDERS} from 'angular2/common';
 import {RouterActive} from './directives/router-active';
 import {Home} from './home/home';
 import {About} from './about/about.async';
-import {Details} from './details/details.cmp';
+import {DetailsShow} from './details/details_show.cmp';
+import {ArtistForm} from './artists/artist_form.cmp';
 import {Artist}              from './artists/artist';
 import {Artists}              from './artists/artists';
 
@@ -34,7 +35,7 @@ import {Artists}              from './artists/artists';
 @Component({
   selector: 'app',
   providers: [...FORM_PROVIDERS],
-  directives: [...ROUTER_DIRECTIVES, RouterActive],
+  directives: [...ROUTER_DIRECTIVES, RouterActive, DetailsShow, ArtistForm],
   pipes: [],
   styles: [require('./app.scss')],
   template: require('!jade!./app.jade')()
@@ -46,22 +47,23 @@ import {Artists}              from './artists/artists';
   { path: '/about', loader: () => require('./about/about')('About'), name: 'About' },
   //{ path: '/details/...', component: Details, name: 'Details' },
    //new AuxRoute({ path: '/details', component: Details, name: 'Details' }),
-   { path: '/details',aux: 'detailz', component: Details, name: 'Details' },
+   //{ path: '/details-show', component: DetailsShow, name: 'DetailsShow' },
   //new AuxRoute({ path: '/about', component: About, name: 'About' }),
   { path: '/**', redirectTo: ['Home'] }
 ])
-export class App {
+export class App implements OnInit {
   angularclassLogo = 'assets/img/angularclass-avatar.png';
   name = 'Angular 2 Webpack';
   url = 'https://twitter.com/AngularClass';
-  constructor() {
-    // _details.selected_object = {
-    //        id: 2,
-    //        title: 'I am an Object from APP'
+  constructor(private _router: Router) {
+  }
 
-    //    };
+  ngOnInit() {
+    //this._router.navigate(['/Home']);
+    //this._router.navigate(['/About', ['Details']]);
 
 
+    // this._router.parent.navigate(['/About']);
   }
 
   // show(artist: Artist) {

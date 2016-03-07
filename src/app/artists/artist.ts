@@ -1,4 +1,9 @@
 export interface Artist {
-  id: number;
-  title: string;
+  class: string[],
+  properties: {
+    id: number,
+    title: string,
+    country: string
+  }
+
 }

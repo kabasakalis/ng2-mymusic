@@ -11,8 +11,9 @@ export class ApiService {
 
   static API_BASE_URL = 'http://api.app.me:3000/v1/'
   static DEFAULT_HEADERS = {
-    'Content-Type' : 'application/siren',
-    'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0NTcyNDU4OTksImF1ZCI6Ik15IE11c2ljIFVzZXJzIiwiaWQiOjEsImVtYWlsIjoia2FiYXNha2FsaXNAZ21haWwuY29tIn0.U5y58FIgVcEN-zJrxyiKjzbs_tXJkRFV478ICq5P4yw'
+    'Content-Type' : 'application/json',
+    'Accept': 'application/json',
+    'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0NTc0MjQ1NDEsImF1ZCI6Ik15IE11c2ljIFVzZXJzIiwiaWQiOjEsImVtYWlsIjoia2FiYXNha2FsaXNAZ21haWwuY29tIn0.NZnGQmxExZlUVWHdQevuuI7FcxM0WV5TiYUzR7ELDm0'
   };
 
   req(_method: string, _uri: string, _params?: Object, _body?: Object, _headers?: Object) {
