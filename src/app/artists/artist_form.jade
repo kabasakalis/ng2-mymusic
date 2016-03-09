@@ -6,28 +6,39 @@
       md-content
         div(layout='column')
           md-content(layout-padding='')
-            form( [ngFormModel]='artistForm',(submit)="update($event)" )
+            form( [ngFormModel]='artistForm',(submit)="update($event)", #f="ngForm" )
               md-input-container.md-block.md-input-mymusic
                 label(for='title') Title
-                input#title(md-input='', ngControl='title',[(ngModel)]='artist.properties.title' )
+                input#title(md-input='', [ngFormControl]="artistForm.controls['title']",[(ngModel)]='artist.properties.title', #t="ngForm"  )
                 //input#title(md-input='', ngControl='title' )
-                div(md-messages='title')
+                div(md-messages="title"  )
                   div(md-message='required') This is required.
                   div(md-message='maxlength') The title has to be less than 30 characters long.
               md-input-container.md-block.md-input-mymusic
-                label(for='clientName') Country
-                input#country(md-input='', ngControl='country', [(ngModel)]='artist.properties.country')
+                label(for='country') Country
+                input#country(md-input='', [ngFormControl]="artistForm.controls['country']", [(ngModel)]='artist.properties.country')
                 //input#country(md-input='', ngControl='country')
                 div(md-messages='country', role='alert')
                   div(md-message='required') This is required.
               md-input-container.md-block.md-input-mymusic(flex-gt-sm='')
                 label Genre
-                select([(value)]='artist.properties.genre_id')
-                  option(*ngFor='#genre of genres', [value]='genre.properties.id')
+                //select( [ngFormControl]="artistForm.controls['genre_id']")
+                  option(*ngFor='#genre of genres', [value]='genre.properties.id' [selected]="genre.properties.id == artist.properties.genre_id" )
                     | {{genre.properties.title}}
+                //label Genre
+                select([(ngModel)]='artist.properties.genre_id', (change)="onGenreChange($event.target.value)" [ngFormControl]="genre_id")
+                  option(*ngFor='#genre of genres', [value]='genre.properties.id' )
+                    | {{genre.properties.title}}
+              md-input-container.md-block.md-input-mymusic(flex-gt-sm='')
+                ul(ngControlGroup='albums_attributes')
+                  li(*ngFor='#ctrl of ctrlAlbums; #i = index')
+                    input(ngControl='{{i}}')
+
 
               md-input-container.md-block
-                button(type='submit') Update
+                button(type='submit',[disabled] = "!artistForm.valid") Update
             strong Model
-            //pre.md-padding.
-              {{artist | json}}
+            pre.md-padding.
+              {{artist.properties | json}}
+            pre.md-padding.
+              {{artistForm.errors | json}}

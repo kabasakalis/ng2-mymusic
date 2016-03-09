@@ -4,6 +4,7 @@ import {Request, RequestOptions, RequestOptionsArgs, Headers, URLSearchParams, R
 import {Artist}           from '../artists/artist';
 import {Observable}     from 'rxjs/Observable';
 //import { ARTISTS } from './mock-artists';
+import * as _ from 'lodash';
 
 @Injectable()
 export class ApiService {
@@ -13,13 +14,13 @@ export class ApiService {
   static DEFAULT_HEADERS = {
     'Content-Type' : 'application/json',
     'Accept': 'application/json',
-    'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0NTc0MjQ1NDEsImF1ZCI6Ik15IE11c2ljIFVzZXJzIiwiaWQiOjEsImVtYWlsIjoia2FiYXNha2FsaXNAZ21haWwuY29tIn0.NZnGQmxExZlUVWHdQevuuI7FcxM0WV5TiYUzR7ELDm0'
+    'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0NTc1MTIzMDgsImF1ZCI6Ik15IE11c2ljIFVzZXJzIiwiaWQiOjEsImVtYWlsIjoia2FiYXNha2FsaXNAZ21haWwuY29tIn0.LoiDIgj2fqObpbquAOD2_ifz4HNmnOv7VA02tOCOISU'
   };
 
-  req(_method: string, _uri: string, _params?: Object, _body?: Object, _headers?: Object) {
+  req(_method: string, _url: string, _params?: Object, _body?: Object, _headers?: Object) {
 
     let method = _method ? _method : 'get'
-    let url = _uri ? ApiService.API_BASE_URL + _uri : ApiService.API_BASE_URL
+    let url = (_url && !_.startsWith(_url, 'http')) ? ApiService.API_BASE_URL + _url : _url
     let headers = new Headers(Object.assign(ApiService.DEFAULT_HEADERS, _headers))
     let body = _body ? JSON.stringify(_body) : JSON.stringify(new Object)
     let search = new URLSearchParams()

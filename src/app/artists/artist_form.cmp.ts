@@ -11,13 +11,21 @@ import {View, Component, OnInit} from 'angular2/core';
 //   OnInit
 // } from 'angular2/core'
 import {MdPatternValidator, MdMinValueValidator, MdNumberRequiredValidator, MdMaxValueValidator, MATERIAL_DIRECTIVES} from 'ng2-material/all';
-import {FORM_DIRECTIVES, Validators, FormBuilder, ControlGroup, FORM_BINDINGS} from 'angular2/common';
+import {FORM_DIRECTIVES, Validators, FormBuilder, Control, ControlGroup, ControlArray, FORM_BINDINGS, AbstractControl} from 'angular2/common';
 import {DetailsService}   from '../services/details.service';
 import {Artist}              from './artist';
 import {ApiService}       from '../services/api.service';
+import * as _ from 'lodash';
 
 
-
+const validate = c => {
+  if (!c.value || c.value == 'undefined') {
+    console.log('required');
+    //return { required: true };
+    return null;
+  };
+  return null;
+}
 
 
 @Component({
@@ -29,58 +37,101 @@ import {ApiService}       from '../services/api.service';
   providers: [ApiService]
 })
 export class ArtistForm implements OnInit {
-  artistForm: ControlGroup;
-  // artist = {
 
 
-  //   : '',
-  //   clientEmail: '',
-  //   description: 'Nuclear Missile Defense System',
-  //   rate: 500
+
+
+  genreControl: AbstractControl;
+  artist: Artist;
+  // artist:Artist = {
+  //   entities: [],
+  //   properties: {
+  //     id: 1092,
+  //     genre_id: 7,
+  //     title: 'KOKO',
+  //     country: '4r4r4'
+  //   },
+  //   class: ['artist']
   // };
 
-  artist = {
-    properties: {
-      id: 1092,
-      title: 'KOKO',
-      country: '4r4r4',
-    },
-    class: ['artist']
-  };
   artist_genre: any;
+  artist_albums: any;
+  artist_albums_url : string
   genres: any[];
+
+  artistForm: ControlGroup;
+  ctrlAlbums: Control[] = [
+    new Control(''),
+    new Control(''),
+    new Control('')
+  ];
+  //titleCtrl: Control;
+  titleCtrl: Control = new Control('', Validators.compose([
+    Validators.required,
+    Validators.maxLength(20)
+  ]));
+  countryCtrl: Control = new Control('', Validators.compose([
+    Validators.required,
+    Validators.maxLength(20)
+  ]));
+  genre_idCtrl: Control = new Control('', Validators.compose([
+    Validators.required
+  ]));
 
 
   constructor(private fb: FormBuilder, private _detailsService: DetailsService, private _apiService: ApiService) {
 
+
+
+    this.artistForm = fb.group({
+      //'artist':fb.group({
+        title: ['', Validators.compose([
+          Validators.required,
+          Validators.maxLength(30)
+        ])],
+        country: ['', Validators.compose([
+          Validators.required,
+          Validators.maxLength(30)
+        ])],
+
+        genre_id: [undefined, validate],
+        'albums_attributes': new ControlArray(this.ctrlAlbums)
+      })
+    //})
+    ;
+
+    this.genreControl = this.artistForm.controls['genre_id'];
+
   }
 
   ngOnInit() {
+    //this.titleCtrl = this.artistForm.controls['artist'].controls['title'];
+    this.artist = {
+      entities: [],
+      properties: {
+
+        id: 1092,
+        genre_id: 3,
+        title: 'KOKO',
+        country: '4r4r4'
+      },
+      class: ['artist']
+    };
+
     this.getGenres(1, 12);
-    this.artistForm = this.fb.group({
-      'title': [this.artist.properties.title, Validators.compose([
-        Validators.required,
-        Validators.maxLength(20)
-      ])],
 
-      'country': [this.artist.properties.country, Validators.compose([
-        Validators.required,
-        Validators.maxLength(20)
-      ])],
-      // 'clientEmail': ['', Validators.compose([
-      //   MdPatternValidator.inline('^.+@.+\..+$'),
-      //   Validators.required,
-      //   Validators.minLength(10),
-      //   Validators.maxLength(100)
-      // ])],
-      // 'rate': ['', Validators.compose([
-      //   MdNumberRequiredValidator.inline(),
-      //   MdPatternValidator.inline('^1234$'),
-      //   MdMinValueValidator.inline(800),
-      //   MdMaxValueValidator.inline(4999)
-      // ])]
-    });
+  // this.artistForm= new ControlGroup({
+  //   //'artist': new ControlGroup({
+  //     'title': this.titleCtrl,
+  //     'country': this.countryCtrl,
+  //     //'genre_id': [undefined, validate],
+  //     'albums_attributes': new ControlArray(this.ctrlAlbums)
+  //   //})
+  // });
 
+
+    console.log('this.FB',this.fb);
+    console.log('artistForm.control');
 
 
 
@@ -99,17 +150,25 @@ export class ArtistForm implements OnInit {
     }
 
 
+    onGenreChange(value:string):void{
+       console.log('genre_changed',value);
+     }
+
     onObjectShow(object: any) {
 
-      // console.log('object', object)
-
        this.artist = <Artist>object;
+       let artist_albums_data =_.find(this.artist.entities, function(o) { return o.class[0] == 'albums'; })
 
-       this.artistForm.value = { title: this.artist.properties.title,country:this.artist.properties.country }
+       this.artist_albums_url = (artist_albums_data != null) ? artist_albums_data.href : '';
+       // console.log('artist_albums_data', artist_albums_data);
+       // console.log('artist_albums_data == null', artist_albums_data == null);
 
-       this.artistForm.touched = true
-       this.artistForm.untouched = false
-       this.artistForm.dirty = true
+       if (this.artist_albums_url != ''){
+         this.getAlbums(1, 12);
+       } else{
+        this.artist_albums =[]
+       }
+
        console.log('artist onObjectShow in form',this.artist)
        console.log('this.artistForm.value ON SELECT', this.artistForm.value)
        console.log('FORMBUILDER artistForm', this.artistForm)
@@ -139,6 +198,8 @@ export class ArtistForm implements OnInit {
           response => this.updateSuccess(response),
           error =>  this.updateError = <any>error
         );
+
+
     }
 
     updateSuccess(response: any) {
@@ -181,6 +242,39 @@ export class ArtistForm implements OnInit {
    getGenresError(error: any) {
      //this.artists = response.entities;
      console.log('ERROR GET GENRES', error);
+     //this.total_pages = response.total_pages;
+     //this.total_count = response.total_count;
+     //this.page_size = response.page_size;
+   };
+
+
+
+
+   getAlbums(page : number = 1, page_size : number = 12) {
+
+      let params = { page: page, per: page_size }
+      this._apiService.req('get', this.artist_albums_url, params)
+      .map(response => <any>response.json())
+     .subscribe(
+        response => this.getAlbumsSuccess(response),
+        error => this.getAlbumsError = <any>error
+     );
+   }
+
+   getAlbumsSuccess(response: any) {
+     //this.artists = response.entities;
+     console.log('GENRES GET SUCCESSFUL ', response);
+     //this.total_pages = response.total_pages;
+     //this.total_count = response.total_count;
+     //this.page_size = response.page_size;
+     this.artist_albums = response.entities;
+     console.log('artist_albums', this.artist_albums)
+     console.log('ALBUMS GET SUCCESS', this.artist_albums);
+   };
+
+   getAlbumsError(error: any) {
+     //this.artists = response.entities;
+     console.log('ERROR GET ALBUMS', error);
      //this.total_pages = response.total_pages;
      //this.total_count = response.total_count;
      //this.page_size = response.page_size;
