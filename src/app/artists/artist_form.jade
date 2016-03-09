@@ -22,11 +22,7 @@
                   div(md-message='required') This is required.
               md-input-container.md-block.md-input-mymusic(flex-gt-sm='')
                 label Genre
-                //select( [ngFormControl]="artistForm.controls['genre_id']")
-                  option(*ngFor='#genre of genres', [value]='genre.properties.id' [selected]="genre.properties.id == artist.properties.genre_id" )
-                    | {{genre.properties.title}}
-                //label Genre
-                select([(ngModel)]='artist.properties.genre_id', (change)="onGenreChange($event.target.value)" [ngFormControl]="genre_id")
+                select([(ngModel)]='artist.properties.genre_id', ngControl="genre_id")
                   option(*ngFor='#genre of genres', [value]='genre.properties.id' )
                     | {{genre.properties.title}}
               md-input-container.md-block.md-input-mymusic(flex-gt-sm='')

@@ -107,7 +107,10 @@ export class ArtistForm implements OnInit {
   ngOnInit() {
     //this.titleCtrl = this.artistForm.controls['artist'].controls['title'];
     this.artist = {
-      entities: [],
+      entities: [
+        { class: ['genre'] },
+        { class: ['albums'] }
+      ],
       properties: {
 
         id: 1092,
@@ -150,9 +153,9 @@ export class ArtistForm implements OnInit {
     }
 
 
-    onGenreChange(value:string):void{
-       console.log('genre_changed',value);
-     }
+    // onGenreChange(value:string):void{
+    //    console.log('genre_changed',value);
+    //  }
 
     onObjectShow(object: any) {
 

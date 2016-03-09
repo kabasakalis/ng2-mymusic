@@ -1,6 +1,6 @@
 export interface Artist {
   class: string[],
-  entities: any,
+  entities: any[],
   properties: {
     id: number,
     genre_id: number,
