@@ -13,12 +13,26 @@ var Observable_1 = require('rxjs/Observable');
 //import { ARTISTS } from './mock-artists';
 var DetailsService = (function () {
     function DetailsService() {
-        this.show_details$ = new EventEmitter();
+        this.show_details$ = new core_1.EventEmitter();
+        this.edit$ = new core_1.EventEmitter();
     }
     DetailsService.prototype.show = function (object) {
-        this.show_details$.emit(object);
-        console.log('show in DetailsService');
+        this.show_details$.next(object);
+        console.log('show in DetailsService', object);
     };
+    DetailsService.prototype.edit = function (object) {
+        this.edit$.next(object);
+        console.log('edit in DetailsService', object);
+    };
+    DetailsService.prototype.update = function (object) {
+        this.update$.next(object);
+        console.log('update in DetailsService', object);
+    };
+    // public delete(object: any): void {
+    //   //this.show_details$.next(object);
+    //   console.log('object delete in DetailsService', object);
+    //   console.log('object class delete in DetailsService', object.class[0]);
+    // }
     DetailsService.prototype.handleError = function (error) {
         // in a real world app, we may send the error to some remote logging infrastructure
         // instead of just logging it to the console

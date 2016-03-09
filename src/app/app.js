@@ -12,12 +12,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
  * Angular 2 decorators and services
  */
 var core_1 = require('angular2/core');
+//import {RouteConfig, Router, ROUTER_DIRECTIVES} from 'angular2/router'
 var router_1 = require('angular2/router');
+//import {pluralize} from '../../typings/browser/ambient/pluralize/pluralize'
 var common_1 = require('angular2/common');
 // import {MATERIAL_DIRECTIVES, MATERIAL_PROVIDERS} from "ng2-material/all";
 var router_active_1 = require('./directives/router-active');
 var home_1 = require('./home/home');
-var details_cmp_1 = require('./details/details.cmp');
+var details_show_cmp_1 = require('./details/details_show.cmp');
+var artist_form_cmp_1 = require('./artists/artist_form.cmp');
 //import {Artist}              from './artist';
 //import {ApiService}       from './services/api.service';
 /*
@@ -25,20 +28,22 @@ var details_cmp_1 = require('./details/details.cmp');
  * Top Level Component
  */
 var App = (function () {
-    function App() {
-        // _details.selected_object = {
-        //        id: 2,
-        //        title: 'I am an Object from APP'
+    function App(_router) {
+        this._router = _router;
         this.angularclassLogo = 'assets/img/angularclass-avatar.png';
         this.name = 'Angular 2 Webpack';
         this.url = 'https://twitter.com/AngularClass';
-        //    };
     }
+    App.prototype.ngOnInit = function () {
+        //this._router.navigate(['/Home']);
+        //this._router.navigate(['/About', ['Details']]);
+        // this._router.parent.navigate(['/About']);
+    };
     App = __decorate([
         core_1.Component({
             selector: 'app',
             providers: common_1.FORM_PROVIDERS.slice(),
-            directives: router_1.ROUTER_DIRECTIVES.concat([router_active_1.RouterActive, details_cmp_1.Details]),
+            directives: router_1.ROUTER_DIRECTIVES.concat([router_active_1.RouterActive, details_show_cmp_1.DetailsShow, artist_form_cmp_1.ArtistForm]),
             pipes: [],
             styles: [require('./app.scss')],
             template: require('!jade!./app.jade')()
@@ -48,9 +53,13 @@ var App = (function () {
             { path: '/artists', loader: function () { return require('./artists/artists')('Artists'); }, name: 'Artists' },
             // Async load a component using Webpack's require with es6-promise-loader
             { path: '/about', loader: function () { return require('./about/about')('About'); }, name: 'About' },
+            //{ path: '/details/...', component: Details, name: 'Details' },
+            //new AuxRoute({ path: '/details', component: Details, name: 'Details' }),
+            //{ path: '/details-show', component: DetailsShow, name: 'DetailsShow' },
+            //new AuxRoute({ path: '/about', component: About, name: 'About' }),
             { path: '/**', redirectTo: ['Home'] }
         ]), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [router_1.Router])
     ], App);
     return App;
 }());

@@ -7,15 +7,29 @@ import {Observable}     from 'rxjs/Observable';
 @Injectable()
 export class DetailsService {
   public show_details$: EventEmitter<any>;
+  public edit$: EventEmitter<any>;
+  public update$: EventEmitter<any>;
   private object: Object;
 
   constructor() {
     this.show_details$ = new EventEmitter();
+    this.edit$ = new EventEmitter();
+    this.update$ = new EventEmitter();
    }
 
    public show(object: Object): void {
      this.show_details$.next(object);
      console.log('show in DetailsService', object);
+   }
+
+   public edit(object: Object): void {
+     this.edit$.next(object);
+     console.log('edit in DetailsService', object);
+   }
+
+   public update(object: Object): void {
+     this.update$.next(object);
+     console.log('update in DetailsService', object);
    }
 
    // public delete(object: any): void {

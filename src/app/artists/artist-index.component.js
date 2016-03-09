@@ -15,13 +15,21 @@ var details_service_1 = require('../services/details.service');
 var ng2_pagination_1 = require('ng2-pagination');
 var ArtistIndex = (function () {
     function ArtistIndex(_apiService, _detailsService) {
+        var _this = this;
         this._apiService = _apiService;
         this._detailsService = _detailsService;
         this.page = 1;
+        this._detailsService.update$.subscribe(function (object) { return _this.onArtistUpdate(object); });
     }
     // @Output() artist_details = new EventEmitter<Artist>();
     //paging_config: IPaginationInstance;
     ArtistIndex.prototype.ngOnInit = function () { this.getArtists(1); };
+    ArtistIndex.prototype.onArtistUpdate = function (object) {
+        this.selected_object = object;
+        this.selected_object_class = this.selected_object.class[0];
+        if (this.selected_object.class[0])
+            console.log('object in DetailsShowCmp', object);
+    };
     //{ id: 'server', itemsPerPage: page_size, currentPage: page, totalItems: total_count }
     ArtistIndex.prototype.getArtists = function (page, page_size) {
         var _this = this;
@@ -29,6 +37,7 @@ var ArtistIndex = (function () {
         if (page_size === void 0) { page_size = 12; }
         var params = { page: page, per: page_size };
         this._apiService.req('get', 'artists', params)
+            .map(function (response) { return response.json(); })
             .subscribe(function (response) { return _this.success(response); }, function (error) { return _this.errorMessage = error; });
     };
     ArtistIndex.prototype.success = function (response) {

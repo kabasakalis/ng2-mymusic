@@ -6,6 +6,7 @@ import {ApiService}       from '../services/api.service';
 import {DetailsService}       from '../services/details.service';
 //import {PaginatePipe, PaginationControlsCmp, PAGINATION_DIRECTIVES, PaginationService} from 'ng2-pagination';
 import {PaginatePipe, PaginationService, PAGINATION_DIRECTIVES, IPaginationInstance} from 'ng2-pagination';
+import * as _ from 'lodash';
 
 
 @Component({
@@ -22,7 +23,12 @@ export class ArtistIndex implements OnInit {
   constructor (
                private _apiService: ApiService,
                private _detailsService: DetailsService
-               ) {}
+               )
+  {
+
+
+
+  }
 
 
   errorMessage: string;
@@ -35,10 +41,30 @@ export class ArtistIndex implements OnInit {
 
   // @Output() artist_details = new EventEmitter<Artist>();
   //paging_config: IPaginationInstance;
-  ngOnInit() { this.getArtists(1); }
+  ngOnInit() {
+    this.getArtists(1);
+    this._detailsService.update$.subscribe(object => this.onArtistUpdate(object));
+
+  }
 
 
 
+  onArtistUpdate(object: any) {
+
+    if (object.class[0] == 'artist') {
+
+     let artist_to_refresh:any= _.find(this.artists, function(a:any) { return a.properties.id == object.properties.id });
+     _.remove(this.artists, function(a:Artist) {
+       a.properties.id == artist_to_refresh.properties.id;
+     });
+
+     _.concat(this.artists, object );
+
+
+
+    }
+    console.log('object in DetailsShowCmp', object);
+  }
  //{ id: 'server', itemsPerPage: page_size, currentPage: page, totalItems: total_count }
 
   getArtists(page : number = 1, page_size : number = 12) {
@@ -66,6 +92,8 @@ export class ArtistIndex implements OnInit {
     this._detailsService.show(artist);
     console.log('selected in ArtistIndex', this.selected_artist);
   }
+
+
 
   // addArtist (title: string) {
   //   if (!title) {return;}

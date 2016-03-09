@@ -42,10 +42,12 @@ export class DetailsShow implements OnInit {
       class: ['artist'],
       properties: {
         //id: 1,
-        title: 'Select an Item From the list on the left.'
+        title: ''
       }
     };
     this.selected_object_class = this.selected_object.class[0];
+
+    //this.selected_object = null as any;
     }
 
   onObjectShow(object: Object) {
@@ -64,6 +66,11 @@ export class DetailsShow implements OnInit {
       () =>  this.onDeleteCompleted()
      );
     }
+
+    edit(object: any) {
+      this._detailsService.edit(object);
+
+      }
 
   onDeleteSuccess(res) {
     console.log('ARTIST DELETED successfully!!', res);

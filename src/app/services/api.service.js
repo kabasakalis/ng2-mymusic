@@ -11,15 +11,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('angular2/core');
 var http_1 = require('angular2/http');
 var http_2 = require('angular2/http');
-var Observable_1 = require('rxjs/Observable');
 //import { ARTISTS } from './mock-artists';
+var _ = require('lodash');
 var ApiService = (function () {
     function ApiService(http) {
         this.http = http;
     }
-    ApiService.prototype.req = function (_method, _uri, _params, _body, _headers) {
+    ApiService.prototype.req = function (_method, _url, _params, _body, _headers) {
         var method = _method ? _method : 'get';
-        var url = _uri ? ApiService.API_BASE_URL + _uri : ApiService.API_BASE_URL;
+        var url = (_url && !_.startsWith(_url, 'http')) ? ApiService.API_BASE_URL + _url : _url;
         var headers = new http_2.Headers(Object.assign(ApiService.DEFAULT_HEADERS, _headers));
         var body = _body ? JSON.stringify(_body) : JSON.stringify(new Object);
         var search = new http_2.URLSearchParams();
@@ -38,32 +38,15 @@ var ApiService = (function () {
         };
         var request_options = new http_2.RequestOptions(request_options_args);
         var request = new http_2.Request(request_options);
-        return this.http.request(request)
-            .map(function (res) { return res.json(); })
-            .do(function (data) { return console.log(data); }) // eyeball results in the console
-            .catch(this.handleError);
-    };
-    // addArtist(title: string): Observable<Artist> {
-    //     let body = JSON.stringify({ title });
-    //     let headers = new Headers({
-    //         'Content-Type': 'application/siren',
-    //         'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0NTY2Njc1NTcsImF1ZCI6Ik15IE11c2ljIFVzZXJzIiwiaWQiOjEsImVtYWlsIjoia2FiYXNha2FsaXNAZ21haWwuY29tIn0.uLE4XkS_wdbky-JflBXtvd6UZLhntoBngcxr8TZ_DSU'
-    //     });
-    //     let options = new RequestOptions({ headers: headers });
-    //     return this.http.post(this._artistsUrl, body, options)
-    //         .map(res => <Artist>res.json().data)
-    //         .catch(this.handleError)
-    // }
-    ApiService.prototype.handleError = function (error) {
-        // in a real world app, we may send the error to some remote logging infrastructure
-        // instead of just logging it to the console
-        console.error(error);
-        return Observable_1.Observable.throw(error.json().error || 'Server error');
+        return this.http.request(request);
+        //.do(data => console.log(data)) // eyeball results in the console
+        //.catch(this.handleError(error,src,caught));
     };
     ApiService.API_BASE_URL = 'http://api.app.me:3000/v1/';
     ApiService.DEFAULT_HEADERS = {
-        'Content-Type': 'application/siren',
-        'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0NTcwNDc0NTgsImF1ZCI6Ik15IE11c2ljIFVzZXJzIiwiaWQiOjEsImVtYWlsIjoia2FiYXNha2FsaXNAZ21haWwuY29tIn0.le8WH3zf-JdO21ekEHNWwhAMxPsprU5PtG60nJSv3tQ'
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0NTc2MDM5MDQsImF1ZCI6Ik15IE11c2ljIFVzZXJzIiwiaWQiOjEsImVtYWlsIjoia2FiYXNha2FsaXNAZ21haWwuY29tIn0.AmA5b0Lc3XmKq50eJzsvK32qWpP4c62pZdMNPYezNXs'
     };
     ApiService = __decorate([
         core_1.Injectable(), 

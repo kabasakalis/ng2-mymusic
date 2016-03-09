@@ -1,15 +1,5 @@
-import {View, Component, OnInit} from 'angular2/core';
-//our root app component
-// import {
-//   Component,
-//   View,
-//   FORM_BINDINGS,
-//   FORM_DIRECTIVES,
-//   ControlGroup,
-//   FormBuilder,
-//   Validators,
-//   OnInit
-// } from 'angular2/core'
+import {View, Component, OnInit, AfterViewInit,
+  AfterViewChecked} from 'angular2/core';
 import {MdPatternValidator, MdMinValueValidator, MdNumberRequiredValidator, MdMaxValueValidator, MATERIAL_DIRECTIVES} from 'ng2-material/all';
 import {FORM_DIRECTIVES, Validators, FormBuilder, Control, ControlGroup, ControlArray, FORM_BINDINGS, AbstractControl} from 'angular2/common';
 import {DetailsService}   from '../services/details.service';
@@ -39,49 +29,67 @@ const validate = c => {
 export class ArtistForm implements OnInit {
 
 
-
-
   genreControl: AbstractControl;
   artist: Artist;
-  // artist:Artist = {
-  //   entities: [],
-  //   properties: {
-  //     id: 1092,
-  //     genre_id: 7,
-  //     title: 'KOKO',
-  //     country: '4r4r4'
-  //   },
-  //   class: ['artist']
-  // };
-
   artist_genre: any;
   artist_albums: any;
   artist_albums_url : string
   genres: any[];
-
+  show: Boolean= false;
   artistForm: ControlGroup;
-  ctrlAlbums: Control[] = [
-    new Control(''),
-    new Control(''),
-    new Control('')
-  ];
-  //titleCtrl: Control;
-  titleCtrl: Control = new Control('', Validators.compose([
-    Validators.required,
-    Validators.maxLength(20)
-  ]));
-  countryCtrl: Control = new Control('', Validators.compose([
-    Validators.required,
-    Validators.maxLength(20)
-  ]));
-  genre_idCtrl: Control = new Control('', Validators.compose([
-    Validators.required
-  ]));
+
+  // albumTitleCtrl: Control = new Control('', Validators.compose([
+  //   Validators.maxLength(20)
+  // ]));
+
+  // albumYearCtrl: Control = new Control('1988', Validators.compose([
+  //   Validators.maxLength(20)
+  // ]));
+
+  // albumCtrlGroup: ControlGroup = new ControlGroup({
+  //   title: this.albumTitleCtrl,
+  //   year: this.albumYearCtrl
+  // });
+
+
+
+  // ctrlAlbums: ControlGroup[] = [
+  //   //new ControlGroup({
+  //      new ControlGroup({
+  //       title: this.albumTitleCtrl,
+  //       year: this.albumYearCtrl
+  //     })
+
+  //   //})
+  // ];
+
+  // ctrlAlbums: Control[] = [
+  //   //new ControlGroup({
+
+  //     this.albumTitleCtrl,
+  //      this.albumYearCtrl
+
+  //   //})
+  // ];
+
+
+  // //titleCtrl: Control;
+  // titleCtrl: Control = new Control('', Validators.compose([
+  //   Validators.required,
+  //   Validators.maxLength(20)
+  // ]));
+  // countryCtrl: Control = new Control('', Validators.compose([
+  //   Validators.required,
+  //   Validators.maxLength(20)
+  // ]));
+  // genre_idCtrl: Control = new Control('', Validators.compose([
+  //   Validators.required
+  // ]));
 
 
   constructor(private fb: FormBuilder, private _detailsService: DetailsService, private _apiService: ApiService) {
 
-
+    this._detailsService.edit$.subscribe(object => this.onEdit(object));
 
     this.artistForm = fb.group({
       //'artist':fb.group({
@@ -94,13 +102,26 @@ export class ArtistForm implements OnInit {
           Validators.maxLength(30)
         ])],
 
-        genre_id: [undefined, validate],
-        'albums_attributes': new ControlArray(this.ctrlAlbums)
+        genre_id: [undefined, validate]
+        // /albums_attributes: new ControlArray(this.ctrlAlbums)
       })
     //})
     ;
 
-    this.genreControl = this.artistForm.controls['genre_id'];
+    //this.genreControl = this.artistForm.controls['genre_id'];
+
+    // this.artistForm= new ControlGroup({
+    //   //'artist': new ControlGroup({
+    //     'title': this.titleCtrl,
+    //     'country': this.countryCtrl,
+    //     //'genre_id': [undefined, validate],
+    //     'albums_attributes': new ControlArray(this.ctrlAlbums)
+    //   //})
+    // });
+
+
+      console.log('this.FB',this.fb);
+      console.log('artistForm.control');
 
   }
 
@@ -123,18 +144,7 @@ export class ArtistForm implements OnInit {
 
     this.getGenres(1, 12);
 
-  // this.artistForm= new ControlGroup({
-  //   //'artist': new ControlGroup({
-  //     'title': this.titleCtrl,
-  //     'country': this.countryCtrl,
-  //     //'genre_id': [undefined, validate],
-  //     'albums_attributes': new ControlArray(this.ctrlAlbums)
-  //   //})
-  // });
 
-
-    console.log('this.FB',this.fb);
-    console.log('artistForm.control');
 
 
 
@@ -152,6 +162,17 @@ export class ArtistForm implements OnInit {
 
     }
 
+    ngAfterViewInit(){
+      let a = this.artist;
+      this.artist = null;
+      //this.artist = a;
+       //this._logIt(`afterViewInit`);
+     }
+  onEdit(object: any) {
+    this.artist = null;
+    this.artist = <Artist>object;
+    this.show = true;
+  }
 
     // onGenreChange(value:string):void{
     //    console.log('genre_changed',value);
@@ -191,7 +212,6 @@ export class ArtistForm implements OnInit {
       //artist_payload.artist.id=this.artist.properties.id;
       //artist_payload.artist.albums_attributes = [{title: 'fgtestAlbum',year: 'dfdfff1921'}];
       //artist_payload.artist.genre_attributes = {title: 'GNREEEE'};
-
       console.log('artist_paylod in artist_form   ', artist_payload);
 
       var uri = `artists/${this.artist.properties.id}`;
@@ -208,6 +228,8 @@ export class ArtistForm implements OnInit {
     updateSuccess(response: any) {
       //this.artists = response.entities;
       console.log('SUCCESSFUL UPDATE', response);
+      this._detailsService.update(response)
+      this.show = false;
       //this.total_pages = response.total_pages;
       //this.total_count = response.total_count;
       //this.page_size = response.page_size;
