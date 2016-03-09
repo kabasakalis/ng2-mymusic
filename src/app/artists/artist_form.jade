@@ -9,14 +9,14 @@
             form( [ngFormModel]='artistForm',(submit)="update($event)", #f="ngForm" )
               md-input-container.md-block.md-input-mymusic
                 label(for='title') Title
-                input#title(md-input='', [ngFormControl]="artistForm.controls['title']",[(ngModel)]='artist.properties.title', #t="ngForm"  )
+                input#title(md-input='', ngControl="title",[(value)]='artist.properties.title', #t="ngForm", [(ngModel)]='artist.properties.title'  )
                 //input#title(md-input='', ngControl='title' )
                 div(md-messages="title"  )
                   div(md-message='required') This is required.
                   div(md-message='maxlength') The title has to be less than 30 characters long.
               md-input-container.md-block.md-input-mymusic
                 label(for='country') Country
-                input#country(md-input='', [ngFormControl]="artistForm.controls['country']", [(ngModel)]='artist.properties.country')
+                input#country(md-input='', ngControl="country", [(value)]='artist.properties.country', [(ngModel)]='artist.properties.country' )
                 //input#country(md-input='', ngControl='country')
                 div(md-messages='country', role='alert')
                   div(md-message='required') This is required.

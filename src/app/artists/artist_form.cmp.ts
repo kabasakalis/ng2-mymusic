@@ -93,11 +93,11 @@ export class ArtistForm implements OnInit {
 
     this.artistForm = fb.group({
       //'artist':fb.group({
-        title: ['', Validators.compose([
+        title: [undefined, Validators.compose([
           Validators.required,
           Validators.maxLength(30)
         ])],
-        country: ['', Validators.compose([
+        country: [undefined, Validators.compose([
           Validators.required,
           Validators.maxLength(30)
         ])],
@@ -105,6 +105,7 @@ export class ArtistForm implements OnInit {
         genre_id: [undefined, validate]
         // /albums_attributes: new ControlArray(this.ctrlAlbums)
       })
+
     //})
     ;
 
@@ -127,6 +128,7 @@ export class ArtistForm implements OnInit {
 
   ngOnInit() {
     //this.titleCtrl = this.artistForm.controls['artist'].controls['title'];
+
     this.artist = {
       entities: [
         { class: ['genre'] },
@@ -163,15 +165,25 @@ export class ArtistForm implements OnInit {
     }
 
     ngAfterViewInit(){
-      let a = this.artist;
-      this.artist = null;
-      //this.artist = a;
-       //this._logIt(`afterViewInit`);
+
+
      }
   onEdit(object: any) {
-    this.artist = null;
-    this.artist = <Artist>object;
+    // this.artist = null;
+    // this.artist = <Artist>object;
     this.show = true;
+    this.artist = <Artist>object;
+    let artist_albums_data = _.find(this.artist.entities, function(o) { return o.class[0] == 'albums'; })
+
+    this.artist_albums_url = (artist_albums_data != null) ? artist_albums_data.href : '';
+    // console.log('artist_albums_data', artist_albums_data);
+    // console.log('artist_albums_data == null', artist_albums_data == null);
+
+    if (this.artist_albums_url != '') {
+      this.getAlbums(1, 12);
+    } else {
+      this.artist_albums = []
+    }
   }
 
     // onGenreChange(value:string):void{
@@ -180,18 +192,18 @@ export class ArtistForm implements OnInit {
 
     onObjectShow(object: any) {
 
-       this.artist = <Artist>object;
-       let artist_albums_data =_.find(this.artist.entities, function(o) { return o.class[0] == 'albums'; })
+       // this.artist = <Artist>object;
+       // let artist_albums_data =_.find(this.artist.entities, function(o) { return o.class[0] == 'albums'; })
 
-       this.artist_albums_url = (artist_albums_data != null) ? artist_albums_data.href : '';
-       // console.log('artist_albums_data', artist_albums_data);
-       // console.log('artist_albums_data == null', artist_albums_data == null);
+       // this.artist_albums_url = (artist_albums_data != null) ? artist_albums_data.href : '';
+       // // console.log('artist_albums_data', artist_albums_data);
+       // // console.log('artist_albums_data == null', artist_albums_data == null);
 
-       if (this.artist_albums_url != ''){
-         this.getAlbums(1, 12);
-       } else{
-        this.artist_albums =[]
-       }
+       // if (this.artist_albums_url != ''){
+       //   this.getAlbums(1, 12);
+       // } else{
+       //  this.artist_albums =[]
+       // }
 
        console.log('artist onObjectShow in form',this.artist)
        console.log('this.artistForm.value ON SELECT', this.artistForm.value)
