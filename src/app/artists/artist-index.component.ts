@@ -52,17 +52,14 @@ export class ArtistIndex implements OnInit {
   onArtistUpdate(object: any) {
 
     if (object.class[0] == 'artist') {
-
      let artist_to_refresh:any= _.find(this.artists, function(a:any) { return a.properties.id == object.properties.id });
      _.remove(this.artists, function(a:Artist) {
        a.properties.id == artist_to_refresh.properties.id;
      });
-
      _.concat(this.artists, object );
-
-
-
     }
+
+
     console.log('object in DetailsShowCmp', object);
   }
  //{ id: 'server', itemsPerPage: page_size, currentPage: page, totalItems: total_count }

@@ -9,6 +9,13 @@
             .md-list-item-text(layout='column')
               strong {{key_value[0]}}
               span  {{key_value[1]}}
+
+      md-content
+        md-list(*ngFor="#related_object of selected_object_related_objects" )
+          md-list-item.md-2-line(*ngFor="#key_value of related_object.properties | keys_values" )
+            .md-list-item-text(layout='column')
+              strong {{key_value[0]}}
+              span  {{key_value[1]}}
   .mdl-card__actions.mdl-card--border
   .demo-graphs.mdl-shadow--2dp.mdl-color--white.mdl-cell.mdl-cell--8-col
     md-content(*ngIf="selected_object.properties.title != ''")

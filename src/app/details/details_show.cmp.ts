@@ -1,103 +1,1 @@
-import {View, Component, OnInit } from 'angular2/core';
-import {MATERIAL_DIRECTIVES, MATERIAL_PROVIDERS} from "ng2-material/all";
-import {Observable}     from 'rxjs/Observable';
-//import {Artist}              from './artist';
-import {ApiService}       from '../services/api.service';
-import {DetailsService}   from '../services/details.service';
-import {KeysValuesPipe}   from '../utils/keys_values.pipe';
-import * as pluralize from 'pluralize'
-
-
-
-@Component({
-  selector: 'details-show',
-  template: require('!jade!./details_show.jade')(),
-  styles: [require('./details.scss')],
-  //directives: [PaginationControlsCmp],
-  //pipes: [PaginatePipe],
-  directives: [],
-  providers: [ApiService],
-  pipes: [KeysValuesPipe]
- })
-
-// Routing is set up with the RouteConfig decorator
-// @RouteConfig([
-//   { path: '/show', component: DetailsShowCmp, name: 'Home' },
-//   { path: '/users/:userLogin/...', component: Users, name: 'Users' },
-//   { path: '/**', redirectTo: ['Home'] }
-// ])
-export class DetailsShow implements OnInit {
-  constructor(private _apiService: ApiService, private _detailsService: DetailsService) {
-
-  }
-  errorMessage: string;
-  artists: any;
-  public selected_object: any;
-  public selected_object_class = '';
-  //paging_config: IPaginationInstance;
-  ngOnInit() {
-    this._detailsService.show_details$.subscribe(object => this.onObjectShow(object));
-    console.log('DetailsShow started')
-    this.selected_object = {
-      class: ['artist'],
-      properties: {
-        //id: 1,
-        title: ''
-      }
-    };
-    this.selected_object_class = this.selected_object.class[0];
-
-    //this.selected_object = null as any;
-    }
-
-  onObjectShow(object: Object) {
-    this.selected_object = object
-    this.selected_object_class = this.selected_object.class[0]
-    console.log('object in DetailsShowCmp', object);
-  }
-
-  delete(object: any) {
-    let resource_uri = pluralize.plural(object.class[0]);
-    this._apiService.req('delete', resource_uri + '/' + object.properties.id)
-    .map(res => <any>res.text())
-    .subscribe(
-      res => this.onDeleteSuccess(res),
-      err => this.onDeleteError(err),
-      () =>  this.onDeleteCompleted()
-     );
-    }
-
-    edit(object: any) {
-      this._detailsService.edit(object);
-
-      }
-
-  onDeleteSuccess(res) {
-    console.log('ARTIST DELETED successfully!!', res);
-  }
-  onDeleteError(err) {
-    console.log('There was an error');
-  }
-  onDeleteCompleted() {
-    console.log('Delete Completed');
-  }
-
-  // getArtists(page : number = 1, page_size : number = 12) {
-
-  //    let params = { page: page, per: page_size }
-  //    this._apiService.req('get', 'artists', params)
-  //   .subscribe(
-  //     response => this.success(response),
-  //     error =>  this.errorMessage = <any>error
-  //   );
-  // }
-
-  // success(response: any) {
-  //   this.artists = response.entities;
-  //   console.log('ARTIST', this.artists);
-  //   this.total_pages = response.total_pages;
-  //   this.total_count = response.total_count;
-  //   this.page_size = response.page_size;
-  // }
-
-}
+import {View, Component, OnInit } from 'angular2/core';import {MATERIAL_DIRECTIVES, MATERIAL_PROVIDERS} from "ng2-material/all";import {Observable}     from 'rxjs/Observable';//import {Artist}              from './artist';import {ApiService}       from '../services/api.service';import {DetailsService}   from '../services/details.service';import {KeysValuesPipe}   from '../utils/keys_values.pipe';import * as pluralize from 'pluralize'import * as _ from 'lodash';@Component({  selector: 'details-show',  template: require('!jade!./details_show.jade')(),  styles: [require('./details.scss')],  //directives: [PaginationControlsCmp],  //pipes: [PaginatePipe],  directives: [],  providers: [ApiService],  pipes: [KeysValuesPipe] })// Routing is set up with the RouteConfig decorator// @RouteConfig([//   { path: '/show', component: DetailsShowCmp, name: 'Home' },//   { path: '/users/:userLogin/...', component: Users, name: 'Users' },//   { path: '/**', redirectTo: ['Home'] }// ])export class DetailsShow implements OnInit {  constructor(private _apiService: ApiService, private _detailsService: DetailsService) {  }  errorMessage: string;  artists: any;  public selected_object: any;  public selected_object_class = '';  public related_classes = [];  public selected_object_relations = {} as any;  //paging_config: IPaginationInstance;  ngOnInit() {    this._detailsService.show_details$.subscribe(object => this.onObjectShow(object));    console.log('DetailsShow started')    this._detailsService.update$.subscribe(object => this.onObjectShow(object));    this.selected_object = {      class: ['artist'],      properties: {        //id: 1,        title: ''      }    };    this.selected_object_class = this.selected_object.class[0];    //this.selected_object = null as any;    }  onObjectShow(object: any) {    this.selected_object = object    this.selected_object_class = this.selected_object.class[0]    //belongs_to relations are explicily included,so we can retrieve them    // let artist_to_refresh: any = _.find(this.artists, function(a: any) { return a.properties.id == object.properties.id });    // _.remove(this.artists, function(a: Artist) {    //   a.properties.id == artist_to_refresh.properties.id;    // });    // _.concat(this.artists, object);    this.related_classes = _.uniq(_.map(this.selected_object.entities, function(e: any) { return e.class[0] }));    let class_to_related = {} as any;    this.selected_object_relations = _(this.related_classes).forEach(function(cl) {      class_to_related[cl] = _.filter(object.entities, function(e: any) { return e.class[0] == cl });    });    //this.selected_object_related_objects = _.filter(this.selected_object.entities, function(e: any) { return e.hasOwnProperty('properties') });    console.log('related classes', this.related_classes);    console.log('class_to_related',class_to_related);    console.log('object show in DetailsShowCmp', object);    console.log('relatedobject show in DetailsShowCmp', this.selected_object_relations);  }  // onObjectShow(object: Object) {  //   this.selected_object = object  //   this.selected_object_class = this.selected_object.class[0]  //   console.log('object update in DetailsShowCmp', object);  // }  delete(object: any) {    let resource_uri = pluralize.plural(object.class[0]);    this._apiService.req('delete', resource_uri + '/' + object.properties.id)    .map(res => <any>res.text())    .subscribe(      res => this.onDeleteSuccess(res),      err => this.onDeleteError(err),      () =>  this.onDeleteCompleted()     );    }    edit(object: any) {      this._detailsService.edit(object);      }  onDeleteSuccess(res) {    console.log('ARTIST DELETED successfully!!', res);  }  onDeleteError(err) {    console.log('There was an error');  }  onDeleteCompleted() {    console.log('Delete Completed');  }  // getArtists(page : number = 1, page_size : number = 12) {  //    let params = { page: page, per: page_size }  //    this._apiService.req('get', 'artists', params)  //   .subscribe(  //     response => this.success(response),  //     error =>  this.errorMessage = <any>error  //   );  // }  // success(response: any) {  //   this.artists = response.entities;  //   console.log('ARTIST', this.artists);  //   this.total_pages = response.total_pages;  //   this.total_count = response.total_count;  //   this.page_size = response.page_size;  // }}
