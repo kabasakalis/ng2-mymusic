@@ -7,6 +7,7 @@ import {DetailsService}       from '../services/details.service';
 //import {PaginatePipe, PaginationControlsCmp, PAGINATION_DIRECTIVES, PaginationService} from 'ng2-pagination';
 import {PaginatePipe, PaginationService, PAGINATION_DIRECTIVES, IPaginationInstance} from 'ng2-pagination';
 import * as _ from 'lodash';
+import * as pluralize from 'pluralize'
 
 
 @Component({
@@ -44,25 +45,76 @@ export class ArtistIndex implements OnInit {
   ngOnInit() {
     this.getArtists(1);
     this._detailsService.update$.subscribe(object => this.onArtistUpdate(object));
+    this._detailsService.delete$.subscribe(object => this.delete(object));
+
 
   }
 
 
+  find_in_list(object:any) {
+    console.log('object',object);
+    return _.find(this.artists, function(a: any) { console.log('a',a);return a.properties.id == object.properties.id });
+  }
+
+  delete_from_list(object:any):void{
+     _.remove(this.artists, function(a: any) {
+      return a.properties.id == object.properties.id;
+         });
+
+     console.log('LIST AFTER REMOVAL',this.artists);
+  }
+
+  add_to_list(object:any):void {
+    _.concat(this.artists, object );
+  }
 
   onArtistUpdate(object: any) {
 
-    if (object.class[0] == 'artist') {
-     let artist_to_refresh:any= _.find(this.artists, function(a:any) { return a.properties.id == object.properties.id });
-     _.remove(this.artists, function(a:Artist) {
-       a.properties.id == artist_to_refresh.properties.id;
-     });
-     _.concat(this.artists, object );
-    }
+    this.delete_from_list(this.find_in_list(object))
+    this.add_to_list(object)
 
-
-    console.log('object in DetailsShowCmp', object);
   }
- //{ id: 'server', itemsPerPage: page_size, currentPage: page, totalItems: total_count }
+
+  onSuccessfulArtistDelete(object: any) {
+
+    if (object.class[0] == 'artist') {
+
+     let artist_to_delete:any= _.find(this.artists, function(a:any) { return a.properties.id == object.properties.id });
+     _.remove(this.artists, function(a:Artist) {
+       a.properties.id == artist_to_delete.properties.id;
+     });
+    }
+    console.log('onArtistDelete', object);
+  }
+
+
+  delete(object: any) {
+    // this.artist = null;
+    // this.artist = <Artist>object;
+    //if (object.class[0] == this.selected_artist.class[0]) {
+      let resource_uri = pluralize.plural(object.class[0]);
+      this._apiService.req('delete', resource_uri + '/' + object.properties.id)
+        .map(res => <any>res.text())
+        .subscribe(
+        res => this.onDeleteSuccess(res),
+        err => this.onDeleteError(err),
+        () => this.onDeleteCompleted()
+        );
+
+    //}
+
+  }
+
+   onDeleteSuccess(res) {
+     this.delete_from_list(this.find_in_list(this.selected_artist))
+     console.log('ARTIST DELETED successfully!!', res);
+   }
+   onDeleteError(err) {
+     console.log('There was an error');
+   }
+   onDeleteCompleted() {
+     console.log('Delete Completed');
+   }
 
   getArtists(page : number = 1, page_size : number = 12) {
 

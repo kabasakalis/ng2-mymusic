@@ -6,6 +6,7 @@ import {DetailsService}   from '../services/details.service';
 import {Artist}              from './artist';
 import {ApiService}       from '../services/api.service';
 import * as _ from 'lodash';
+import * as pluralize from 'pluralize'
 
 
 const validate = c => {
@@ -33,9 +34,9 @@ export class ArtistForm implements OnInit {
   artist: Artist;
   artist_genre: any;
   artist_albums: any;
-  artist_albums_url : string
+  artist_albums_url: string
   genres: any[];
-  show: Boolean= false;
+  show: Boolean = false;
   artistForm: ControlGroup;
 
   // albumTitleCtrl: Control = new Control('', Validators.compose([
@@ -91,23 +92,24 @@ export class ArtistForm implements OnInit {
 
     this._detailsService.edit$.subscribe(object => this.onEdit(object));
 
+
     this.artistForm = fb.group({
       //'artist':fb.group({
-        title: [undefined, Validators.compose([
-          Validators.required,
-          Validators.maxLength(30)
-        ])],
-        country: [undefined, Validators.compose([
-          Validators.required,
-          Validators.maxLength(30)
-        ])],
+      title: [undefined, Validators.compose([
+        Validators.required,
+        Validators.maxLength(30)
+      ])],
+      country: [undefined, Validators.compose([
+        Validators.required,
+        Validators.maxLength(30)
+      ])],
 
-        genre_id: [undefined, validate]
-        // /albums_attributes: new ControlArray(this.ctrlAlbums)
-      })
+      genre_id: [undefined, validate]
+      // /albums_attributes: new ControlArray(this.ctrlAlbums)
+    })
 
-    //})
-    ;
+      //})
+      ;
 
     //this.genreControl = this.artistForm.controls['genre_id'];
 
@@ -121,8 +123,8 @@ export class ArtistForm implements OnInit {
     // });
 
 
-      console.log('this.FB',this.fb);
-      console.log('artistForm.control');
+    console.log('this.FB', this.fb);
+    console.log('artistForm.control');
 
   }
 
@@ -162,12 +164,12 @@ export class ArtistForm implements OnInit {
     // this.selected_object_class = this.selected_object.class[0];
 
 
-    }
+  }
 
-    ngAfterViewInit(){
+  ngAfterViewInit() {
 
 
-     }
+  }
   onEdit(object: any) {
     // this.artist = null;
     // this.artist = <Artist>object;
@@ -185,6 +187,8 @@ export class ArtistForm implements OnInit {
       this.artist_albums = []
     }
   }
+
+
 
     // onGenreChange(value:string):void{
     //    console.log('genre_changed',value);

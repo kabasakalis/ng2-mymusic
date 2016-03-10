@@ -25,14 +25,10 @@
                 select([(ngModel)]='artist.properties.genre_id', ngControl="genre_id")
                   option(*ngFor='#genre of genres', [value]='genre.properties.id' )
                     | {{genre.properties.title}}
-              //md-input-container.md-block.md-input-mymusic(flex-gt-sm='')
-                //ul(ngControlGroup='albums_attributes')
-                div(*ngFor='#cg of ctrlAlbums')
-                  input(ngControl='')
-
-
               md-input-container.md-block
                 button(type='submit',[disabled] = "!artistForm.valid") Update
+                button.md-mini.md-primary(md-fab, aria-label='Update', (click)="show=false;" )
+                  span Cancel
             strong Model
             pre.md-padding.
               {{artist.properties | json}}

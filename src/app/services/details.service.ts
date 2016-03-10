@@ -9,12 +9,14 @@ export class DetailsService {
   public show_details$: EventEmitter<any>;
   public edit$: EventEmitter<any>;
   public update$: EventEmitter<any>;
+  public delete$: EventEmitter<any>;
   private object: Object;
 
   constructor() {
     this.show_details$ = new EventEmitter();
     this.edit$ = new EventEmitter();
     this.update$ = new EventEmitter();
+    this.delete$ = new EventEmitter();
    }
 
    public show(object: Object): void {
@@ -30,6 +32,11 @@ export class DetailsService {
    public update(object: Object): void {
      this.update$.next(object);
      console.log('update in DetailsService', object);
+   }
+
+   public delete(object: Object): void {
+     this.delete$.next(object);
+     console.log('delete in DetailsService', object);
    }
 
    // public delete(object: any): void {

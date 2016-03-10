@@ -30,7 +30,7 @@
   .demo-graphs.mdl-shadow--2dp.mdl-color--white.mdl-cell.mdl-cell--8-col
     md-content(*ngIf="selected_object.properties.title != ''")
       section(layout='row', layout-sm='column', layout-align='center center', layout-wrap='')
-        button.md-mini.md-primary(md-fab, aria-label='Delete', (click)='delete(selected_object)' )
+        button.md-mini.md-primary(md-fab, aria-label='Delete', (click)='raiseDelete(selected_object)' )
           i.material-icons( md-icon) clear
           span DELETE
         button.md-mini.md-primary(md-fab, aria-label='Update', (click)='edit(selected_object)' )
