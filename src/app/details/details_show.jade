@@ -17,14 +17,31 @@
               strong {{key_value[0]}}
               span  {{key_value[1]}}
   .mdl-card__actions.mdl-card--border
+  .mdl-card__supporting-text.mdl-color-text--grey-600
+    md-content
+      div(*ngFor="#related_class of related_classes" )
+        div([ngSwitch]= "_selected_object_relations[related_class][0].hasOwnProperty('properties')" )
+          template([ngSwitchWhen]='true')
+            h6 {{related_class}} : {{_selected_object_relations[related_class][0].properties.title}}
+            strong
+          template([ngSwitchWhen]='false')
+            a.mdl-button.mdl-js-button.mdl-js-ripple-effect([href]= "_selected_object_relations[related_class][0].href") {{related_class}}
+          template(ngSwitchDefault)
   .demo-graphs.mdl-shadow--2dp.mdl-color--white.mdl-cell.mdl-cell--8-col
     md-content(*ngIf="selected_object.properties.title != ''")
       section(layout='row', layout-sm='column', layout-align='center center', layout-wrap='')
         button.md-mini.md-primary(md-fab, aria-label='Delete', (click)='delete(selected_object)' )
           i.material-icons( md-icon) clear
+          span DELETE
         button.md-mini.md-primary(md-fab, aria-label='Update', (click)='edit(selected_object)' )
           i.material-icons( md-icon) create
-  a.mdl-button.mdl-js-button.mdl-js-ripple-effect(href='#') See Albums
+          span EDIT
+
+  .mdl-card__supporting-text.mdl-color-text--grey-600
 
 
+  //a.mdl-button.mdl-js-button.mdl-js-ripple-effect(href='#') See Albums
+
+  //pre.md-padding.
+    {{_selected_object_relations | json}}
 //<li *ngFor='#bandMember of beatles | values:"key":true'>
