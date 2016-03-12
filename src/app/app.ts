@@ -3,7 +3,7 @@
  */
 import {Component, OnInit } from 'angular2/core';
 //import {RouteConfig, Router, ROUTER_DIRECTIVES} from 'angular2/router'
-import {ROUTER_DIRECTIVES, RouteConfig, Router, Route, AuxRoute} from 'angular2/router';
+import {ROUTER_DIRECTIVES, ROUTER_PROVIDERS,RouteConfig, Router, Route, AuxRoute, RouteParams} from 'angular2/router';
 //import {_} from 'lodash';
 import * as _ from 'lodash';
 //import {pluralize} from '../../typings/browser/ambient/pluralize/pluralize'
@@ -19,14 +19,8 @@ import {About} from './about/about.async';
 import {DetailsShow} from './details/details_show.cmp';
 import {ArtistForm} from './artists/artist_form.cmp';
 import {Artist}              from './artists/artist';
-import {Artists}              from './artists/artists';
+import {MMList}              from './artists/list.cmp';
 
-
-
-
-
-//import {Artist}              from './artist';
-//import {ApiService}       from './services/api.service';
 
 /*
  * App Component
@@ -35,20 +29,16 @@ import {Artists}              from './artists/artists';
 @Component({
   selector: 'app',
   providers: [...FORM_PROVIDERS],
-  directives: [...ROUTER_DIRECTIVES, RouterActive, DetailsShow, ArtistForm],
+  directives: [ROUTER_DIRECTIVES, RouterActive, DetailsShow, ArtistForm, MMList],
   pipes: [],
   styles: [require('./app.scss')],
   template: require('!jade!./app.jade')()
 })
 @RouteConfig([
   { path: '/', component: Home, name: 'Home' },
-  { path: '/artists', loader: () => require('./artists/artists')('Artists'), name: 'Artists' },
+  { path: '/list', component: MMList, name: 'MMList' },
   // Async load a component using Webpack's require with es6-promise-loader
   { path: '/about', loader: () => require('./about/about')('About'), name: 'About' },
-  //{ path: '/details/...', component: Details, name: 'Details' },
-   //new AuxRoute({ path: '/details', component: Details, name: 'Details' }),
-   //{ path: '/details-show', component: DetailsShow, name: 'DetailsShow' },
-  //new AuxRoute({ path: '/about', component: About, name: 'About' }),
   { path: '/**', redirectTo: ['Home'] }
 ])
 export class App implements OnInit {
@@ -56,6 +46,8 @@ export class App implements OnInit {
   name = 'Angular 2 Webpack';
   url = 'https://twitter.com/AngularClass';
   constructor(private _router: Router) {
+    // let list_type = this._routeParams.get('type');
+    // console.log('type', list_type)
   }
 
   ngOnInit() {

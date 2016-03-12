@@ -25,7 +25,7 @@
             h6 {{related_class}} : {{_selected_object_relations[related_class][0].properties.title}}
             strong
           template([ngSwitchWhen]='false')
-            a.mdl-button.mdl-js-button.mdl-js-ripple-effect([href]= "_selected_object_relations[related_class][0].href") {{related_class}}
+            a.mdl-button.mdl-js-button.mdl-js-ripple-effect((click)='raiseList({ uri: _selected_object_relations[related_class][0].href, type: related_class })' ) {{related_class}}
           template(ngSwitchDefault)
   .demo-graphs.mdl-shadow--2dp.mdl-color--white.mdl-cell.mdl-cell--8-col
     md-content(*ngIf="selected_object.properties.title != ''")

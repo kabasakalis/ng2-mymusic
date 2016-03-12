@@ -10,6 +10,7 @@ export class DetailsService {
   public edit$: EventEmitter<any>;
   public update$: EventEmitter<any>;
   public delete$: EventEmitter<any>;
+  public list$: EventEmitter<any>;
   private object: Object;
 
   constructor() {
@@ -17,6 +18,7 @@ export class DetailsService {
     this.edit$ = new EventEmitter();
     this.update$ = new EventEmitter();
     this.delete$ = new EventEmitter();
+    this.list$ = new EventEmitter();
    }
 
    public show(object: Object): void {
@@ -37,6 +39,11 @@ export class DetailsService {
    public delete(object: Object): void {
      this.delete$.next(object);
      console.log('delete in DetailsService', object);
+   }
+
+   public list(object: Object): void {
+     this.list$.next(object);
+     console.log('list in DetailsService', object);
    }
 
    // public delete(object: any): void {

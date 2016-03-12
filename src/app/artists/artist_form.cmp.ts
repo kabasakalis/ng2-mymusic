@@ -39,55 +39,6 @@ export class ArtistForm implements OnInit {
   show: Boolean = false;
   artistForm: ControlGroup;
 
-  // albumTitleCtrl: Control = new Control('', Validators.compose([
-  //   Validators.maxLength(20)
-  // ]));
-
-  // albumYearCtrl: Control = new Control('1988', Validators.compose([
-  //   Validators.maxLength(20)
-  // ]));
-
-  // albumCtrlGroup: ControlGroup = new ControlGroup({
-  //   title: this.albumTitleCtrl,
-  //   year: this.albumYearCtrl
-  // });
-
-
-
-  // ctrlAlbums: ControlGroup[] = [
-  //   //new ControlGroup({
-  //      new ControlGroup({
-  //       title: this.albumTitleCtrl,
-  //       year: this.albumYearCtrl
-  //     })
-
-  //   //})
-  // ];
-
-  // ctrlAlbums: Control[] = [
-  //   //new ControlGroup({
-
-  //     this.albumTitleCtrl,
-  //      this.albumYearCtrl
-
-  //   //})
-  // ];
-
-
-  // //titleCtrl: Control;
-  // titleCtrl: Control = new Control('', Validators.compose([
-  //   Validators.required,
-  //   Validators.maxLength(20)
-  // ]));
-  // countryCtrl: Control = new Control('', Validators.compose([
-  //   Validators.required,
-  //   Validators.maxLength(20)
-  // ]));
-  // genre_idCtrl: Control = new Control('', Validators.compose([
-  //   Validators.required
-  // ]));
-
-
   constructor(private fb: FormBuilder, private _detailsService: DetailsService, private _apiService: ApiService) {
 
     this._detailsService.edit$.subscribe(object => this.onEdit(object));
@@ -107,21 +58,6 @@ export class ArtistForm implements OnInit {
       genre_id: [undefined, validate]
       // /albums_attributes: new ControlArray(this.ctrlAlbums)
     })
-
-      //})
-      ;
-
-    //this.genreControl = this.artistForm.controls['genre_id'];
-
-    // this.artistForm= new ControlGroup({
-    //   //'artist': new ControlGroup({
-    //     'title': this.titleCtrl,
-    //     'country': this.countryCtrl,
-    //     //'genre_id': [undefined, validate],
-    //     'albums_attributes': new ControlArray(this.ctrlAlbums)
-    //   //})
-    // });
-
 
     console.log('this.FB', this.fb);
     console.log('artistForm.control');
@@ -148,22 +84,8 @@ export class ArtistForm implements OnInit {
 
     this.getGenres(1, 12);
 
-
-
-
-
     this._detailsService.show_details$.subscribe(object => this.onObjectShow(object));
     console.log('Artist Form started')
-    // this.selected_object = {
-    //   class: ['artist'],
-    //   properties: {
-    //     //id: 1,
-    //     title: 'Select an Item From the list on the left.'
-    //   }
-    // };
-    // this.selected_object_class = this.selected_object.class[0];
-
-
   }
 
   ngAfterViewInit() {
@@ -190,9 +112,6 @@ export class ArtistForm implements OnInit {
 
 
 
-    // onGenreChange(value:string):void{
-    //    console.log('genre_changed',value);
-    //  }
 
     onObjectShow(object: any) {
 
@@ -216,19 +135,14 @@ export class ArtistForm implements OnInit {
     }
 
     update(artist: Artist) {
-      // this.selected_object = object
-      // this.selected_object_class = this.selected_object.class[0]
-
 
       console.log('artist in UYPDATE', artist)
       console.log('this.artistForm.value', this.artistForm.value)
       let artist_payload = {
          artist: this.artistForm.value
          }
-      //artist_payload.artist.id=this.artist.properties.id;
-      //artist_payload.artist.albums_attributes = [{title: 'fgtestAlbum',year: 'dfdfff1921'}];
-      //artist_payload.artist.genre_attributes = {title: 'GNREEEE'};
       console.log('artist_paylod in artist_form   ', artist_payload);
+
 
       var uri = `artists/${this.artist.properties.id}`;
       this._apiService.req('put', uri, {}, artist_payload)
@@ -237,8 +151,6 @@ export class ArtistForm implements OnInit {
           response => this.updateSuccess(response),
           error =>  this.updateError = <any>error
         );
-
-
     }
 
     updateSuccess(response: any) {
@@ -252,11 +164,7 @@ export class ArtistForm implements OnInit {
     };
 
     updateError(error: any) {
-      //this.artists = response.entities;
       console.log('ERROR UPDATE', error);
-      //this.total_pages = response.total_pages;
-      //this.total_count = response.total_count;
-      //this.page_size = response.page_size;
     };
 
    getGenres(page : number = 1, page_size : number = 12) {

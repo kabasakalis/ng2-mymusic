@@ -1,8 +1,8 @@
-h2 Artists
+h2
 div.wf-container
   div(layout='row', layout-padding='', layout-wrap='', layout-fill='', style='padding-bottom: 32px;', ng-cloak='')
-    md-whiteframe.md-whiteframe-1dp(*ngFor="#artist of artists | paginate: { id: 'paging', itemsPerPage: page_size, currentPage: page, totalItems: total_count }" flex-sm='45', flex-gt-sm='35', flex-gt-md='25', layout='', layout-align='center center', style="cursor:pointer;" , (click)='show_details(artist)' )
-      strong {{ artist.properties.title }}
+    md-whiteframe.md-whiteframe-1dp(*ngFor="#item of list | paginate: { id: 'paging', itemsPerPage: page_size, currentPage: page, totalItems: total_count }" flex-sm='45', flex-gt-sm='35', flex-gt-md='25', layout='', layout-align='center center', style="cursor:pointer;" , (click)='show_details(item)' )
+      strong {{ item.properties.title }}
 
       //pre.
         {{ artist.properties | json }}
@@ -14,7 +14,7 @@ div.wf-container
 //-   li(*ngFor="#meal of asyncMeals | async | paginate: { id: 'server', itemsPerPage: 10, currentPage: p, totalItems: total }")
 //-     | {{ meal }}
 
-pagination-controls(#p, id='paging', (pageChange)='page = $event;getArtists($event)' style='cursor: pointer!important;')
+pagination-controls(#p, id='paging', (pageChange)='page = $event;getList(list_uri,$event)' style='cursor: pointer!important;')
   .custom-pagination
     .pagination-previous([class.disabled]='p.isFirstPage()', *ngIf='p.directionLinks')
       a( *ngIf='!p.isFirstPage()', (click)='p.previous()' )
