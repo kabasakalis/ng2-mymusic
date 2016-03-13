@@ -1,47 +1,39 @@
-//pre.
-  {{ selected_item.properties | json }}
-//pre.
-  {{ selected_item.class[0] }}.demo-layout.mdl-layout.mdl-js-layout.mdl-layout--fixed-drawer.mdl-layout--fixed-header
-
-
-
-//button.md-raised.md-primary(md-raised-button) Home
+a( (click)="getList('artists')")
+  button.md-raised.md-primary(md-raised-button='') Artists
+a( (click)="getList('genres')")
+  button.md-raised.md-primary(md-raised-button='') Genres
+a( (click)="getList('users')")
+  button.md-raised.md-primary(md-raised-button='') Users
 md-content
-  //div([ngSwitch]= "_selected_object_relations[related_class][0].hasOwnProperty('properties')" )
-  h2 {{list_type}}
-  h3  {{ selected_item.properties.title }}
-  //div([ngSwitch]= "list_type" )
-    template([ngSwitchWhen]="'artists'")
-      h2 {{list_type}}
-      div(*ngIf="selected_item.class[0] != list_type_singular")
-      strong {{ selected_item.properties.title }}
-      br
-      button.md-raised.md-primary(md-raised-button, *ngIf="list_type == 'albums'", (click)="getList('artists',1)")
-        "Back to {{selected_item.class[0]}}s"
-         selected_item.class[0] != list_type_singular'
-
-
-
+  h3(*ngIf="current_artist && list_type!='artist' && list_type!='genre'") {{current_artist?.properties.title}}
+  div([ngSwitch]= "list_type" )
+    template([ngSwitchWhen]="'artist'")
+      h3 {{list_type}}s
     template([ngSwitchWhen]="'album'")
-      h6 ALBUMS
-      a.mdl-button.mdl-js-button.mdl-js-ripple-effect((click)='raiseList({ uri: _selected_object_relations[related_class][0].href, type: related_class })' )
-      h6 ARTISTS
+      h3 {{list_type}}s
+      button.md-raised.md-primary(md-raised-button, (click)="getList('artists',1)") Back to Artists
+    template([ngSwitchWhen]="'track'")
+      h4  {{ list_items_owner.properties.title }}
+      h3 {{list_type}}s
+      button.md-raised.md-primary(md-raised-button, (click)="getList('albums',1,12,{artist: current_artist.properties.title })") Back to Albums
+    template([ngSwitchWhen]="'playlist'")
+      h3 {{list_type}}s
+      button.md-raised.md-primary(md-raised-button, (click)="getList('artists',1)") Back to Artists
+    template([ngSwitchWhen]="'genre'")
+      h3 {{list_type}}s
     template(ngSwitchDefault)
-      h2 {{list_type}}
+      //h2 {{list_type}}
 
 div.wf-container
   div(layout='row', layout-padding='', layout-wrap='', layout-fill='', style='padding-bottom: 32px;', ng-cloak='')
     md-whiteframe.md-whiteframe-1dp(*ngFor="#item of list | paginate: { id: 'paging', itemsPerPage: page_size, currentPage: page, totalItems: total_count }" flex-sm='45', flex-gt-sm='35', flex-gt-md='25', layout='', layout-align='center center', style="cursor:pointer;" , (click)='show_details(item)' )
       strong {{ item.properties.title }}
+      strong {{ item.properties?.name }}
+//pre.
+  {{ list_type  }}
+//pre.
+  {{ list |json  }}
 
-
-//- input(#newArtist='')
-//- button((click)="addArtist(newArtist.value); newArtist.value=''")
-//-   | Add Artist
-//- .error(*ngIf='errorMessage') {{errorMessage}}
-//- ul.meal-list
-//-   li(*ngFor="#meal of asyncMeals | async | paginate: { id: 'server', itemsPerPage: 10, currentPage: p, totalItems: total }")
-//-     | {{ meal }}
 
 pagination-controls(#p, id='paging', (pageChange)='page = $event;getList(list_uri,$event)' style='cursor: pointer!important;')
   .custom-pagination

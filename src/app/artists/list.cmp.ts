@@ -47,10 +47,12 @@ export class MMList implements OnInit {
 
 
   errorMessage: string;
-  list_type: string = 'artists';
+  list_type: string = 'artist';
   list_type_singular: string= 'artist'
   list_uri: string = 'artists'
+  list_items_owner: any
   list: any;
+  current_artist: any;
   selected_item: any;
   page: number = 1;
   total_pages : number;
@@ -134,13 +136,22 @@ export class MMList implements OnInit {
     this.list_uri = _.split(resource.uri, '/page', 2)[0];
     this.list_type_singular = resource.type
     this.list_type = pluralize.plural(resource.type)
+
+
     this.getList(resource.uri);
 
   }
 
-  getList(resource_uri: string = 'artists', page: number = 1, page_size: number = 12) {
+  set_owner_for_list_items(){
+    this.list_items_owner = _.find(this.list[0].entities, function(e: any) { return e.hasOwnProperty('properties') });
+   console.log('OWNER', _.find(this.list[0].entities, function(e: any) { return e.hasOwnProperty('properties') }))
+  }
+
+  getList(resource_uri: string = 'artists', page: number = 1, page_size: number = 12, query_params : any = {}) {
     //this.list_type = list_type;
-     let params = { page: page, per: page_size }
+    //console.log('query_params', query_params);
+    let params = _.merge({ page: page, per: page_size }, query_params)
+    // /console.log('params', params);
      this._apiService.req('get', resource_uri, params)
      .map(response => <any>response.json())
     .subscribe(
@@ -152,16 +163,23 @@ export class MMList implements OnInit {
   onListSuccess(response: any) {
     this.list = response.entities;
     console.log('LIST SUCCESS', this.list);
+    console.log('LIST SUCCESS FIRST', this.list[0]);
     this.total_pages = response.total_pages;
     this.total_count = response.total_count;
     this.page_size = response.page_size;
+    this.set_owner_for_list_items();
+    this.list_type = response.entities[0].class[0]
   }
 
 
   show_details(item:any) {
     this.selected_item = item;
+    if (item.class[0] == 'artist') {
+      this.current_artist = item
+    }
     this._detailsService.show(item);
     console.log('selected in List', this.selected_item);
+    //console.log('current Artist proper', this.current_artist.properties.title);
   }
 
 

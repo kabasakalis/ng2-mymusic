@@ -14,7 +14,7 @@ export class ApiService {
   static DEFAULT_HEADERS = {
     'Content-Type' : 'application/json',
     'Accept': 'application/json',
-    'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0NTc4NTkyNzcsImF1ZCI6Ik15IE11c2ljIFVzZXJzIiwiaWQiOjEsImVtYWlsIjoia2FiYXNha2FsaXNAZ21haWwuY29tIn0.BPVZo01_HdeHZhXJaFImQnF5A0jUtvFMbX9dHhtg3H4'
+    'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0NTc5NDU3NDYsImF1ZCI6Ik15IE11c2ljIFVzZXJzIiwiaWQiOjEsImVtYWlsIjoia2FiYXNha2FsaXNAZ21haWwuY29tIn0.t4BSP-kagbZHfYLfM7e_b8owv0yGNFMIy1SstizaIFs'
   };
 
   req(_method: string, _url: string, _params?: Object, _body?: Object, _headers?: Object) {
