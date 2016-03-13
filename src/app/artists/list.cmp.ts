@@ -48,7 +48,8 @@ export class MMList implements OnInit {
 
   errorMessage: string;
   list_type: string = 'artists';
-  list_uri: string
+  list_type_singular: string= 'artist'
+  list_uri: string = 'artists'
   list: any;
   selected_item: any;
   page: number = 1;
@@ -62,7 +63,13 @@ export class MMList implements OnInit {
 
      //let list_type = this._routeParams
     // console.log('type', list_type)
-
+    this.selected_item = {
+      class: ['artists'],
+      properties: {
+        //id: 1,
+        title: ''
+      }
+    };
 
     this.getList('artists',1);
     this._detailsService.update$.subscribe(object => this.onItemUpdate(object));
@@ -97,18 +104,6 @@ export class MMList implements OnInit {
 
   }
 
-  // onSuccessfulArtistDelete(object: any) {
-
-  //   if (object.class[0] == 'artist') {
-
-  //    let artist_to_delete:any= _.find(this.list, function(a:any) { return a.properties.id == object.properties.id });
-  //    _.remove(this.list, function(a:Artist) {
-  //      a.properties.id == artist_to_delete.properties.id;
-  //    });
-  //   }
-  //   console.log('onArtistDelete', object);
-  // }
-
 
   onItemDelete(object: any) {
       let resource_uri = pluralize.plural(object.class[0]);
@@ -135,8 +130,10 @@ export class MMList implements OnInit {
 
   onList(resource: any) {
     console.log('ONLIST', resource);
-    this.list_uri = resource.uri
-    this.list_type = resource.type
+
+    this.list_uri = _.split(resource.uri, '/page', 2)[0];
+    this.list_type_singular = resource.type
+    this.list_type = pluralize.plural(resource.type)
     this.getList(resource.uri);
 
   }
@@ -161,10 +158,10 @@ export class MMList implements OnInit {
   }
 
 
-  show_details(artist:Artist) {
-    this.selected_item = artist;
-    this._detailsService.show(artist);
-    console.log('selected in ArtistIndex', this.selected_item);
+  show_details(item:any) {
+    this.selected_item = item;
+    this._detailsService.show(item);
+    console.log('selected in List', this.selected_item);
   }
 
 
