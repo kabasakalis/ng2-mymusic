@@ -4,9 +4,11 @@ import {MdPatternValidator, MdMinValueValidator, MdNumberRequiredValidator, MdMa
 import {FORM_DIRECTIVES, Validators, FormBuilder, Control, ControlGroup, ControlArray, FORM_BINDINGS, AbstractControl} from 'angular2/common';
 import {DetailsService}   from '../services/details.service';
 import {Artist}              from './artist';
+import {SpinnerComponent} from '../utils/spinner.cmp';
 import {ApiService}       from '../services/api.service';
 import * as _ from 'lodash';
 import * as pluralize from 'pluralize'
+
 
 
 const validate = c => {
@@ -27,7 +29,7 @@ enum FormAction {
   selector: 'artist-form',
   template: require('!jade!./artist_form.jade')(),
   styles: [require('./artist_form.scss')],
-  directives: [MATERIAL_DIRECTIVES, FORM_DIRECTIVES],
+  directives: [MATERIAL_DIRECTIVES, FORM_DIRECTIVES, SpinnerComponent],
   viewBindings: [FORM_BINDINGS],
   providers: [ApiService]
 })
@@ -42,6 +44,7 @@ export class ArtistForm implements OnInit {
   genres: any[];
   show: Boolean = false;
   artistForm: ControlGroup;
+  public spinner_active: boolean = false;
 
   form_action: number = FormAction.Create;
   new_artist: any = {
@@ -202,6 +205,7 @@ export class ArtistForm implements OnInit {
         action='put'
       }
       //var uri = `artists/${this.artist.properties.id}`;
+      this.spinner_active = true;
       this._apiService.req(action, uri, {}, artist_payload)
          .map(response => <any>response.json())
         .subscribe(
@@ -213,7 +217,7 @@ export class ArtistForm implements OnInit {
     updateSuccess(response: any) {
       //this.artists = response.entities;
 
-
+      this.spinner_active = false;
       if (this.form_action == FormAction.Create){
         this._detailsService.create_success(response)
 

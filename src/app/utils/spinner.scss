@@ -1,0 +1,79 @@
+//http://tobiasahlin.com/spinkit/
+//colors
+$color_mine_shaft_approx: #917CE0;
+
+.sk-cube-grid {
+  width: 543px;
+  height: 32px;
+  margin: 10px auto;
+  .sk-cube {
+    width: 33%;
+    height: 33%;
+    background-color: $color_mine_shaft_approx;
+    float: left;
+    animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
+  }
+  .sk-cube1 {
+    animation-delay: 0.2s;
+  }
+  .sk-cube2 {
+    animation-delay: 0.3s;
+  }
+  .sk-cube3 {
+    animation-delay: 0.4s;
+  }
+  .sk-cube4 {
+    animation-delay: 0.1s;
+  }
+  .sk-cube5 {
+    animation-delay: 0.2s;
+  }
+  .sk-cube6 {
+    animation-delay: 0.3s;
+  }
+  .sk-cube7 {
+    animation-delay: 0s;
+  }
+  .sk-cube8 {
+    animation-delay: 0.1s;
+  }
+  .sk-cube9 {
+    animation-delay: 0.2s;
+  }
+}
+@-webkit-keyframes sk-cubeGridScaleDelay {
+  0% {
+    //Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)
+    transform: scale3D(1, 1, 1);
+  }
+  70% {
+    //Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)
+    transform: scale3D(1, 1, 1);
+  }
+  100% {
+    //Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)
+    transform: scale3D(1, 1, 1);
+  }
+  35% {
+    //Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)
+    transform: scale3D(0, 0, 1);
+  }
+}
+@keyframes sk-cubeGridScaleDelay {
+  0% {
+    //Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)
+    transform: scale3D(1, 1, 1);
+  }
+  70% {
+    //Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)
+    transform: scale3D(1, 1, 1);
+  }
+  100% {
+    //Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)
+    transform: scale3D(1, 1, 1);
+  }
+  35% {
+    //Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)
+    transform: scale3D(0, 0, 1);
+  }
+}

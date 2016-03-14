@@ -1,11 +1,11 @@
-a( (click)="getList('artists')")
-  button.md-raised.md-primary(md-raised-button='') Artists
-a( (click)="getList('genres')")
-  button.md-raised.md-primary(md-raised-button='') Genres
-a( (click)="getList('users')")
-  button.md-raised.md-primary(md-raised-button='') Users
-a( (click)="getList('playlists')")
-  button.md-raised.md-primary(md-raised-button='') Playlists
+button.md-raised.md-primary((click)="getList('artists')") Artists
+button.md-raised.md-primary( (click)="getList('genres')") Genres
+button.md-raised.md-primary( (click)="getList('users')") Users
+button.md-raised.md-primary( (click)="getList('playlists')") Playlists
+//button.md-raised.md-primary( (click)="spinner_active = true") Spinner On
+//button.md-raised.md-primary( (click)="spinner_active = false") Spinner Off
+div.spinner-wrapper
+  my-spinner.mm-spinner([isRunning]="spinner_active")
 md-content
   h3(*ngIf="current_artist && list_type!='artist' && list_type!='genre'") {{current_artist?.properties.title}}
   div([ngSwitch]= "list_type" )

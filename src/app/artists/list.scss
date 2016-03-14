@@ -11,6 +11,17 @@ $white: #fff;
 //colors
 $white: white;
 
+
+//spinner
+.spinner-wrapper {
+  height: 17px;
+  position: relative;
+  margin: 5px;
+}
+
+.mm-spinner {
+position:absolute;
+}
 .wf-container {
   display: block;
   background-color: $white;

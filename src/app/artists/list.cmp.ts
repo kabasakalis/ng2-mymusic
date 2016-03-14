@@ -5,6 +5,7 @@ import {Artist}              from './artist';
 import {ApiService}       from '../services/api.service';
 import {DetailsService}       from '../services/details.service';
 import {Inject} from 'angular2/core';
+import {SpinnerComponent} from '../utils/spinner.cmp';
 // import {
 //   // Location,
 //   // Router,
@@ -28,9 +29,11 @@ import * as pluralize from 'pluralize'
   template: require('!jade!./list.jade')(),
   styles: [require('./list.scss')],
   pipes: [PaginatePipe],
-  directives: [PAGINATION_DIRECTIVES, ROUTER_DIRECTIVES],
-  providers: [PaginationService, ApiService, ...ROUTER_PROVIDERS]
+  directives: [PAGINATION_DIRECTIVES, ROUTER_DIRECTIVES, MATERIAL_DIRECTIVES, SpinnerComponent],
+  providers: [PaginationService, ApiService, ...ROUTER_PROVIDERS, MATERIAL_PROVIDERS]
  })
+
+
 
 export class MMList implements OnInit {
   constructor (
@@ -59,6 +62,7 @@ export class MMList implements OnInit {
   total_pages : number;
   total_count: number;
   page_size: number;
+  public spinner_active: boolean = true;
 
 
 
@@ -69,7 +73,7 @@ export class MMList implements OnInit {
      //let list_type = this._routeParams
     // console.log('type', list_type)
 
-
+    this.spinner_active = true;
     this.getList('artists',1);
     this._detailsService.update$.subscribe(object => this.onItemUpdate(object));
     this._detailsService.delete$.subscribe(object => this.onItemDelete(object));
@@ -145,14 +149,22 @@ export class MMList implements OnInit {
      if (this.selected_item) {  //Temporary Workaround for double trigger TODO Fix,Removal from list should move in first callback
       this.delete_from_list(this.find_in_list_by_id(this.selected_item.properties.id));
       //console.log('DELETION TRIGGERED')
+      this.spinner_active =true
       this._apiService.req('delete', resource_uri + '/' + object.properties.id)
         .map(res => <any>res.json())
         .subscribe(
         res => {
           console.log('delete_from_list should move here');
         },
-        err => this.onDeleteError(err),
-        () => this.onDeleteCompleted()
+        err => {
+
+          this.onDeleteError(err)
+          this.stopSpinner()
+        },
+        () => {
+          this.onDeleteCompleted()
+          this.stopSpinner()
+        }
         );
      }
   }
@@ -220,15 +232,24 @@ export class MMList implements OnInit {
     //console.log('query_params', query_params);
     let params = _.merge({ page: page, per: page_size }, query_params)
     // /console.log('params', params);
+
+     this.spinner_active = true
      this._apiService.req('get', resource_uri, params)
      .map(response => <any>response.json())
     .subscribe(
-      response => this.onListSuccess(response),
-      error =>  this.errorMessage = <any>error
+      response => {
+        this.onListSuccess(response)
+        this.stopSpinner()
+      },
+      error =>  {
+        this.errorMessage = <any>error
+        this.stopSpinner();
+      }
     );
   }
 
   onListSuccess(response: any) {
+    this.stopSpinner()
     this.list = response.entities;
     console.log('LIST SUCCESS', this.list);
     console.log('LIST SUCCESS FIRST', this.list[0]);
@@ -253,6 +274,10 @@ export class MMList implements OnInit {
 
 
 
+
+     private stopSpinner() {
+        this.spinner_active = false;
+      }
 
 
 }

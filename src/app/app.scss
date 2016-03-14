@@ -4,7 +4,17 @@ $md-font-url: "assets/fonts/";
 @import "node_modules/ng2-material/dist/font.scss";
 @import "node_modules/ng2-material/source/all";
 
+//spinner
 
+.spinner-wrapper {
+  height: 17px;
+  position: relative;
+  margin: 5px;
+}
+
+.mm-spinner {
+position:absolute;
+}
 
 //app
 //colors
@@ -267,3 +277,5 @@ i.material-icons {
 
   width:100%;
 }
+
+

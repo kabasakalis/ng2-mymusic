@@ -34,3 +34,6 @@
               {{artist.properties | json}}
             pre.md-padding.
               {{artistForm.errors | json}}
+  div.spinner-wrapper
+    my-spinner.mm-spinner([isRunning]="spinner_active")
+
