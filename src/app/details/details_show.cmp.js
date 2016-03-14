@@ -13,18 +13,21 @@ var core_1 = require('angular2/core');
 var api_service_1 = require('../services/api.service');
 var details_service_1 = require('../services/details.service');
 var keys_values_pipe_1 = require('../utils/keys_values.pipe');
-var pluralize = require('pluralize');
+var _ = require('lodash');
 var DetailsShow = (function () {
     function DetailsShow(_apiService, _detailsService) {
         this._apiService = _apiService;
         this._detailsService = _detailsService;
         this.selected_object_class = '';
+        this.related_classes = [];
+        this._selected_object_relations = {};
     }
     //paging_config: IPaginationInstance;
     DetailsShow.prototype.ngOnInit = function () {
         var _this = this;
         this._detailsService.show_details$.subscribe(function (object) { return _this.onObjectShow(object); });
         console.log('DetailsShow started');
+        this._detailsService.update$.subscribe(function (object) { return _this.onObjectShow(object); });
         this.selected_object = {
             class: ['artist'],
             properties: {
@@ -38,26 +41,31 @@ var DetailsShow = (function () {
     DetailsShow.prototype.onObjectShow = function (object) {
         this.selected_object = object;
         this.selected_object_class = this.selected_object.class[0];
-        console.log('object in DetailsShowCmp', object);
+        this.selected_object_relations = object;
+        console.log('object show in DetailsShowCmp', object);
     };
-    DetailsShow.prototype.delete = function (object) {
-        var _this = this;
-        var resource_uri = pluralize.plural(object.class[0]);
-        this._apiService.req('delete', resource_uri + '/' + object.properties.id)
-            .map(function (res) { return res.text(); })
-            .subscribe(function (res) { return _this.onDeleteSuccess(res); }, function (err) { return _this.onDeleteError(err); }, function () { return _this.onDeleteCompleted(); });
+    Object.defineProperty(DetailsShow.prototype, "selected_object_relations", {
+        set: function (object) {
+            this.related_classes = _.uniq(_.map(this.selected_object.entities, function (e) { return e.class[0]; }));
+            var class_to_related = {};
+            _(this.related_classes).forEach(function (cl) {
+                class_to_related[cl] = _.filter(object.entities, function (e) { return e.class[0] == cl; });
+            });
+            this._selected_object_relations = class_to_related;
+            console.log('_selected_object_relations', this._selected_object_relations);
+            //console.log('this._selected_object_relations[genre].properties.title', this._selected_object_relations['genre'][0].properies);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    DetailsShow.prototype.raiseDelete = function (object) {
+        this._detailsService.delete(object);
+    };
+    DetailsShow.prototype.raiseList = function (object) {
+        this._detailsService.list(object);
     };
     DetailsShow.prototype.edit = function (object) {
         this._detailsService.edit(object);
-    };
-    DetailsShow.prototype.onDeleteSuccess = function (res) {
-        console.log('ARTIST DELETED successfully!!', res);
-    };
-    DetailsShow.prototype.onDeleteError = function (err) {
-        console.log('There was an error');
-    };
-    DetailsShow.prototype.onDeleteCompleted = function () {
-        console.log('Delete Completed');
     };
     DetailsShow = __decorate([
         core_1.Component({

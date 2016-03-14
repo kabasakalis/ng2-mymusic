@@ -18,6 +18,10 @@ const validate = c => {
   return null;
 }
 
+enum FormAction {
+    Create,
+    Update
+}
 
 @Component({
   selector: 'artist-form',
@@ -31,7 +35,7 @@ export class ArtistForm implements OnInit {
 
 
   genreControl: AbstractControl;
-  artist: Artist;
+  artist: any;
   artist_genre: any;
   artist_albums: any;
   artist_albums_url: string
@@ -39,9 +43,29 @@ export class ArtistForm implements OnInit {
   show: Boolean = false;
   artistForm: ControlGroup;
 
-  constructor(private fb: FormBuilder, private _detailsService: DetailsService, private _apiService: ApiService) {
+  form_action: number = FormAction.Create;
+  new_artist: any = {
+    entities: [
+      { class: ['genre'] },
+      { class: ['albums'] }
+    ],
+    properties: {
 
+      genre_id: 1,
+      title: '',
+      country: ''
+    },
+    class: ['artist']
+  };
+
+
+
+  constructor(private fb: FormBuilder, private _detailsService: DetailsService, private _apiService: ApiService) {
+    // console.log('FormAction',FormAction)
+    // console.log('FormAction',FormAction.Create)
+    // console.log('FormAction',FormAction.Update)
     this._detailsService.edit$.subscribe(object => this.onEdit(object));
+    this._detailsService.create$.subscribe(object => this.onCreate(object));
 
 
     this.artistForm = fb.group({
@@ -67,20 +91,7 @@ export class ArtistForm implements OnInit {
   ngOnInit() {
     //this.titleCtrl = this.artistForm.controls['artist'].controls['title'];
 
-    this.artist = {
-      entities: [
-        { class: ['genre'] },
-        { class: ['albums'] }
-      ],
-      properties: {
-
-        id: 1092,
-        genre_id: 3,
-        title: 'KOKO',
-        country: '4r4r4'
-      },
-      class: ['artist']
-    };
+    this.artist = this.new_artist;
 
     this.getGenres(1, 12);
 
@@ -95,9 +106,10 @@ export class ArtistForm implements OnInit {
   onEdit(object: any) {
     // this.artist = null;
     // this.artist = <Artist>object;
+    this.form_action= FormAction.Update
     this.show = true;
-    this.artist = <Artist>object;
-    let artist_albums_data = _.find(this.artist.entities, function(o) { return o.class[0] == 'albums'; })
+    this.artist = object as any;
+    let artist_albums_data = _.find(this.artist.entities, function(o) { return (o as any).class[0] == 'albums'; }) as any;
 
     this.artist_albums_url = (artist_albums_data != null) ? artist_albums_data.href : '';
     // console.log('artist_albums_data', artist_albums_data);
@@ -108,6 +120,39 @@ export class ArtistForm implements OnInit {
     } else {
       this.artist_albums = []
     }
+  }
+
+  onCreate(object: any) {
+    // this.artist = null;
+    // this.artist = <Artist>object;
+    this.form_action = FormAction.Create
+
+    this.show = true;
+    this.artist = {
+      entities: [
+        { class: ['genre'] },
+        { class: ['albums'] }
+      ],
+      properties: {
+
+        genre_id: 1,
+        title: '',
+        country: ''
+      },
+      class: ['artist']
+    };
+    //this.artist = <Artist>object;
+    //let artist_albums_data = _.find(this.artist.entities, function(o) { return o.class[0] == 'albums'; })
+
+    //this.artist_albums_url = (artist_albums_data != null) ? artist_albums_data.href : '';
+    // console.log('artist_albums_data', artist_albums_data);
+    // console.log('artist_albums_data == null', artist_albums_data == null);
+
+    // if (this.artist_albums_url != '') {
+    //   this.getAlbums(1, 12);
+    // } else {
+    //   this.artist_albums = []
+    // }
   }
 
 
@@ -134,7 +179,9 @@ export class ArtistForm implements OnInit {
 
     }
 
-    update(artist: Artist) {
+
+
+    handleForm(artist: any) {
 
       console.log('artist in UYPDATE', artist)
       console.log('this.artistForm.value', this.artistForm.value)
@@ -143,9 +190,19 @@ export class ArtistForm implements OnInit {
          }
       console.log('artist_paylod in artist_form   ', artist_payload);
 
+      var uri:string;
+      var action: string;
+      if (this.form_action== FormAction.Create) {
+        uri='artists'
+        action='post'
 
-      var uri = `artists/${this.artist.properties.id}`;
-      this._apiService.req('put', uri, {}, artist_payload)
+      } else
+      {
+        uri = `artists/${this.artist.properties.id}`
+        action='put'
+      }
+      //var uri = `artists/${this.artist.properties.id}`;
+      this._apiService.req(action, uri, {}, artist_payload)
          .map(response => <any>response.json())
         .subscribe(
           response => this.updateSuccess(response),
@@ -155,9 +212,19 @@ export class ArtistForm implements OnInit {
 
     updateSuccess(response: any) {
       //this.artists = response.entities;
-      console.log('SUCCESSFUL UPDATE', response);
-      this._detailsService.update(response)
+
+
+      if (this.form_action == FormAction.Create){
+        this._detailsService.create_success(response)
+
+        console.log('CREAT HANDLED');
+      }else{
+        this._detailsService.update(response)
+        console.log('UPDATE HANDLED');
+
+      }
       this.show = false;
+      console.log('this.show', this.show)
       //this.total_pages = response.total_pages;
       //this.total_count = response.total_count;
       //this.page_size = response.page_size;

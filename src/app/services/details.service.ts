@@ -11,6 +11,8 @@ export class DetailsService {
   public update$: EventEmitter<any>;
   public delete$: EventEmitter<any>;
   public list$: EventEmitter<any>;
+  public create$: EventEmitter<any>;
+  public create_success$: EventEmitter<any>;
   private object: Object;
 
   constructor() {
@@ -19,6 +21,8 @@ export class DetailsService {
     this.update$ = new EventEmitter();
     this.delete$ = new EventEmitter();
     this.list$ = new EventEmitter();
+    this.create$ = new EventEmitter();
+    this.create_success$ = new EventEmitter();
    }
 
    public show(object: Object): void {
@@ -40,6 +44,16 @@ export class DetailsService {
      this.delete$.next(object);
      console.log('delete in DetailsService', object);
    }
+
+   public create(object: Object): void {
+     this.create$.next(object);
+     console.log('create in DetailsService', object);
+   }
+   public create_success(object: Object): void {
+     this.create_success$.next(object);
+     console.log('create_success in DetailsService', object);
+   }
+
 
    public list(object: Object): void {
      this.list$.next(object);

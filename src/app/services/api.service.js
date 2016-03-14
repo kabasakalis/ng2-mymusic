@@ -46,7 +46,7 @@ var ApiService = (function () {
     ApiService.DEFAULT_HEADERS = {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
-        'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0NTc2MDM5MDQsImF1ZCI6Ik15IE11c2ljIFVzZXJzIiwiaWQiOjEsImVtYWlsIjoia2FiYXNha2FsaXNAZ21haWwuY29tIn0.AmA5b0Lc3XmKq50eJzsvK32qWpP4c62pZdMNPYezNXs'
+        'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0NTgwMjU5NDAsImF1ZCI6Ik15IE11c2ljIFVzZXJzIiwiaWQiOjEsImVtYWlsIjoia2FiYXNha2FsaXNAZ21haWwuY29tIn0.bsbg3liJfMAF7aQXMiwCVHRA1kooGhOxsbcNHzIs9K0'
     };
     ApiService = __decorate([
         core_1.Injectable(), 

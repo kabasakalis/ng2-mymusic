@@ -15,6 +15,11 @@ var DetailsService = (function () {
     function DetailsService() {
         this.show_details$ = new core_1.EventEmitter();
         this.edit$ = new core_1.EventEmitter();
+        this.update$ = new core_1.EventEmitter();
+        this.delete$ = new core_1.EventEmitter();
+        this.list$ = new core_1.EventEmitter();
+        this.create$ = new core_1.EventEmitter();
+        this.create_success$ = new core_1.EventEmitter();
     }
     DetailsService.prototype.show = function (object) {
         this.show_details$.next(object);
@@ -27,6 +32,22 @@ var DetailsService = (function () {
     DetailsService.prototype.update = function (object) {
         this.update$.next(object);
         console.log('update in DetailsService', object);
+    };
+    DetailsService.prototype.delete = function (object) {
+        this.delete$.next(object);
+        console.log('delete in DetailsService', object);
+    };
+    DetailsService.prototype.create = function (object) {
+        this.create$.next(object);
+        console.log('create in DetailsService', object);
+    };
+    DetailsService.prototype.create_success = function (object) {
+        this.create_success$.next(object);
+        console.log('create_success in DetailsService', object);
+    };
+    DetailsService.prototype.list = function (object) {
+        this.list$.next(object);
+        console.log('list in DetailsService', object);
     };
     // public delete(object: any): void {
     //   //this.show_details$.next(object);

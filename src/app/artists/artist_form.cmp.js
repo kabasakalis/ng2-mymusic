@@ -23,110 +23,66 @@ var validate = function (c) {
     ;
     return null;
 };
+var FormAction;
+(function (FormAction) {
+    FormAction[FormAction["Create"] = 0] = "Create";
+    FormAction[FormAction["Update"] = 1] = "Update";
+})(FormAction || (FormAction = {}));
 var ArtistForm = (function () {
-    // albumTitleCtrl: Control = new Control('', Validators.compose([
-    //   Validators.maxLength(20)
-    // ]));
-    // albumYearCtrl: Control = new Control('1988', Validators.compose([
-    //   Validators.maxLength(20)
-    // ]));
-    // albumCtrlGroup: ControlGroup = new ControlGroup({
-    //   title: this.albumTitleCtrl,
-    //   year: this.albumYearCtrl
-    // });
-    // ctrlAlbums: ControlGroup[] = [
-    //   //new ControlGroup({
-    //      new ControlGroup({
-    //       title: this.albumTitleCtrl,
-    //       year: this.albumYearCtrl
-    //     })
-    //   //})
-    // ];
-    // ctrlAlbums: Control[] = [
-    //   //new ControlGroup({
-    //     this.albumTitleCtrl,
-    //      this.albumYearCtrl
-    //   //})
-    // ];
-    // //titleCtrl: Control;
-    // titleCtrl: Control = new Control('', Validators.compose([
-    //   Validators.required,
-    //   Validators.maxLength(20)
-    // ]));
-    // countryCtrl: Control = new Control('', Validators.compose([
-    //   Validators.required,
-    //   Validators.maxLength(20)
-    // ]));
-    // genre_idCtrl: Control = new Control('', Validators.compose([
-    //   Validators.required
-    // ]));
     function ArtistForm(fb, _detailsService, _apiService) {
         var _this = this;
         this.fb = fb;
         this._detailsService = _detailsService;
         this._apiService = _apiService;
         this.show = false;
-        this._detailsService.edit$.subscribe(function (object) { return _this.onEdit(object); });
-        this.artistForm = fb.group({
-            //'artist':fb.group({
-            title: ['', common_1.Validators.compose([
-                    common_1.Validators.required,
-                    common_1.Validators.maxLength(30)
-                ])],
-            country: ['', common_1.Validators.compose([
-                    common_1.Validators.required,
-                    common_1.Validators.maxLength(30)
-                ])],
-            genre_id: [undefined, validate]
-        });
-        //this.genreControl = this.artistForm.controls['genre_id'];
-        // this.artistForm= new ControlGroup({
-        //   //'artist': new ControlGroup({
-        //     'title': this.titleCtrl,
-        //     'country': this.countryCtrl,
-        //     //'genre_id': [undefined, validate],
-        //     'albums_attributes': new ControlArray(this.ctrlAlbums)
-        //   //})
-        // });
-        console.log('this.FB', this.fb);
-        console.log('artistForm.control');
-    }
-    ArtistForm.prototype.ngOnInit = function () {
-        var _this = this;
-        //this.titleCtrl = this.artistForm.controls['artist'].controls['title'];
-        this.artist = {
+        this.form_action = FormAction.Create;
+        this.new_artist = {
             entities: [
                 { class: ['genre'] },
                 { class: ['albums'] }
             ],
             properties: {
-                id: 1092,
-                genre_id: 3,
-                title: 'KOKO',
-                country: '4r4r4'
+                genre_id: 1,
+                title: '',
+                country: ''
             },
             class: ['artist']
         };
+        // console.log('FormAction',FormAction)
+        // console.log('FormAction',FormAction.Create)
+        // console.log('FormAction',FormAction.Update)
+        this._detailsService.edit$.subscribe(function (object) { return _this.onEdit(object); });
+        this._detailsService.create$.subscribe(function (object) { return _this.onCreate(object); });
+        this.artistForm = fb.group({
+            //'artist':fb.group({
+            title: [undefined, common_1.Validators.compose([
+                    common_1.Validators.required,
+                    common_1.Validators.maxLength(30)
+                ])],
+            country: [undefined, common_1.Validators.compose([
+                    common_1.Validators.required,
+                    common_1.Validators.maxLength(30)
+                ])],
+            genre_id: [undefined, validate]
+        });
+        console.log('this.FB', this.fb);
+        console.log('artistForm.control');
+    }
+    ArtistForm.prototype.ngOnInit = function () {
+        //this.titleCtrl = this.artistForm.controls['artist'].controls['title'];
+        var _this = this;
+        this.artist = this.new_artist;
         this.getGenres(1, 12);
         this._detailsService.show_details$.subscribe(function (object) { return _this.onObjectShow(object); });
         console.log('Artist Form started');
-        // this.selected_object = {
-        //   class: ['artist'],
-        //   properties: {
-        //     //id: 1,
-        //     title: 'Select an Item From the list on the left.'
-        //   }
-        // };
-        // this.selected_object_class = this.selected_object.class[0];
+    };
+    ArtistForm.prototype.ngAfterViewInit = function () {
     };
     ArtistForm.prototype.onEdit = function (object) {
-        this.artist = object;
+        // this.artist = null;
+        // this.artist = <Artist>object;
+        this.form_action = FormAction.Update;
         this.show = true;
-    };
-    // onGenreChange(value:string):void{
-    //    console.log('genre_changed',value);
-    //  }
-    ArtistForm.prototype.onObjectShow = function (object) {
         this.artist = object;
         var artist_albums_data = _.find(this.artist.entities, function (o) { return o.class[0] == 'albums'; });
         this.artist_albums_url = (artist_albums_data != null) ? artist_albums_data.href : '';
@@ -138,43 +94,92 @@ var ArtistForm = (function () {
         else {
             this.artist_albums = [];
         }
+    };
+    ArtistForm.prototype.onCreate = function (object) {
+        // this.artist = null;
+        // this.artist = <Artist>object;
+        this.form_action = FormAction.Create;
+        this.show = true;
+        this.artist = {
+            entities: [
+                { class: ['genre'] },
+                { class: ['albums'] }
+            ],
+            properties: {
+                genre_id: 1,
+                title: '',
+                country: ''
+            },
+            class: ['artist']
+        };
+        //this.artist = <Artist>object;
+        //let artist_albums_data = _.find(this.artist.entities, function(o) { return o.class[0] == 'albums'; })
+        //this.artist_albums_url = (artist_albums_data != null) ? artist_albums_data.href : '';
+        // console.log('artist_albums_data', artist_albums_data);
+        // console.log('artist_albums_data == null', artist_albums_data == null);
+        // if (this.artist_albums_url != '') {
+        //   this.getAlbums(1, 12);
+        // } else {
+        //   this.artist_albums = []
+        // }
+    };
+    ArtistForm.prototype.onObjectShow = function (object) {
+        // this.artist = <Artist>object;
+        // let artist_albums_data =_.find(this.artist.entities, function(o) { return o.class[0] == 'albums'; })
+        // this.artist_albums_url = (artist_albums_data != null) ? artist_albums_data.href : '';
+        // // console.log('artist_albums_data', artist_albums_data);
+        // // console.log('artist_albums_data == null', artist_albums_data == null);
+        // if (this.artist_albums_url != ''){
+        //   this.getAlbums(1, 12);
+        // } else{
+        //  this.artist_albums =[]
+        // }
         console.log('artist onObjectShow in form', this.artist);
         console.log('this.artistForm.value ON SELECT', this.artistForm.value);
         console.log('FORMBUILDER artistForm', this.artistForm);
     };
-    ArtistForm.prototype.update = function (artist) {
-        // this.selected_object = object
-        // this.selected_object_class = this.selected_object.class[0]
+    ArtistForm.prototype.handleForm = function (artist) {
         var _this = this;
         console.log('artist in UYPDATE', artist);
         console.log('this.artistForm.value', this.artistForm.value);
         var artist_payload = {
             artist: this.artistForm.value
         };
-        //artist_payload.artist.id=this.artist.properties.id;
-        //artist_payload.artist.albums_attributes = [{title: 'fgtestAlbum',year: 'dfdfff1921'}];
-        //artist_payload.artist.genre_attributes = {title: 'GNREEEE'};
         console.log('artist_paylod in artist_form   ', artist_payload);
-        var uri = "artists/" + this.artist.properties.id;
-        this._apiService.req('put', uri, {}, artist_payload)
+        var uri;
+        var action;
+        if (this.form_action == FormAction.Create) {
+            uri = 'artists';
+            action = 'post';
+        }
+        else {
+            uri = "artists/" + this.artist.properties.id;
+            action = 'put';
+        }
+        //var uri = `artists/${this.artist.properties.id}`;
+        this._apiService.req(action, uri, {}, artist_payload)
             .map(function (response) { return response.json(); })
             .subscribe(function (response) { return _this.updateSuccess(response); }, function (error) { return _this.updateError = error; });
     };
     ArtistForm.prototype.updateSuccess = function (response) {
         //this.artists = response.entities;
-        console.log('SUCCESSFUL UPDATE', response);
-        this._detailsService.update(response);
+        if (this.form_action == FormAction.Create) {
+            this._detailsService.create_success(response);
+            console.log('CREAT HANDLED');
+        }
+        else {
+            this._detailsService.update(response);
+            console.log('UPDATE HANDLED');
+        }
+        this.show = false;
+        console.log('this.show', this.show);
         //this.total_pages = response.total_pages;
         //this.total_count = response.total_count;
         //this.page_size = response.page_size;
     };
     ;
     ArtistForm.prototype.updateError = function (error) {
-        //this.artists = response.entities;
         console.log('ERROR UPDATE', error);
-        //this.total_pages = response.total_pages;
-        //this.total_count = response.total_count;
-        //this.page_size = response.page_size;
     };
     ;
     ArtistForm.prototype.getGenres = function (page, page_size) {

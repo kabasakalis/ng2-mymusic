@@ -21,8 +21,7 @@ var router_active_1 = require('./directives/router-active');
 var home_1 = require('./home/home');
 var details_show_cmp_1 = require('./details/details_show.cmp');
 var artist_form_cmp_1 = require('./artists/artist_form.cmp');
-//import {Artist}              from './artist';
-//import {ApiService}       from './services/api.service';
+var list_cmp_1 = require('./artists/list.cmp');
 /*
  * App Component
  * Top Level Component
@@ -33,6 +32,8 @@ var App = (function () {
         this.angularclassLogo = 'assets/img/angularclass-avatar.png';
         this.name = 'Angular 2 Webpack';
         this.url = 'https://twitter.com/AngularClass';
+        // let list_type = this._routeParams.get('type');
+        // console.log('type', list_type)
     }
     App.prototype.ngOnInit = function () {
         //this._router.navigate(['/Home']);
@@ -43,20 +44,16 @@ var App = (function () {
         core_1.Component({
             selector: 'app',
             providers: common_1.FORM_PROVIDERS.slice(),
-            directives: router_1.ROUTER_DIRECTIVES.concat([router_active_1.RouterActive, details_show_cmp_1.DetailsShow, artist_form_cmp_1.ArtistForm]),
+            directives: [router_1.ROUTER_DIRECTIVES, router_active_1.RouterActive, details_show_cmp_1.DetailsShow, artist_form_cmp_1.ArtistForm, list_cmp_1.MMList],
             pipes: [],
             styles: [require('./app.scss')],
             template: require('!jade!./app.jade')()
         }),
         router_1.RouteConfig([
             { path: '/', component: home_1.Home, name: 'Home' },
-            { path: '/artists', loader: function () { return require('./artists/artists')('Artists'); }, name: 'Artists' },
+            { path: '/list', component: list_cmp_1.MMList, name: 'MMList' },
             // Async load a component using Webpack's require with es6-promise-loader
             { path: '/about', loader: function () { return require('./about/about')('About'); }, name: 'About' },
-            //{ path: '/details/...', component: Details, name: 'Details' },
-            //new AuxRoute({ path: '/details', component: Details, name: 'Details' }),
-            //{ path: '/details-show', component: DetailsShow, name: 'DetailsShow' },
-            //new AuxRoute({ path: '/about', component: About, name: 'About' }),
             { path: '/**', redirectTo: ['Home'] }
         ]), 
         __metadata('design:paramtypes', [router_1.Router])

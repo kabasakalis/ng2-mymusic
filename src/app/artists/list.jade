@@ -4,11 +4,17 @@ a( (click)="getList('genres')")
   button.md-raised.md-primary(md-raised-button='') Genres
 a( (click)="getList('users')")
   button.md-raised.md-primary(md-raised-button='') Users
+a( (click)="getList('playlists')")
+  button.md-raised.md-primary(md-raised-button='') Playlists
 md-content
   h3(*ngIf="current_artist && list_type!='artist' && list_type!='genre'") {{current_artist?.properties.title}}
   div([ngSwitch]= "list_type" )
     template([ngSwitchWhen]="'artist'")
       h3 {{list_type}}s
+      a( (click)="raiseCreate()")
+        button.md-raised.md-primary(md-raised-button='') Create Artist
+      //a( (click)="delete_from_list(list[11])")
+        button.md-raised.md-primary(md-raised-button='') RemoveFromListLast
     template([ngSwitchWhen]="'album'")
       h3 {{list_type}}s
       button.md-raised.md-primary(md-raised-button, (click)="getList('artists',1)") Back to Artists
@@ -18,7 +24,6 @@ md-content
       button.md-raised.md-primary(md-raised-button, (click)="getList('albums',1,12,{artist: current_artist.properties.title })") Back to Albums
     template([ngSwitchWhen]="'playlist'")
       h3 {{list_type}}s
-      button.md-raised.md-primary(md-raised-button, (click)="getList('artists',1)") Back to Artists
     template([ngSwitchWhen]="'genre'")
       h3 {{list_type}}s
     template(ngSwitchDefault)

@@ -6,7 +6,7 @@
       md-content
         div(layout='column')
           md-content(layout-padding='')
-            form( [ngFormModel]='artistForm',(submit)="update($event)", #f="ngForm" )
+            form( [ngFormModel]='artistForm',(submit)="handleForm($event)", #f="ngForm" )
               md-input-container.md-block.md-input-mymusic
                 label(for='title') Title
                 input#title(md-input='', ngControl="title",[(value)]='artist.properties.title', #t="ngForm", [(ngModel)]='artist.properties.title'  )
@@ -26,7 +26,7 @@
                   option(*ngFor='#genre of genres', [value]='genre.properties.id' )
                     | {{genre.properties.title}}
               md-input-container.md-block
-                button(type='submit',[disabled] = "!artistForm.valid") Update
+                button(type='submit',[disabled] = "!artistForm.valid") {{form_action== 0 ? "Create" : "Update" }}
                 button.md-mini.md-primary(md-fab, aria-label='Update', (click)="show=false;" )
                   span Cancel
             strong Model
