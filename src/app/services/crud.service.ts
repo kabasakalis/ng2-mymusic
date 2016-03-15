@@ -1,11 +1,11 @@
 import {Injectable, EventEmitter}     from 'angular2/core';
 import {Http, Response} from 'angular2/http';
-import {Artist}           from '../artists/artist';
+//import {Artist}           from '../artists/artist';
 import {Observable}     from 'rxjs/Observable';
 //import { ARTISTS } from './mock-artists';
 
 @Injectable()
-export class DetailsService {
+export class CrudService {
   public show_details$: EventEmitter<any>;
   public edit$: EventEmitter<any>;
   public update$: EventEmitter<any>;
@@ -27,43 +27,43 @@ export class DetailsService {
 
    public show(object: Object): void {
      this.show_details$.next(object);
-     console.log('show in DetailsService', object);
+     console.log('show in CrudService', object);
    }
 
    public edit(object: Object): void {
      this.edit$.next(object);
-     console.log('edit in DetailsService', object);
+     console.log('edit in CrudService', object);
    }
 
    public update(object: Object): void {
      this.update$.next(object);
-     console.log('update in DetailsService', object);
+     console.log('update in CrudService', object);
    }
 
    public delete(object: Object): void {
      this.delete$.next(object);
-     console.log('delete in DetailsService', object);
+     console.log('delete in CrudService', object);
    }
 
    public create(object: Object): void {
      this.create$.next(object);
-     console.log('create in DetailsService', object);
+     console.log('create in CrudService', object);
    }
    public create_success(object: Object): void {
      this.create_success$.next(object);
-     console.log('create_success in DetailsService', object);
+     console.log('create_success in CrudService', object);
    }
 
 
    public list(object: Object): void {
      this.list$.next(object);
-     console.log('list in DetailsService', object);
+     console.log('list in CrudService', object);
    }
 
    // public delete(object: any): void {
    //   //this.show_details$.next(object);
-   //   console.log('object delete in DetailsService', object);
-   //   console.log('object class delete in DetailsService', object.class[0]);
+   //   console.log('object delete in CrudService', object);
+   //   console.log('object class delete in CrudService', object.class[0]);
    // }
 
 

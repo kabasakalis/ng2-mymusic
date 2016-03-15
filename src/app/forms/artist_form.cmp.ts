@@ -2,8 +2,8 @@ import {View, Component, OnInit, AfterViewInit,
   AfterViewChecked} from 'angular2/core';
 import {MdPatternValidator, MdMinValueValidator, MdNumberRequiredValidator, MdMaxValueValidator, MATERIAL_DIRECTIVES} from 'ng2-material/all';
 import {FORM_DIRECTIVES, Validators, FormBuilder, Control, ControlGroup, ControlArray, FORM_BINDINGS, AbstractControl} from 'angular2/common';
-import {DetailsService}   from '../services/details.service';
-import {Artist}              from './artist';
+import {CrudService}   from '../services/crud.service';
+//import {Artist}              from './artist';
 import {SpinnerComponent} from '../utils/spinner.cmp';
 import {ApiService}       from '../services/api.service';
 import * as _ from 'lodash';
@@ -63,12 +63,12 @@ export class ArtistForm implements OnInit {
 
 
 
-  constructor(private fb: FormBuilder, private _detailsService: DetailsService, private _apiService: ApiService) {
+  constructor(private fb: FormBuilder, private _crudService: CrudService, private _apiService: ApiService) {
     // console.log('FormAction',FormAction)
     // console.log('FormAction',FormAction.Create)
     // console.log('FormAction',FormAction.Update)
-    this._detailsService.edit$.subscribe(object => this.onEdit(object));
-    this._detailsService.create$.subscribe(object => this.onCreate(object));
+    this._crudService.edit$.subscribe(object => this.onEdit(object));
+    this._crudService.create$.subscribe(object => this.onCreate(object));
 
 
     this.artistForm = fb.group({
@@ -98,7 +98,7 @@ export class ArtistForm implements OnInit {
 
     this.getGenres(1, 12);
 
-    this._detailsService.show_details$.subscribe(object => this.onObjectShow(object));
+    this._crudService.show_details$.subscribe(object => this.onObjectShow(object));
     console.log('Artist Form started')
   }
 
@@ -224,11 +224,11 @@ export class ArtistForm implements OnInit {
 
       this.spinner_active = false;
       if (this.form_action == FormAction.Create){
-        this._detailsService.create_success(response)
+        this._crudService.create_success(response)
 
         console.log('CREAT HANDLED');
       }else{
-        this._detailsService.update(response)
+        this._crudService.update(response)
         console.log('UPDATE HANDLED');
 
       }

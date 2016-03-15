@@ -1,11 +1,11 @@
 import {View, Component, OnInit, Output, EventEmitter, NgZone } from 'angular2/core';
 import {MATERIAL_DIRECTIVES, MATERIAL_PROVIDERS} from "ng2-material/all";
 import {Observable}     from 'rxjs/Observable';
-import {Artist}              from './artist';
-import {ApiService}       from '../services/api.service';
-import {DetailsService}       from '../services/details.service';
+//import {Artist}              from './artist';
+import {ApiService}       from './services/api.service';
+import {CrudService}       from './services/crud.service';
 import {Inject} from 'angular2/core';
-import {SpinnerComponent} from '../utils/spinner.cmp';
+import {SpinnerComponent} from './utils/spinner.cmp';
 // import {
 //   // Location,
 //   // Router,
@@ -41,7 +41,7 @@ export class MMList implements OnInit {
                 //_routeParams : RouteParams,
                zone: NgZone,
                private _apiService: ApiService,
-               private _detailsService: DetailsService
+               private _crudService: CrudService
                )
   {
     this.zone = zone;
@@ -75,16 +75,16 @@ export class MMList implements OnInit {
 
     this.spinner_active = true;
     this.getList('artists',1);
-    this._detailsService.update$.subscribe(object => this.onItemUpdate(object));
-    this._detailsService.delete$.subscribe(object => this.onItemDelete(object));
-    this._detailsService.create_success$.subscribe(object => this.onCreateSuccess(object));
+    this._crudService.update$.subscribe(object => this.onItemUpdate(object));
+    this._crudService.delete$.subscribe(object => this.onItemDelete(object));
+    this._crudService.create_success$.subscribe(object => this.onCreateSuccess(object));
 
-    this._detailsService.list$.subscribe(object => this.onList(object));
+    this._crudService.list$.subscribe(object => this.onList(object));
 
   }
 
     raiseCreate(object: any) {
-      this._detailsService.create(object);
+      this._crudService.create(object);
       console.log('CREA')
       }
 
@@ -266,7 +266,7 @@ export class MMList implements OnInit {
     if (item.class[0] == 'artist') {
       this.current_artist = item
     }
-    this._detailsService.show(item);
+    this._crudService.show(item);
     console.log('selected in List', this.selected_item);
     console.log('THIS ON SHOW_DETAILSList', this);
     //console.log('current Artist proper', this.current_artist.properties.title);

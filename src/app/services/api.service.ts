@@ -1,7 +1,7 @@
 import {Injectable}     from 'angular2/core';
 import {Http, Response} from 'angular2/http';
 import {Request, RequestOptions, RequestOptionsArgs, Headers, URLSearchParams, RequestMethod} from 'angular2/http';
-import {Artist}           from '../artists/artist';
+//import {Artist}           from '../artists/artist';
 import {Observable}     from 'rxjs/Observable';
 //import { ARTISTS } from './mock-artists';
 import * as _ from 'lodash';

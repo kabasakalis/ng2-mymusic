@@ -14,13 +14,12 @@ import {FORM_PROVIDERS} from 'angular2/common';
 import {MATERIAL_DIRECTIVES, MATERIAL_PROVIDERS} from "ng2-material/all";
 
 import {RouterActive} from './directives/router-active';
-import {Home} from './home/home';
-import {About} from './about/about.async';
-import {DetailsShow} from './details/details_show.cmp';
-import {ArtistForm} from './artists/artist_form.cmp';
-import {GenreForm} from './artists/genre_form.cmp';
-import {Artist}              from './artists/artist';
-import {MMList}              from './artists/list.cmp';
+import {About} from './about.async';
+import {DetailsShow} from './details_show.cmp';
+import {ArtistForm} from './forms/artist_form.cmp';
+import {GenreForm} from './forms/genre_form.cmp';
+//import {Artist}              from './artists/artist';
+import {MMList}    from './list.cmp';
 
 
 
@@ -32,24 +31,27 @@ import {MMList}              from './artists/list.cmp';
 @Component({
   selector: 'app',
   providers: [...FORM_PROVIDERS, MATERIAL_PROVIDERS],
-  directives: [ROUTER_DIRECTIVES, RouterActive, DetailsShow, ArtistForm,GenreForm, MMList],
+  directives: [
+  ROUTER_DIRECTIVES,
+   RouterActive,
+   DetailsShow,
+   ArtistForm,
+   GenreForm,MMList
+   ],
   pipes: [],
   styles: [require('./app.scss')],
   template: require('!jade!./app.jade')()
 })
 @RouteConfig([
-  { path: '/', component: Home, name: 'Home' },
-  { path: '/list', component: MMList, name: 'MMList' },
+  { path: '/', component: MMList, name: 'MMList' },
   // Async load a component using Webpack's require with es6-promise-loader
-  { path: '/about', loader: () => require('./about/about')('About'), name: 'About' },
-  { path: '/**', redirectTo: ['Home'] }
+  { path: '/about', loader: () => require('./about')('About'), name: 'About' },
+  { path: '/**', redirectTo: ['MMList'] }
 ])
 export class App implements OnInit {
   angularclassLogo = 'assets/img/angularclass-avatar.png';
   name = 'Angular 2 Webpack';
   url = 'https://twitter.com/AngularClass';
-
-
 
   constructor(private _router: Router) {
     // let list_type = this._routeParams.get('type');
@@ -59,15 +61,9 @@ export class App implements OnInit {
 
   ngOnInit() {
     //this._router.navigate(['/Home']);
-    //this._router.navigate(['/About', ['Details']]);
 
-
-    // this._router.parent.navigate(['/About']);
   }
 
-  // show(artist: Artist) {
-  //   console.log('ARTIST IN APP', artist)
-  // }
 }
 
 /*

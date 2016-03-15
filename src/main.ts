@@ -13,7 +13,7 @@ import {HTTP_PROVIDERS} from 'angular2/http';
 
 
 
-import {DetailsService}   from './app/services/details.service';
+import {CrudService}   from './app/services/crud.service';
 
 const ENV_PROVIDERS = [];
 
@@ -36,7 +36,7 @@ import {App} from './app/app';
 document.addEventListener('DOMContentLoaded', function main() {
   bootstrap(App, [
     ROUTER_PROVIDERS,
-    DetailsService,
+    CrudService,
     ...ENV_PROVIDERS,
     ...HTTP_PROVIDERS,
     //RouteParams,

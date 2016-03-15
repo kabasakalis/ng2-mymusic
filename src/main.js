@@ -6,7 +6,7 @@ var core_1 = require('angular2/core');
 var browser_1 = require('angular2/platform/browser');
 var router_1 = require('angular2/router');
 var http_1 = require('angular2/http');
-var details_service_1 = require('./app/services/details.service');
+var details_service_1 = require('./app/services/crud.service');
 var ENV_PROVIDERS = [];
 if ('production' === process.env.ENV) {
     core_1.enableProdMode();
@@ -26,7 +26,7 @@ var app_1 = require('./app/app');
 //document.addEventListener('DOMContentLoaded', function main() {
 browser_1.bootstrap(app_1.App, [
     router_1.ROUTER_PROVIDERS,
-    details_service_1.DetailsService
+    details_service_1.CrudService
 ].concat(ENV_PROVIDERS, http_1.HTTP_PROVIDERS, [
     //RouteParams,
     core_1.provide(router_1.LocationStrategy, { useClass: router_1.PathLocationStrategy })
