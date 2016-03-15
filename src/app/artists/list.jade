@@ -11,7 +11,7 @@ md-content
   div([ngSwitch]= "list_type" )
     template([ngSwitchWhen]="'artist'")
       h3 {{list_type}}s
-      a( (click)="raiseCreate()")
+      a( (click)="raiseCreate(list_type)")
         button.md-raised.md-primary(md-raised-button='') Create Artist
       //a( (click)="delete_from_list(list[11])")
         button.md-raised.md-primary(md-raised-button='') RemoveFromListLast
@@ -26,6 +26,8 @@ md-content
       h3 {{list_type}}s
     template([ngSwitchWhen]="'genre'")
       h3 {{list_type}}s
+      a( (click)="raiseCreate(list_type)")
+        button.md-raised.md-primary(md-raised-button='') Create Genre
     template(ngSwitchDefault)
       //h2 {{list_type}}
 

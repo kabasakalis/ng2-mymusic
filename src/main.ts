@@ -33,7 +33,7 @@ import {App} from './app/app';
  * Bootstrap our Angular app with a top level component `App` and inject
  * our Services and Providers into Angular's dependency injection
  */
-//document.addEventListener('DOMContentLoaded', function main() {
+document.addEventListener('DOMContentLoaded', function main() {
   bootstrap(App, [
     ROUTER_PROVIDERS,
     DetailsService,
@@ -42,9 +42,9 @@ import {App} from './app/app';
     //RouteParams,
     provide(LocationStrategy, { useClass: PathLocationStrategy })
   ])
-//   .catch(err => console.error(err));
+   .catch(err => console.error(err));
 
-// });
+ });
 
 // For vendors for example jQuery, Lodash, angular2-jwt just import them anywhere in your app
 // Also see custom_typings.d.ts as you also need to do `typings install x` where `x` is your module

@@ -18,8 +18,11 @@ import {Home} from './home/home';
 import {About} from './about/about.async';
 import {DetailsShow} from './details/details_show.cmp';
 import {ArtistForm} from './artists/artist_form.cmp';
+import {GenreForm} from './artists/genre_form.cmp';
 import {Artist}              from './artists/artist';
 import {MMList}              from './artists/list.cmp';
+
+
 
 
 /*
@@ -29,7 +32,7 @@ import {MMList}              from './artists/list.cmp';
 @Component({
   selector: 'app',
   providers: [...FORM_PROVIDERS, MATERIAL_PROVIDERS],
-  directives: [ROUTER_DIRECTIVES, RouterActive, DetailsShow, ArtistForm, MMList],
+  directives: [ROUTER_DIRECTIVES, RouterActive, DetailsShow, ArtistForm,GenreForm, MMList],
   pipes: [],
   styles: [require('./app.scss')],
   template: require('!jade!./app.jade')()
@@ -45,10 +48,14 @@ export class App implements OnInit {
   angularclassLogo = 'assets/img/angularclass-avatar.png';
   name = 'Angular 2 Webpack';
   url = 'https://twitter.com/AngularClass';
+
+
+
   constructor(private _router: Router) {
     // let list_type = this._routeParams.get('type');
     // console.log('type', list_type)
   }
+
 
   ngOnInit() {
     //this._router.navigate(['/Home']);

@@ -1,5 +1,5 @@
 'use strict';
-
+//https://github.com/hswolff/hn-ng2
 import {Component, Input, OnDestroy} from 'angular2/core';
 
 @Component({

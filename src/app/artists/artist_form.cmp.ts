@@ -107,27 +107,31 @@ export class ArtistForm implements OnInit {
 
   }
   onEdit(object: any) {
-    // this.artist = null;
-    // this.artist = <Artist>object;
-    this.form_action= FormAction.Update
-    this.show = true;
-    this.artist = object as any;
-    let artist_albums_data = _.find(this.artist.entities, function(o) { return (o as any).class[0] == 'albums'; }) as any;
 
-    this.artist_albums_url = (artist_albums_data != null) ? artist_albums_data.href : '';
-    // console.log('artist_albums_data', artist_albums_data);
-    // console.log('artist_albums_data == null', artist_albums_data == null);
+    if (object.class[0] == 'artist') {
+      this.form_action = FormAction.Update
+      this.show = true;
+      this.artist = object as any;
+      let artist_albums_data = _.find(this.artist.entities, function(o) { return (o as any).class[0] == 'albums'; }) as any;
 
-    if (this.artist_albums_url != '') {
-      this.getAlbums(1, 12);
-    } else {
-      this.artist_albums = []
+      this.artist_albums_url = (artist_albums_data != null) ? artist_albums_data.href : '';
+      // console.log('artist_albums_data', artist_albums_data);
+      // console.log('artist_albums_data == null', artist_albums_data == null);
+
+      if (this.artist_albums_url != '') {
+        this.getAlbums(1, 12);
+      } else {
+        this.artist_albums = []
+      }
+
     }
   }
 
   onCreate(object: any) {
     // this.artist = null;
     // this.artist = <Artist>object;
+    console.log('object in ARTIST FORM', object);
+    if (object == 'artist') {
     this.form_action = FormAction.Create
 
     this.show = true;
@@ -156,6 +160,7 @@ export class ArtistForm implements OnInit {
     // } else {
     //   this.artist_albums = []
     // }
+  }
   }
 
 
