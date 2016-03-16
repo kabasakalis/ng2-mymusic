@@ -23,6 +23,7 @@ import {GenreForm} from './forms/genre_form.cmp';
 import {AlbumForm} from './forms/album_form.cmp';
 import {TrackForm} from './forms/track_form.cmp';
 import {UserForm} from './forms/user_form.cmp';
+import {LoginForm} from './forms/login_form.cmp';
 
 //import {Artist}              from './artists/artist';
 import {MMList}    from './list.cmp';
@@ -58,7 +59,7 @@ import {SpinnerComponent} from './utils/spinner.cmp';
   { path: '/', component: MMList, name: 'MMList' },
   // Async load a component using Webpack's require with es6-promise-loader
   { path: '/about', loader: () => require('./about')('About'), name: 'About' },
-  { path: '/login', loader: () => require('./login')('Login'), name: 'Login' },
+  { path: '/login', component: LoginForm, name: 'LoginForm' },
   { path: '/**', redirectTo: ['MMList'] }
 ])
 export class App implements OnInit {
@@ -66,6 +67,8 @@ export class App implements OnInit {
   name = 'Angular 2 Webpack';
   url = 'https://twitter.com/AngularClass';
   jwtHelper: JwtHelper = new JwtHelper();
+
+  user_email: string = '';
 
   public spinner_active: boolean = true;
   constructor(private _router: Router,
@@ -77,35 +80,12 @@ export class App implements OnInit {
 
 
   ngOnInit() {
-      //this._router.navigate(['/MMList']);
 
-       //var token = localStorage.getItem('id_token');
-       var token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0NTgyMDc2OTQsImF1ZCI6Ik15IE11c2ljIFVzZXJzIiwiaWQiOjEsImVtYWlsIjoia2FiYXNha2FsaXNAZ21haWwuY29tIn0.gIQTU2Fe97NrMWnXIBySEkjWoO67dkA1v5Fnz0jYP3s'
-       console.log(
-         this.jwtHelper.decodeToken(token),
-         this.jwtHelper.getTokenExpirationDate(token),
-         this.jwtHelper.isTokenExpired(token)
-       );
-
-
-       if (this.jwtHelper.isTokenExpired(token)) {
-
-         // this.spinner_active = true;
-         // this._apiService.auth_req(login)
-         // .map(response => <any>response.json())
-         // .subscribe(
-         // response => {
-         //   this.onAuthSuccess(response)
-         //   this.spinner_active = false;
-         // },
-         // error => {
-         //   this.onAuthError = <any>error
-         //   this.spinner_active = false;
-         //  }
-         // );
+       if (!tokenNotExpired()) {
+         this._router.navigate(['/LoginForm']);
+       } else {
+        this._router.navigate(['/MMList']);
        }
-
-
   }
 
   onAuthSuccess(response: any) {

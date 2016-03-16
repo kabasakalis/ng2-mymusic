@@ -2,12 +2,13 @@ header.demo-drawer-header
   //img.demo-avatar(src='assets/img/user.jpg')
   img.demo-avatar(src="#{require('../../assets/img/user.jpg')}")
   .demo-avatar-dropdown
-    span hello@example.com
+    //span= localStorage.getItem('user_email')
+    span {{user_email}}
     .mdl-layout-spacer
     button#accbtn.mdl-button.mdl-js-button.mdl-js-ripple-effect.mdl-button--icon
       i.material-icons(role='presentation') arrow_drop_down
       span.visuallyhidden Accounts
-    ul.mdl-menu.mdl-menu--bottom-right.mdl-js-menu.mdl-js-ripple-effect(for='accbtn')
+    //ul.mdl-menu.mdl-menu--bottom-right.mdl-js-menu.mdl-js-ripple-effect(for='accbtn')
       li.mdl-menu__item hello@example.com
       li.mdl-menu__item info@example.com
       li.mdl-menu__item

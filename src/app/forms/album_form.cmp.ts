@@ -172,7 +172,12 @@ export class AlbumForm implements OnInit {
       }
       //var uri = `albums/${this.album.properties.id}`;
       this.spinner_active = true;
-      this._apiService.req(action, uri, {}, album_payload)
+     this._apiService.req(action,
+                                 uri,
+                                 {},
+                                 album_payload,
+                                 { Authorization: `Bearer ${localStorage.getItem('id_token')}` }
+                                 )
          .map(response => <any>response.json())
         .subscribe(
           response => this.updateSuccess(response),

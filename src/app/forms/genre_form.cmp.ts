@@ -162,7 +162,12 @@ export class GenreForm implements OnInit {
       }
       //var uri = `genres/${this.genre.properties.id}`;
       this.spinner_active = true;
-      this._apiService.req(action, uri, {}, genre_payload)
+      this._apiService.req(action,
+                                  uri,
+                                  {},
+                                  genre_payload,
+                                  { Authorization: `Bearer ${localStorage.getItem('id_token')}` }
+                                  )
          .map(response => <any>response.json())
         .subscribe(
           response => this.updateSuccess(response),

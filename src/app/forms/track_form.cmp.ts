@@ -169,7 +169,12 @@ export class TrackForm implements OnInit {
     }
     //var uri = `tracks/${this.track.properties.id}`;
     this.spinner_active = true;
-    this._apiService.req(action, uri, {}, track_payload)
+    this._apiService.req(action,
+                                uri,
+                                {},
+                                track_payload,
+                                { Authorization: `Bearer ${localStorage.getItem('id_token')}` }
+                                )
       .map(response => <any>response.json())
       .subscribe(
       response => this.updateSuccess(response),

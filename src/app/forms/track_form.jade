@@ -15,7 +15,7 @@
                   div(md-message='required') This is required.
                   div(md-message='maxlength') The title has to be less than 30 characters long.
               md-input-container.md-block.md-input-mymusic
-                label(for='time') Year
+                label(for='time') Time
                 input#time(md-input='', ngControl="time", [(value)]='track.properties.time', [(ngModel)]='track.properties.time' )
                 div(md-messages='time', role='alert')
                   div(md-message='required') This is required.

@@ -96,7 +96,7 @@ export class ArtistForm implements OnInit {
 
     this.artist = this.new_artist;
 
-    this.getGenres(1, 12);
+
 
     this._crudService.show_details$.subscribe(object => this.onObjectShow(object));
     console.log('Artist Form started')
@@ -109,20 +109,19 @@ export class ArtistForm implements OnInit {
   onEdit(object: any) {
 
     if (object.item.class[0] == 'artist') {
+      this.getGenres(1, 12);
       this.form_action = FormAction.Update
       this.show = true;
       this.artist = object.item as any;
-      let artist_albums_data = _.find(this.artist.entities, function(o) { return (o as any).class[0] == 'albums'; }) as any;
+      //let artist_albums_data = _.find(this.artist.entities, function(o) { return (o as any).class[0] == 'albums'; }) as any;
 
-      this.artist_albums_url = (artist_albums_data != null) ? artist_albums_data.href : '';
-      // console.log('artist_albums_data', artist_albums_data);
-      // console.log('artist_albums_data == null', artist_albums_data == null);
+      // this.artist_albums_url = (artist_albums_data != null) ? artist_albums_data.href : '';
 
-      if (this.artist_albums_url != '') {
-        this.getAlbums(1, 12);
-      } else {
-        this.artist_albums = []
-      }
+      // if (this.artist_albums_url != '') {
+      //   this.getAlbums(1, 12);
+      // } else {
+      //   this.artist_albums = []
+      // }
 
     }
   }
@@ -130,6 +129,7 @@ export class ArtistForm implements OnInit {
   onCreate(object: any) {
     // this.artist = null;
     // this.artist = <Artist>object;
+    this.getGenres(1, 12);
     console.log('object in ARTIST FORM', object);
     if (object.list_type == 'artist') {
     this.form_action = FormAction.Create
@@ -211,7 +211,12 @@ export class ArtistForm implements OnInit {
       }
       //var uri = `artists/${this.artist.properties.id}`;
       this.spinner_active = true;
-      this._apiService.req(action, uri, {}, artist_payload)
+      this._apiService.req(action,
+                            uri,
+                            {},
+                            artist_payload,
+                            { Authorization: `Bearer ${localStorage.getItem('id_token')}` }
+                            )
          .map(response => <any>response.json())
         .subscribe(
           response => this.updateSuccess(response),
@@ -246,7 +251,12 @@ export class ArtistForm implements OnInit {
    getGenres(page : number = 1, page_size : number = 12) {
 
       let params = { page: page, per: page_size }
-      this._apiService.req('get', 'genres', params)
+      this._apiService.req('get',
+                           'genres',
+                            params,
+                            {},
+                            { Authorization: `Bearer ${localStorage.getItem('id_token')}` }
+                            )
       .map(response => <any>response.json())
      .subscribe(
         response => this.getGenresSuccess(response),
@@ -275,35 +285,32 @@ export class ArtistForm implements OnInit {
 
 
 
-   getAlbums(page : number = 1, page_size : number = 12) {
+   // getAlbums(page : number = 1, page_size : number = 12) {
 
-      let params = { page: page, per: page_size }
-      this._apiService.req('get', this.artist_albums_url, params)
-      .map(response => <any>response.json())
-     .subscribe(
-        response => this.getAlbumsSuccess(response),
-        error => this.getAlbumsError = <any>error
-     );
-   }
+   //    let params = { page: page, per: page_size }
+   //    this._apiService.req('get', this.artist_albums_url, params)
+   //    .map(response => <any>response.json())
+   //   .subscribe(
+   //      response => this.getAlbumsSuccess(response),
+   //      error => this.getAlbumsError = <any>error
+   //   );
+   // }
 
-   getAlbumsSuccess(response: any) {
-     //this.artists = response.entities;
-     console.log('GENRES GET SUCCESSFUL ', response);
-     //this.total_pages = response.total_pages;
-     //this.total_count = response.total_count;
-     //this.page_size = response.page_size;
-     this.artist_albums = response.entities;
-     console.log('artist_albums', this.artist_albums)
-     console.log('ALBUMS GET SUCCESS', this.artist_albums);
-   };
+   // getAlbumsSuccess(response: any) {
+   //   //this.artists = response.entities
+   //   console.log('GENRES GET SUCCESSFUL ', response);
+   //   this.artist_albums = response.entities;
+   //   console.log('artist_albums', this.artist_albums)
+   //   console.log('ALBUMS GET SUCCESS', this.artist_albums);
+   // };
 
-   getAlbumsError(error: any) {
-     //this.artists = response.entities;
-     console.log('ERROR GET ALBUMS', error);
-     //this.total_pages = response.total_pages;
-     //this.total_count = response.total_count;
-     //this.page_size = response.page_size;
-   };
+   // getAlbumsError(error: any) {
+   //   //this.artists = response.entities;
+   //   console.log('ERROR GET ALBUMS', error);
+   //   //this.total_pages = response.total_pages;
+   //   //this.total_count = response.total_count;
+   //   //this.page_size = response.page_size;
+   // };
 
 
 }

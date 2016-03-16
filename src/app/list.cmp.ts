@@ -6,6 +6,8 @@ import {ApiService}       from './services/api.service';
 import {CrudService}       from './services/crud.service';
 import {Inject} from 'angular2/core';
 import {SpinnerComponent} from './utils/spinner.cmp';
+import {AuthHttp, tokenNotExpired, JwtHelper} from 'angular2-jwt';
+import {CanActivate} from 'angular2/router'
 // import {
 //   // Location,
 //   // Router,
@@ -34,7 +36,7 @@ import * as pluralize from 'pluralize'
  })
 
 
-
+@CanActivate(() => tokenNotExpired())
 export class MMList implements OnInit {
   constructor (
              // private _router:Router,
@@ -148,9 +150,13 @@ export class MMList implements OnInit {
      let deleted_item = this.selected_item;
      if (this.selected_item) {  //Temporary Workaround for double trigger TODO Fix,Removal from list should move in first callback
       this.delete_from_list(this.find_in_list_by_id(this.selected_item.properties.id));
-      //console.log('DELETION TRIGGERED')
       this.spinner_active =true
-      this._apiService.req('delete', resource_uri + '/' + object.properties.id)
+      this._apiService.req('delete',
+                            resource_uri + '/' + object.properties.id,
+                            {},
+                            {},
+                            { Authorization: `Bearer ${localStorage.getItem('id_token')}` }
+                             )
         .map(res => <any>res.json())
         .subscribe(
         res => {
@@ -234,15 +240,21 @@ export class MMList implements OnInit {
     // /console.log('params', params);
 
      this.spinner_active = true
-     this._apiService.req('get', resource_uri, params)
-     .map(response => <any>response.json())
+     this._apiService.req('get',
+                           resource_uri,
+                           params,
+                           {},
+                           {Authorization: `Bearer ${localStorage.getItem('id_token')}`}
+                           )
+    .map(response => <any>response.json())
     .subscribe(
       response => {
         this.onListSuccess(response)
         this.stopSpinner()
       },
       error =>  {
-        this.errorMessage = <any>error
+        //this.errorMessage = <any>error
+        console.log('list ERROR',error)
         this.stopSpinner();
       }
     );

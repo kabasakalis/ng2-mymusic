@@ -190,7 +190,12 @@ export class UserForm implements OnInit {
     }
     //var uri = `users/${this.user.properties.id}`;
     this.spinner_active = true;
-    this._apiService.req(action, uri, {}, user_payload)
+    this._apiService.req(action,
+                                uri,
+                                {},
+                                user_payload,
+                                { Authorization: `Bearer ${localStorage.getItem('id_token')}` }
+                                )
       .map(response => <any>response.json())
       .subscribe(
       response => this.updateSuccess(response),

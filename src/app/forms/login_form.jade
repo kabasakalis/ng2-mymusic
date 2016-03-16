@@ -1,0 +1,45 @@
+.demo-updates.mdl-card.mdl-shadow--2dp.mdl-cell.mdl-cell--4-col.mdl-cell--4-col-tablet.mdl-cell--12-col-desktop
+  .mdl-card__email.mdl-card--expand.mdl-color--teal-300
+    h2.mdl-card__email-text LOGIN
+  .mdl-card__supporting-text.mdl-color-text--grey-600
+    div
+      md-content
+        div(layout='column')
+          md-content(layout-padding='')
+            form( [ngFormModel]='loginForm',(submit)="handleForm($event)", #f="ngForm" )
+              md-input-container.md-block.md-input-mymusic
+                label(for='email') Email
+                input#email(md-input='', ngControl="email",[(value)]='login.email', #t="ngForm", [(ngModel)]='login.email'  )
+                div(md-messages="email"  )
+                  div(md-message='required') This is required.
+                  div(md-message='maxlength') The email has to be less than 30 characters long.
+              md-input-container.md-block.md-input-mymusic
+                label(for='password') Password
+                input#password(md-input='', ngControl="password",[(value)]='login.password', #t="ngForm", [(ngModel)]='login.password'  )
+                div(md-messages="password"  )
+                  div(md-message='required') This is required.
+                  div(md-message='maxlength') The password has to be less than 30 characters long.
+              md-input-container.md-block
+                button(type='submit',[disabled] = "!loginForm.valid") Login
+                button.md-mini.md-primary(md-fab, aria-label='Update', (click)="show=false;" )
+                  span Cancel
+            strong Model
+            pre.md-padding.
+              {{login | json}}
+            pre.md-padding.
+              {{loginForm.errors | json}}
+  div.spinner-wrapper
+    my-spinner.mm-spinner([isRunning]="spinner_active")
+
+//md-input-container.md-block.md-input-mymusic
+  label(for='email') Email
+  input#email(md-input='', ngControl="email",[(value)]='genre.properties.email', #t="ngForm", [(ngModel)]='genre.properties.email'  )
+  div(md-messages="email"  )
+    div(md-message='required') This is required.
+    div(md-message='maxlength') The email has to be less than 30 characters long.
+//md-input-container.md-block.md-input-mymusic
+  label(for='password') Password
+  input#password(md-input='', ngControl="password",[(value)]='genre.properties.email', #t="ngForm", [(ngModel)]='genre.properties.email'  )
+  div(md-messages="password"  )
+    div(md-message='required') This is required.
+    div(md-message='maxlength') The password has to be less than 30 characters long.

@@ -11,19 +11,23 @@ import {AuthHttp, tokenNotExpired, JwtHelper} from 'angular2-jwt';
 
 @Injectable()
 export class ApiService {
-  constructor(private http: Http) { }
 
   static API_BASE_URL = 'http://api.app.me:3000/v1/'
-  static DEFAULT_HEADERS = {
+  public default_headers :any = {
     'Content-Type' : 'application/json',
     'Accept': 'application/json',
-    'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0NTgyMDc2OTQsImF1ZCI6Ik15IE11c2ljIFVzZXJzIiwiaWQiOjEsImVtYWlsIjoia2FiYXNha2FsaXNAZ21haWwuY29tIn0.gIQTU2Fe97NrMWnXIBySEkjWoO67dkA1v5Fnz0jYP3s'
+    'Authorization':  ''
   };
 
 
+  constructor(private http: Http) {
+  }
 
 
-  auth_req(login: LoginPayload) {
+
+
+
+  get_jwt(login: LoginPayload) {
     return this.req('post', 'auth', {}, login);
   }
 
@@ -32,7 +36,7 @@ export class ApiService {
 
     let method = _method ? _method : 'get'
     let url = (_url && !_.startsWith(_url, 'http')) ? ApiService.API_BASE_URL + _url : _url
-    let headers = new Headers(Object.assign(ApiService.DEFAULT_HEADERS, _headers))
+    let headers = new Headers(Object.assign(this.default_headers, _headers))
     let body = _body ? JSON.stringify(_body) : JSON.stringify(new Object)
     let search = new URLSearchParams()
     for (var param in _params) {
