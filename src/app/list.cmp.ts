@@ -30,7 +30,7 @@ import * as pluralize from 'pluralize'
   styles: [require('./list.scss')],
   pipes: [PaginatePipe],
   directives: [PAGINATION_DIRECTIVES, ROUTER_DIRECTIVES, MATERIAL_DIRECTIVES, SpinnerComponent],
-  providers: [PaginationService, ApiService, ...ROUTER_PROVIDERS, MATERIAL_PROVIDERS]
+  providers: [PaginationService, ...ROUTER_PROVIDERS, MATERIAL_PROVIDERS]
  })
 
 

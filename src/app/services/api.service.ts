@@ -1,10 +1,13 @@
 import {Injectable}     from 'angular2/core';
 import {Http, Response} from 'angular2/http';
 import {Request, RequestOptions, RequestOptionsArgs, Headers, URLSearchParams, RequestMethod} from 'angular2/http';
-//import {Artist}           from '../artists/artist';
+import {LoginPayload}           from '../login_payload';
 import {Observable}     from 'rxjs/Observable';
 //import { ARTISTS } from './mock-artists';
 import * as _ from 'lodash';
+import {AuthHttp, tokenNotExpired, JwtHelper} from 'angular2-jwt';
+
+
 
 @Injectable()
 export class ApiService {
@@ -16,6 +19,14 @@ export class ApiService {
     'Accept': 'application/json',
     'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0NTgyMDc2OTQsImF1ZCI6Ik15IE11c2ljIFVzZXJzIiwiaWQiOjEsImVtYWlsIjoia2FiYXNha2FsaXNAZ21haWwuY29tIn0.gIQTU2Fe97NrMWnXIBySEkjWoO67dkA1v5Fnz0jYP3s'
   };
+
+
+
+
+  auth_req(login: LoginPayload) {
+    return this.req('post', 'auth', {}, login);
+  }
+
 
   req(_method: string, _url: string, _params?: Object, _body?: Object, _headers?: Object) {
 
