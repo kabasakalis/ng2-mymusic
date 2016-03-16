@@ -13,10 +13,10 @@ md-content
       h3 {{list_type}}s
       a( (click)="raiseCreate(list_type)")
         button.md-raised.md-primary(md-raised-button='') Create Artist
-      //a( (click)="delete_from_list(list[11])")
-        button.md-raised.md-primary(md-raised-button='') RemoveFromListLast
     template([ngSwitchWhen]="'album'")
       h3 {{list_type}}s
+      a( (click)="raiseCreate({list_type: list_type,artist: list_items_owner})")
+        button.md-raised.md-primary(md-raised-button='') Create Album for {{ list_items_owner.properties.title }}
       button.md-raised.md-primary(md-raised-button, (click)="getList('artists',1)") Back to Artists
     template([ngSwitchWhen]="'track'")
       h4  {{ list_items_owner.properties.title }}

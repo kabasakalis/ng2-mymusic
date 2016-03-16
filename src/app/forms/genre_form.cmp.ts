@@ -28,7 +28,7 @@ enum FormAction {
 @Component({
   selector: 'genre-form',
   template: require('!jade!./genre_form.jade')(),
-  styles: [require('./artist_form.scss')],
+  styles: [require('./form.scss')],
   directives: [MATERIAL_DIRECTIVES, FORM_DIRECTIVES, SpinnerComponent],
   viewBindings: [FORM_BINDINGS],
   providers: [ApiService]

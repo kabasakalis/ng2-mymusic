@@ -18,6 +18,7 @@ import {About} from './about.async';
 import {DetailsShow} from './details_show.cmp';
 import {ArtistForm} from './forms/artist_form.cmp';
 import {GenreForm} from './forms/genre_form.cmp';
+import {AlbumForm} from './forms/album_form.cmp';
 //import {Artist}              from './artists/artist';
 import {MMList}    from './list.cmp';
 
@@ -36,7 +37,9 @@ import {MMList}    from './list.cmp';
    RouterActive,
    DetailsShow,
    ArtistForm,
-   GenreForm,MMList
+   GenreForm,
+   AlbumForm,
+   MMList
    ],
   pipes: [],
   styles: [require('./app.scss')],
