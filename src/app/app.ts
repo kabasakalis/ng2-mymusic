@@ -19,6 +19,8 @@ import {DetailsShow} from './details_show.cmp';
 import {ArtistForm} from './forms/artist_form.cmp';
 import {GenreForm} from './forms/genre_form.cmp';
 import {AlbumForm} from './forms/album_form.cmp';
+import {TrackForm} from './forms/track_form.cmp';
+import {UserForm} from './forms/user_form.cmp';
 //import {Artist}              from './artists/artist';
 import {MMList}    from './list.cmp';
 
@@ -39,6 +41,8 @@ import {MMList}    from './list.cmp';
    ArtistForm,
    GenreForm,
    AlbumForm,
+   TrackForm,
+   UserForm,
    MMList
    ],
   pipes: [],

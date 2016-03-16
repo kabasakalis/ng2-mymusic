@@ -96,10 +96,10 @@ export class GenreForm implements OnInit {
   onEdit(object: any) {
     // this.genre = null;
     // this.genre = <Genre>object;
-   if (object.class[0] == 'genre') {
+    if (object.item.class[0] == 'genre') {
     this.form_action= FormAction.Update
     this.show = true;
-    this.genre = object as any;
+    this.genre = object.item as any;
   }
 
   }
@@ -109,7 +109,7 @@ export class GenreForm implements OnInit {
     // this.genre = <Genre>object;
     console.log('object in GENRE FORM', object);
 
-    if (object == 'genre') {
+    if (object.list_type == 'genre') {
     this.form_action = FormAction.Create
 
     this.show = true;

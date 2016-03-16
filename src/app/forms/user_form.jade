@@ -1,0 +1,51 @@
+.demo-updates.mdl-card.mdl-shadow--2dp.mdl-cell.mdl-cell--4-col.mdl-cell--4-col-tablet.mdl-cell--12-col-desktop(*ngIf="show")
+  .mdl-card__title.mdl-card--expand.mdl-color--teal-300
+    h2.mdl-card__title-text USER FORM
+  .mdl-card__supporting-text.mdl-color-text--grey-600
+    div
+      md-content
+        div(layout='column')
+          md-content(layout-padding='')
+            form( [ngFormModel]='userForm',(submit)="handleForm($event)", #f="ngForm" )
+              md-input-container.md-block.md-input-mymusic
+                label(for='name') Name
+                input#name(md-input='', ngControl="name", [(value)]='user.properties.name', [(ngModel)]='user.properties.name' )
+                //input#name(md-input='', ngControl='name')
+                div(md-messages='name', role='alert')
+                  div(md-message='required') This is required.
+              md-input-container.md-block.md-input-mymusic
+                label(for='email') Email
+                input#email(md-input='', ngControl="email", [(value)]='user.properties.email', [(ngModel)]='user.properties.email' )
+                div(md-messages='email', role='alert')
+                  div(md-message='required') This is required.
+              md-input-container.md-block.md-input-mymusic
+                label(for='password') Password
+                input#password(md-input='', ngControl="password", [(value)]='user.properties.password', [(ngModel)]='user.properties.password' )
+                div(md-messages='password', role='alert')
+                  div(md-message='required') This is required.
+
+              md-input-container.md-block.md-input-mymusic
+                label(for='password_confirmation') Password Confirmation
+                input#password_confirmation(md-input='', ngControl="password_confirmation", [(value)]='user.properties.password_confirmation', [(ngModel)]='user.properties.password_confirmation' )
+                div(md-messages='password_confirmation', role='alert')
+                  div(md-message='required') This is required.
+              md-input-container.md-block.md-input-mymusic(flex-gt-sm='')
+                label Role
+                select([(ngModel)]='user.properties.role', ngControl="role")
+                  option(value = 'user')
+                    | User
+                  option(value= 'admin' )
+                    | Admin
+                  option( value = 'superadmin' )
+                    | SuperAdmin
+              md-input-container.md-block
+                button(type='submit',[disabled] = "!userForm.valid") {{form_action== 0 ? "Create" : "Update" }}
+                button.md-mini.md-primary(md-fab, aria-label='Update', (click)="show=false;" )
+                  span Cancel
+            strong Model
+            pre.md-padding.
+              {{user.properties | json}}
+            pre.md-padding.
+              {{userForm.errors | json}}
+  div.spinner-wrapper
+    my-spinner.mm-spinner([isRunning]="spinner_active")

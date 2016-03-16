@@ -100,10 +100,11 @@ export class AlbumForm implements OnInit {
   }
   onEdit(object: any) {
     console.log('onEFIT', object);
-    if (object.class[0] == 'album') {
+    if (object.item.class[0] == 'album') {
       this.form_action = FormAction.Update
+      this.artist = object.related.artist[0]
       this.show = true;
-      this.album = object as any;
+      this.album = object.item as any;
 
     }
   }

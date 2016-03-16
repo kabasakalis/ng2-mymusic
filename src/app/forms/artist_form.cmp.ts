@@ -108,10 +108,10 @@ export class ArtistForm implements OnInit {
   }
   onEdit(object: any) {
 
-    if (object.class[0] == 'artist') {
+    if (object.item.class[0] == 'artist') {
       this.form_action = FormAction.Update
       this.show = true;
-      this.artist = object as any;
+      this.artist = object.item as any;
       let artist_albums_data = _.find(this.artist.entities, function(o) { return (o as any).class[0] == 'albums'; }) as any;
 
       this.artist_albums_url = (artist_albums_data != null) ? artist_albums_data.href : '';
@@ -131,7 +131,7 @@ export class ArtistForm implements OnInit {
     // this.artist = null;
     // this.artist = <Artist>object;
     console.log('object in ARTIST FORM', object);
-    if (object == 'artist') {
+    if (object.list_type == 'artist') {
     this.form_action = FormAction.Create
 
     this.show = true;

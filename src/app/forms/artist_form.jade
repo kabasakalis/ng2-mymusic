@@ -27,7 +27,7 @@
                     | {{genre.properties.title}}
               md-input-container.md-block
                 button(type='submit',[disabled] = "!artistForm.valid") {{form_action== 0 ? "Create" : "Update" }}
-                button.md-mini.md-primary(md-fab, aria-label='Update', (click)="show=false;" )
+                button(aria-label='Update', (click)="show=false;" )
                   span Cancel
             strong Model
             pre.md-padding.

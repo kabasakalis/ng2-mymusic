@@ -1,32 +1,32 @@
 .demo-updates.mdl-card.mdl-shadow--2dp.mdl-cell.mdl-cell--4-col.mdl-cell--4-col-tablet.mdl-cell--12-col-desktop(*ngIf="show")
   .mdl-card__title.mdl-card--expand.mdl-color--teal-300
-    h2.mdl-card__title-text ALBUM FORM FORM ARTIST {{artist.properties.title}}
+    h2.mdl-card__title-text Track form for  {{album.properties.title}}
   .mdl-card__supporting-text.mdl-color-text--grey-600
     div
       md-content
         div(layout='column')
           md-content(layout-padding='')
-            form( [ngFormModel]='albumForm',(submit)="handleForm($event)", #f="ngForm" )
+            form( [ngFormModel]='trackForm',(submit)="handleForm($event)", #f="ngForm" )
               md-input-container.md-block.md-input-mymusic
                 label(for='title') Title
-                input#title(md-input='', ngControl="title",[(value)]='album.properties.title', #t="ngForm", [(ngModel)]='album.properties.title'  )
+                input#title(md-input='', ngControl="title",[(value)]='track.properties.title', #t="ngForm", [(ngModel)]='track.properties.title'  )
                 //input#title(md-input='', ngControl='title' )
                 div(md-messages="title"  )
                   div(md-message='required') This is required.
                   div(md-message='maxlength') The title has to be less than 30 characters long.
               md-input-container.md-block.md-input-mymusic
-                label(for='year') Year
-                input#year(md-input='', ngControl="year", [(value)]='album.properties.year', [(ngModel)]='album.properties.year' )
-                div(md-messages='year', role='alert')
+                label(for='time') Year
+                input#time(md-input='', ngControl="time", [(value)]='track.properties.time', [(ngModel)]='track.properties.time' )
+                div(md-messages='time', role='alert')
                   div(md-message='required') This is required.
               md-input-container.md-block
-                button(type='submit',[disabled] = "!albumForm.valid") {{form_action== 0 ? "Create" : "Update" }}
-                button( aria-label='Update', (click)="show=false;" )
+                button(type='submit',[disabled] = "!trackForm.valid") {{form_action== 0 ? "Create" : "Update" }}
+                button.md-mini.md-primary(md-fab, aria-label='Update', (click)="show=false;" )
                   span Cancel
             strong Model
             pre.md-padding.
-              {{album.properties | json}}
+              {{track.properties | json}}
             pre.md-padding.
-              {{albumForm.errors | json}}
+              {{trackForm.errors | json}}
   div.spinner-wrapper
     my-spinner.mm-spinner([isRunning]="spinner_active")

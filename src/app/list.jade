@@ -11,8 +11,8 @@ md-content
   div([ngSwitch]= "list_type" )
     template([ngSwitchWhen]="'artist'")
       h3 {{list_type}}s
-      a( (click)="raiseCreate(list_type)")
-        button.md-raised.md-primary(md-raised-button='') Create Artist
+      a( (click)="raiseCreate({list_type: list_type})")
+        button Create Artist
     template([ngSwitchWhen]="'album'")
       h3 {{list_type}}s
       a( (click)="raiseCreate({list_type: list_type,artist: list_items_owner})")
@@ -22,12 +22,18 @@ md-content
       h4  {{ list_items_owner.properties.title }}
       h3 {{list_type}}s
       button.md-raised.md-primary(md-raised-button, (click)="getList('albums',1,12,{artist: current_artist.properties.title })") Back to Albums
+      a( (click)="raiseCreate({list_type: list_type,album: list_items_owner})")
+        button.md-raised.md-primary(md-raised-button='') Create Track for {{ list_items_owner.properties.title }}
     template([ngSwitchWhen]="'playlist'")
       h3 {{list_type}}s
     template([ngSwitchWhen]="'genre'")
       h3 {{list_type}}s
-      a( (click)="raiseCreate(list_type)")
+      a( (click)="raiseCreate({list_type: list_type})")
         button.md-raised.md-primary(md-raised-button='') Create Genre
+    template([ngSwitchWhen]="'user'")
+      h3 {{list_type}}s
+      a( (click)="raiseCreate({list_type: list_type})")
+        button.md-raised.md-primary(md-raised-button='') Create User
     template(ngSwitchDefault)
       //h2 {{list_type}}
 
