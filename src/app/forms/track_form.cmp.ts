@@ -3,7 +3,6 @@ import {View, Component, OnInit, AfterViewInit,
 import {MdPatternValidator, MdMinValueValidator, MdNumberRequiredValidator, MdMaxValueValidator, MATERIAL_DIRECTIVES} from 'ng2-material/all';
 import {FORM_DIRECTIVES, Validators, FormBuilder, Control, ControlGroup, ControlArray, FORM_BINDINGS, AbstractControl} from 'angular2/common';
 import {CrudService}   from '../services/crud.service';
-//import {Artist}              from './track';
 import {SpinnerComponent} from '../utils/spinner.cmp';
 import {ApiService}       from '../services/api.service';
 import * as _ from 'lodash';
@@ -34,9 +33,6 @@ enum FormAction {
   providers: [ApiService]
 })
 export class TrackForm implements OnInit {
-
-
-
   track: any;
   show: Boolean = false;
   trackForm: ControlGroup;
@@ -57,15 +53,10 @@ export class TrackForm implements OnInit {
     class: ['track']
   };
 
-
-
   constructor(private fb: FormBuilder, private _crudService: CrudService, private _apiService: ApiService) {
     this._crudService.edit$.subscribe(object => this.onEdit(object));
     this._crudService.create$.subscribe(object => this.onCreate(object));
-
-
     this.trackForm = fb.group({
-      //'track':fb.group({
       title: [undefined, Validators.compose([
         Validators.required,
         Validators.maxLength(30)
@@ -74,46 +65,25 @@ export class TrackForm implements OnInit {
         Validators.required,
         Validators.maxLength(30)
       ])],
-
-      // genre_id: [undefined, validate]
-      // /tracks_attributes: new ControlArray(this.ctrlAlbums)
     })
-
-    console.log('this.FB', this.fb);
-    console.log('trackForm.control');
-
   }
 
   ngOnInit() {
-    //this.titleCtrl = this.trackForm.controls['track'].controls['title'];
-
     this.track = this.new_track;
-
-    this._crudService.show_details$.subscribe(object => this.onObjectShow(object));
-    console.log('Track Form started')
+    //this._crudService.show_details$.subscribe(object => this.onObjectShow(object));
   }
 
-  ngAfterViewInit() {
-
-
-  }
   onEdit(object: any) {
-    console.log('onEFIT TRACK', object);
     if (object.item.class[0] == 'track') {
       this.form_action = FormAction.Update
       this.album = object.related.album[0]
       this.show = true;
       this.track = object.item as any;
-
     }
   }
 
   onCreate(object: any) {
-    // this.track = null;
-    // this.track = <Artist>object;
-    console.log('object in TRACK FORM', object);
     if (object.list_type == 'track') {
-      console.log('ALBUM CREATED RUN')
       this.form_action = FormAction.Create
       this.album = object.album
       this.show = true;
@@ -122,41 +92,22 @@ export class TrackForm implements OnInit {
           { class: ['album'] },
         ],
         properties: {
-
           album_id: this.album.properties.id,
           title: '',
           time: ''
         },
         class: ['track']
       };
-
     }
-  }
-
-
-
-
-  onObjectShow(object: any) {
-
-    console.log('track onObjectShow in form', this.track)
-    console.log('this.trackForm.value ON SELECT', this.trackForm.value)
-    console.log('FORMBUILDER trackForm', this.trackForm)
-
   }
 
 
 
   handleForm(track: any) {
-
-    console.log('track in UYPDATE', track)
-    console.log('this.trackForm.value', this.trackForm.value)
     let track_payload = {
       track: this.trackForm.value
     }
-
     track_payload.track.album_id = this.album.properties.id
-    console.log('track_paylod in track_form   ', track_payload);
-
     var uri: string;
     var action: string;
     if (this.form_action == FormAction.Create) {
@@ -167,7 +118,6 @@ export class TrackForm implements OnInit {
       uri = `tracks/${this.track.properties.id}`
       action = 'put'
     }
-    //var uri = `tracks/${this.track.properties.id}`;
     this.spinner_active = true;
     this._apiService.req(action,
                                 uri,
@@ -183,27 +133,17 @@ export class TrackForm implements OnInit {
   }
 
   updateSuccess(response: any) {
-    //this.tracks = response.entities;
-
     this.spinner_active = false;
     if (this.form_action == FormAction.Create) {
       this._crudService.create_success(response)
-
-      console.log('CREAT HANDLED');
     } else {
       this._crudService.update(response)
-      console.log('UPDATE HANDLED');
-
     }
     this.show = false;
-    console.log('this.show', this.show)
-    //this.total_pages = response.total_pages;
-    //this.total_count = response.total_count;
-    //this.page_size = response.page_size;
   };
 
   updateError(error: any) {
-    console.log('ERROR UPDATE', error);
+    console.log('Update Error', error);
   };
 
 

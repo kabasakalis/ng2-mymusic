@@ -10,15 +10,14 @@ console.log('`About` component loaded asynchronously');
 
 @Component({
   selector: 'about',
-  template: `patrick@AngularClass.com`
+  template: require('!jade!./about.jade')()
 })
 export class About {
   constructor() {
-
   }
 
   ngOnInit() {
-    console.log('hello `About` component');
+   // console.log('hello `About` component');
   }
 
 }

@@ -3,7 +3,6 @@ import {View, Component, OnInit, AfterViewInit,
 import {MdPatternValidator, MdMinValueValidator, MdNumberRequiredValidator, MdMaxValueValidator, MATERIAL_DIRECTIVES} from 'ng2-material/all';
 import {FORM_DIRECTIVES, Validators, FormBuilder, Control, ControlGroup, ControlArray, FORM_BINDINGS, AbstractControl} from 'angular2/common';
 import {CrudService}   from '../services/crud.service';
-//import {Artist}              from './artist';
 import {SpinnerComponent} from '../utils/spinner.cmp';
 import {ApiService}       from '../services/api.service';
 import * as _ from 'lodash';
@@ -34,8 +33,6 @@ enum FormAction {
   providers: [ApiService]
 })
 export class ArtistForm implements OnInit {
-
-
   genreControl: AbstractControl;
   artist: any;
   artist_genre: any;
@@ -45,7 +42,6 @@ export class ArtistForm implements OnInit {
   show: Boolean = false;
   artistForm: ControlGroup;
   public spinner_active: boolean = false;
-
   form_action: number = FormAction.Create;
   new_artist: any = {
     entities: [
@@ -61,18 +57,10 @@ export class ArtistForm implements OnInit {
     class: ['artist']
   };
 
-
-
   constructor(private fb: FormBuilder, private _crudService: CrudService, private _apiService: ApiService) {
-    // console.log('FormAction',FormAction)
-    // console.log('FormAction',FormAction.Create)
-    // console.log('FormAction',FormAction.Update)
     this._crudService.edit$.subscribe(object => this.onEdit(object));
     this._crudService.create$.subscribe(object => this.onCreate(object));
-
-
     this.artistForm = fb.group({
-      //'artist':fb.group({
       title: [undefined, Validators.compose([
         Validators.required,
         Validators.maxLength(30)
@@ -85,50 +73,24 @@ export class ArtistForm implements OnInit {
       genre_id: [undefined, validate]
       // /albums_attributes: new ControlArray(this.ctrlAlbums)
     })
-
-    console.log('this.FB', this.fb);
-    console.log('artistForm.control');
-
   }
 
   ngOnInit() {
-    //this.titleCtrl = this.artistForm.controls['artist'].controls['title'];
-
     this.artist = this.new_artist;
-
-
-
-    this._crudService.show_details$.subscribe(object => this.onObjectShow(object));
-    console.log('Artist Form started')
+    //this._crudService.show_details$.subscribe(object => this.onObjectShow(object));
   }
 
-  ngAfterViewInit() {
 
-
-  }
   onEdit(object: any) {
-
     if (object.item.class[0] == 'artist') {
       this.getGenres(1, 12);
       this.form_action = FormAction.Update
       this.show = true;
       this.artist = object.item as any;
-      //let artist_albums_data = _.find(this.artist.entities, function(o) { return (o as any).class[0] == 'albums'; }) as any;
-
-      // this.artist_albums_url = (artist_albums_data != null) ? artist_albums_data.href : '';
-
-      // if (this.artist_albums_url != '') {
-      //   this.getAlbums(1, 12);
-      // } else {
-      //   this.artist_albums = []
-      // }
-
     }
   }
 
   onCreate(object: any) {
-    // this.artist = null;
-    // this.artist = <Artist>object;
     this.getGenres(1, 12);
     console.log('object in ARTIST FORM', object);
     if (object.list_type == 'artist') {
@@ -148,169 +110,77 @@ export class ArtistForm implements OnInit {
       },
       class: ['artist']
     };
-    //this.artist = <Artist>object;
-    //let artist_albums_data = _.find(this.artist.entities, function(o) { return o.class[0] == 'albums'; })
-
-    //this.artist_albums_url = (artist_albums_data != null) ? artist_albums_data.href : '';
-    // console.log('artist_albums_data', artist_albums_data);
-    // console.log('artist_albums_data == null', artist_albums_data == null);
-
-    // if (this.artist_albums_url != '') {
-    //   this.getAlbums(1, 12);
-    // } else {
-    //   this.artist_albums = []
-    // }
-  }
+    }
   }
 
 
+  handleForm(artist: any) {
+    let artist_payload = {
+       artist: this.artistForm.value
+       }
+    console.log('artist_paylod in artist_form   ', artist_payload);
 
+    var uri:string;
+    var action: string;
+    if (this.form_action== FormAction.Create) {
+      uri='artists'
+      action='post'
 
-    onObjectShow(object: any) {
-
-       // this.artist = <Artist>object;
-       // let artist_albums_data =_.find(this.artist.entities, function(o) { return o.class[0] == 'albums'; })
-
-       // this.artist_albums_url = (artist_albums_data != null) ? artist_albums_data.href : '';
-       // // console.log('artist_albums_data', artist_albums_data);
-       // // console.log('artist_albums_data == null', artist_albums_data == null);
-
-       // if (this.artist_albums_url != ''){
-       //   this.getAlbums(1, 12);
-       // } else{
-       //  this.artist_albums =[]
-       // }
-
-       console.log('artist onObjectShow in form',this.artist)
-       console.log('this.artistForm.value ON SELECT', this.artistForm.value)
-       console.log('FORMBUILDER artistForm', this.artistForm)
-
+    } else
+    {
+      uri = `artists/${this.artist.properties.id}`
+      action='put'
     }
+    this.spinner_active = true;
+    this._apiService.req(action,
+                          uri,
+                          {},
+                          artist_payload,
+                          { Authorization: `Bearer ${localStorage.getItem('id_token')}` }
+                          )
+       .map(response => <any>response.json())
+       .subscribe(
+        response => this.updateSuccess(response),
+        error =>  this.updateError = <any>error
+      );
+  }
 
+  updateSuccess(response: any) {
+    //this.artists = response.entities;
 
-
-    handleForm(artist: any) {
-
-      console.log('artist in UYPDATE', artist)
-      console.log('this.artistForm.value', this.artistForm.value)
-      let artist_payload = {
-         artist: this.artistForm.value
-         }
-      console.log('artist_paylod in artist_form   ', artist_payload);
-
-      var uri:string;
-      var action: string;
-      if (this.form_action== FormAction.Create) {
-        uri='artists'
-        action='post'
-
-      } else
-      {
-        uri = `artists/${this.artist.properties.id}`
-        action='put'
-      }
-      //var uri = `artists/${this.artist.properties.id}`;
-      this.spinner_active = true;
-      this._apiService.req(action,
-                            uri,
-                            {},
-                            artist_payload,
-                            { Authorization: `Bearer ${localStorage.getItem('id_token')}` }
-                            )
-         .map(response => <any>response.json())
-        .subscribe(
-          response => this.updateSuccess(response),
-          error =>  this.updateError = <any>error
-        );
+    this.spinner_active = false;
+    if (this.form_action == FormAction.Create){
+      this._crudService.create_success(response)
+    }else{
+      this._crudService.update(response)
     }
+    this.show = false;
+  };
 
-    updateSuccess(response: any) {
-      //this.artists = response.entities;
+  updateError(error: any) {
+    console.log('Update Error', error);
+  };
 
-      this.spinner_active = false;
-      if (this.form_action == FormAction.Create){
-        this._crudService.create_success(response)
+  getGenres(page : number = 1, page_size : number = 12) {
+    let params = { page: page, per: page_size }
+    this._apiService.req('get',
+                         'genres',
+                          params,
+                          {},
+                          { Authorization: `Bearer ${localStorage.getItem('id_token')}` }
+                          )
+    .map(response => <any>response.json())
+   .subscribe(
+      response => this.getGenresSuccess(response),
+      error => this.getGenresError = <any>error
+   );
+  }
 
-        console.log('CREAT HANDLED');
-      }else{
-        this._crudService.update(response)
-        console.log('UPDATE HANDLED');
-
-      }
-      this.show = false;
-      console.log('this.show', this.show)
-      //this.total_pages = response.total_pages;
-      //this.total_count = response.total_count;
-      //this.page_size = response.page_size;
-    };
-
-    updateError(error: any) {
-      console.log('ERROR UPDATE', error);
-    };
-
-   getGenres(page : number = 1, page_size : number = 12) {
-
-      let params = { page: page, per: page_size }
-      this._apiService.req('get',
-                           'genres',
-                            params,
-                            {},
-                            { Authorization: `Bearer ${localStorage.getItem('id_token')}` }
-                            )
-      .map(response => <any>response.json())
-     .subscribe(
-        response => this.getGenresSuccess(response),
-        error => this.getGenresError = <any>error
-     );
-   }
-
-   getGenresSuccess(response: any) {
-     //this.artists = response.entities;
-     console.log('GENRES GET SUCCESSFUL ', response);
-     //this.total_pages = response.total_pages;
-     //this.total_count = response.total_count;
-     //this.page_size = response.page_size;
-     this.genres = response.entities;
-     console.log('GENRES', this.genres);
-   };
+  getGenresSuccess(response: any) {
+    this.genres = response.entities;
+  };
 
    getGenresError(error: any) {
-     //this.artists = response.entities;
      console.log('ERROR GET GENRES', error);
-     //this.total_pages = response.total_pages;
-     //this.total_count = response.total_count;
-     //this.page_size = response.page_size;
    };
-
-
-
-
-   // getAlbums(page : number = 1, page_size : number = 12) {
-
-   //    let params = { page: page, per: page_size }
-   //    this._apiService.req('get', this.artist_albums_url, params)
-   //    .map(response => <any>response.json())
-   //   .subscribe(
-   //      response => this.getAlbumsSuccess(response),
-   //      error => this.getAlbumsError = <any>error
-   //   );
-   // }
-
-   // getAlbumsSuccess(response: any) {
-   //   //this.artists = response.entities
-   //   console.log('GENRES GET SUCCESSFUL ', response);
-   //   this.artist_albums = response.entities;
-   //   console.log('artist_albums', this.artist_albums)
-   //   console.log('ALBUMS GET SUCCESS', this.artist_albums);
-   // };
-
-   // getAlbumsError(error: any) {
-   //   //this.artists = response.entities;
-   //   console.log('ERROR GET ALBUMS', error);
-   //   //this.total_pages = response.total_pages;
-   //   //this.total_count = response.total_count;
-   //   //this.page_size = response.page_size;
-   // };
-
-
 }

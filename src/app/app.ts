@@ -1,20 +1,10 @@
-/*
- * Angular 2 decorators and services
- */
 import {Component, OnInit } from 'angular2/core';
-//import {RouteConfig, Router, ROUTER_DIRECTIVES} from 'angular2/router'
 import {ROUTER_DIRECTIVES, ROUTER_PROVIDERS,RouteConfig, Router, Route, AuxRoute, RouteParams} from 'angular2/router';
-//import {_} from 'lodash';
 import * as _ from 'lodash';
-//import {pluralize} from '../../typings/browser/ambient/pluralize/pluralize'
 import {LoginPayload}           from './login_payload';
 import {AuthHttp, tokenNotExpired, JwtHelper} from 'angular2-jwt';
-
-
 import {FORM_PROVIDERS} from 'angular2/common';
-
 import {MATERIAL_DIRECTIVES, MATERIAL_PROVIDERS} from "ng2-material/all";
-
 import {RouterActive} from './directives/router-active';
 import {About} from './about.async';
 import {DetailsShow} from './details_show.cmp';
@@ -24,8 +14,6 @@ import {AlbumForm} from './forms/album_form.cmp';
 import {TrackForm} from './forms/track_form.cmp';
 import {UserForm} from './forms/user_form.cmp';
 import {LoginForm} from './forms/login_form.cmp';
-
-//import {Artist}              from './artists/artist';
 import {MMList}    from './list.cmp';
 import {ApiService}       from './services/api.service';
 import {SpinnerComponent} from './utils/spinner.cmp';
@@ -63,44 +51,25 @@ import {SpinnerComponent} from './utils/spinner.cmp';
   { path: '/**', redirectTo: ['MMList'] }
 ])
 export class App implements OnInit {
-  angularclassLogo = 'assets/img/angularclass-avatar.png';
-  name = 'Angular 2 Webpack';
-  url = 'https://twitter.com/AngularClass';
   jwtHelper: JwtHelper = new JwtHelper();
-
-
-
   public spinner_active: boolean = true;
   constructor(private _router: Router,
               private _apiService: ApiService
-              ) {
-    // let list_type = this._routeParams.get('type');
-    // console.log('type', list_type)
-  }
-
-
+              ) {}
   ngOnInit() {
-
     var token = localStorage.getItem('id_token');
-
-      // console.log(
-      //   this.jwtHelper.decodeToken(token),
-      //   this.jwtHelper.getTokenExpirationDate(token),
-      //   this.jwtHelper.isTokenExpired(token)
-      // );
-
-    console.log('!tokenNotExpired()',tokenNotExpired());
-       if (!tokenNotExpired()) {
-         this._router.navigate(['/LoginForm']);
-         console.log('TOKEN EXPIRED NAVIGATE TO LOGIN')
-       } else {
-        this._router.navigate(['/MMList']);
-
-       }
+    // console.log(
+    //   this.jwtHelper.decodeToken(token),
+    //   this.jwtHelper.getTokenExpirationDate(token),
+    //   this.jwtHelper.isTokenExpired(token)
+    // );
+    //console.log('!tokenNotExpired()',tokenNotExpired());
+   if (!tokenNotExpired()) {
+     this._router.navigate(['/LoginForm']);
+   } else {
+    this._router.navigate(['/MMList']);
+   }
   }
-
-
-
 }
 
 /*

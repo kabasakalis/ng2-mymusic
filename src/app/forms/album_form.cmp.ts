@@ -3,12 +3,10 @@ import {View, Component, OnInit, AfterViewInit,
 import {MdPatternValidator, MdMinValueValidator, MdNumberRequiredValidator, MdMaxValueValidator, MATERIAL_DIRECTIVES} from 'ng2-material/all';
 import {FORM_DIRECTIVES, Validators, FormBuilder, Control, ControlGroup, ControlArray, FORM_BINDINGS, AbstractControl} from 'angular2/common';
 import {CrudService}   from '../services/crud.service';
-//import {Artist}              from './album';
 import {SpinnerComponent} from '../utils/spinner.cmp';
 import {ApiService}       from '../services/api.service';
 import * as _ from 'lodash';
 import * as pluralize from 'pluralize'
-
 
 
 const validate = c => {
@@ -33,16 +31,13 @@ enum FormAction {
   viewBindings: [FORM_BINDINGS],
   providers: [ApiService]
 })
+
 export class AlbumForm implements OnInit {
-
-
-
   album: any;
   show: Boolean = false;
   albumForm: ControlGroup;
   public spinner_active: boolean = false;
   artist: any
-
   form_action: number = FormAction.Create;
   new_album: any = {
     entities: [
@@ -63,8 +58,6 @@ export class AlbumForm implements OnInit {
   constructor(private fb: FormBuilder, private _crudService: CrudService, private _apiService: ApiService) {
     this._crudService.edit$.subscribe(object => this.onEdit(object));
     this._crudService.create$.subscribe(object => this.onCreate(object));
-
-
     this.albumForm = fb.group({
       //'album':fb.group({
       title: [undefined, Validators.compose([
@@ -75,46 +68,25 @@ export class AlbumForm implements OnInit {
         Validators.required,
         Validators.maxLength(30)
       ])],
-
-     // genre_id: [undefined, validate]
-      // /albums_attributes: new ControlArray(this.ctrlAlbums)
     })
-
-    console.log('this.FB', this.fb);
-    console.log('albumForm.control');
-
   }
 
   ngOnInit() {
-    //this.titleCtrl = this.albumForm.controls['album'].controls['title'];
-
     this.album = this.new_album;
-
-    this._crudService.show_details$.subscribe(object => this.onObjectShow(object));
-    console.log('Artist Form started')
+    //this._crudService.show_details$.subscribe(object => this.onObjectShow(object));
   }
 
-  ngAfterViewInit() {
-
-
-  }
   onEdit(object: any) {
-    console.log('onEFIT', object);
     if (object.item.class[0] == 'album') {
       this.form_action = FormAction.Update
       this.artist = object.related.artist[0]
       this.show = true;
       this.album = object.item as any;
-
     }
   }
 
   onCreate(object: any) {
-    // this.album = null;
-    // this.album = <Artist>object;
-    console.log('object in CREAT ALBUM FORM', object);
     if (object.list_type == 'album') {
-      console.log('ALBUM CREATED RUN')
     this.form_action = FormAction.Create
     this.artist = object.artist
     this.show = true;
@@ -124,90 +96,65 @@ export class AlbumForm implements OnInit {
         { class: ['tracks'] },
       ],
       properties: {
-
         artist_id: this.artist.id,
         title: '',
         year: ''
       },
       class: ['album']
     };
-
   }
+ }
+
+
+
+  handleForm(album: any) {
+
+    let album_payload = {
+       album: this.albumForm.value
+       }
+
+    album_payload.album.artist_id=this.artist.properties.id
+    console.log('album_paylod in album_form   ', album_payload);
+
+    var uri:string;
+    var action: string;
+    if (this.form_action== FormAction.Create) {
+      uri='albums'
+      action='post'
+
+    } else
+    {
+      uri = `albums/${this.album.properties.id}`
+      action='put'
+    }
+    //var uri = `albums/${this.album.properties.id}`;
+    this.spinner_active = true;
+    this._apiService.req(action,
+                               uri,
+                               {},
+                               album_payload,
+                               { Authorization: `Bearer ${localStorage.getItem('id_token')}` }
+                               )
+       .map(response => <any>response.json())
+       .subscribe(
+         response => this.updateSuccess(response),
+         error =>  this.updateError = <any>error
+      );
   }
 
-
-
-
-    onObjectShow(object: any) {
-
-       console.log('album onObjectShow in form',this.album)
-       console.log('this.albumForm.value ON SELECT', this.albumForm.value)
-       console.log('FORMBUILDER albumForm', this.albumForm)
-
+  updateSuccess(response: any) {
+    this.spinner_active = false;
+    if (this.form_action == FormAction.Create){
+      this._crudService.create_success(response)
+    }else{
+      this._crudService.update(response)
     }
+    this.show = false;
+    console.log('this.show', this.show)
+  };
 
-
-
-    handleForm(album: any) {
-
-      console.log('album in UYPDATE', album)
-      console.log('this.albumForm.value', this.albumForm.value)
-      let album_payload = {
-         album: this.albumForm.value
-         }
-
-      album_payload.album.artist_id=this.artist.properties.id
-      console.log('album_paylod in album_form   ', album_payload);
-
-      var uri:string;
-      var action: string;
-      if (this.form_action== FormAction.Create) {
-        uri='albums'
-        action='post'
-
-      } else
-      {
-        uri = `albums/${this.album.properties.id}`
-        action='put'
-      }
-      //var uri = `albums/${this.album.properties.id}`;
-      this.spinner_active = true;
-     this._apiService.req(action,
-                                 uri,
-                                 {},
-                                 album_payload,
-                                 { Authorization: `Bearer ${localStorage.getItem('id_token')}` }
-                                 )
-         .map(response => <any>response.json())
-        .subscribe(
-          response => this.updateSuccess(response),
-          error =>  this.updateError = <any>error
-        );
-    }
-
-    updateSuccess(response: any) {
-      //this.albums = response.entities;
-
-      this.spinner_active = false;
-      if (this.form_action == FormAction.Create){
-        this._crudService.create_success(response)
-
-        console.log('CREAT HANDLED');
-      }else{
-        this._crudService.update(response)
-        console.log('UPDATE HANDLED');
-
-      }
-      this.show = false;
-      console.log('this.show', this.show)
-      //this.total_pages = response.total_pages;
-      //this.total_count = response.total_count;
-      //this.page_size = response.page_size;
-    };
-
-    updateError(error: any) {
-      console.log('ERROR UPDATE', error);
-    };
-
+  updateError(error: any) {
+    console.log('Update Error', error);
+  };
 
 }

@@ -3,15 +3,11 @@ import {Http, Response} from 'angular2/http';
 import {Request, RequestOptions, RequestOptionsArgs, Headers, URLSearchParams, RequestMethod} from 'angular2/http';
 import {LoginPayload}           from '../login_payload';
 import {Observable}     from 'rxjs/Observable';
-//import { ARTISTS } from './mock-artists';
 import * as _ from 'lodash';
 import {AuthHttp, tokenNotExpired, JwtHelper} from 'angular2-jwt';
 
-
-
 @Injectable()
 export class ApiService {
-
   static API_BASE_URL = 'http://api.app.me:3000/v1/'
   public default_headers :any = {
     'Content-Type' : 'application/json',
@@ -19,18 +15,11 @@ export class ApiService {
     'Authorization':  ''
   };
 
-
-  constructor(private http: Http) {
-  }
-
-
-
-
+  constructor(private http: Http) {}
 
   get_jwt(login: LoginPayload) {
     return this.req('post', 'auth', {}, login);
   }
-
 
   req(_method: string, _url: string, _params?: Object, _body?: Object, _headers?: Object) {
 
@@ -58,34 +47,7 @@ export class ApiService {
     let request = new Request(request_options);
 
     return this.http.request(request)
-
-      //.do(data => console.log(data)) // eyeball results in the console
-      //.catch(this.handleError(error,src,caught));
   }
-
-  // addArtist(title: string): Observable<Artist> {
-
-  //     let body = JSON.stringify({ title });
-  //     let headers = new Headers({
-  //         'Content-Type': 'application/siren',
-  //         'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0NTY2Njc1NTcsImF1ZCI6Ik15IE11c2ljIFVzZXJzIiwiaWQiOjEsImVtYWlsIjoia2FiYXNha2FsaXNAZ21haWwuY29tIn0.uLE4XkS_wdbky-JflBXtvd6UZLhntoBngcxr8TZ_DSU'
-  //     });
-  //     let options = new RequestOptions({ headers: headers });
-
-  //     return this.http.post(this._artistsUrl, body, options)
-  //         .map(res => <Artist>res.json().data)
-  //         .catch(this.handleError)
-  // }
-
-  // private handleError(error,src,caught) {
-  //   console.log(error,'error in handleError');
-  //   console.log(src, 'src in handleError');
-  //   console.log(caught, 'caught in handleError');
-  //   // in a real world app, we may send the error to some remote logging infrastructure
-  //   // instead of just logging it to the console
-  //   //console.error(error);
-  //   return Observable.throw(error.json().error || 'Server error');
-  // }
 }
 
 /*

@@ -18,7 +18,7 @@ html(lang='en')
     meta(http-equiv='X-UA-Compatible', content='IE=edge')
     meta(name='description', content="#{webpackConfig.metadata.title}")
     meta(name='viewport', content='width=device-width, initial-scale=1')
-    title My Music
+    title MyMusic
     // Add to homescreen for Chrome on Android
     meta(name='mobile-web-app-capable', content='yes')
     link(rel='icon', sizes='192x192', href='assets/img/android-desktop.png')
@@ -49,7 +49,6 @@ html(lang='en')
       ga('create', 'UA-71073175-1', 'auto');
       ga('send', 'pageview');
     script(src='https://code.angularjs.org/tools/system.js')
-    //script(src='node_modules/rxjs/bundles/Rx.js')
     script(src='https://code.angularjs.org/2.0.0-beta.7/Rx.js')
     script(src='https://code.getmdl.io/1.1.2/material.min.js')
     if webpackConfig.metadata.ENV === 'development'

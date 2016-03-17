@@ -4,14 +4,9 @@
 import {provide, enableProdMode} from 'angular2/core';
 import {bootstrap, ELEMENT_PROBE_PROVIDERS} from 'angular2/platform/browser';
 import {ROUTER_PROVIDERS, LocationStrategy, PathLocationStrategy} from 'angular2/router';
-//import {Router, ROUTER_DIRECTIVES, ROUTER_PROVIDERS, RouteParams,RouteConfig, LocationStrategy, PathLocationStrategy} from
 import { RouteParams} from 'angular2/router';
-
 import * as rout from 'angular2/router';
 import {HTTP_PROVIDERS} from 'angular2/http';
-
-
-
 
 import {CrudService}   from './app/services/crud.service';
 
@@ -39,7 +34,6 @@ document.addEventListener('DOMContentLoaded', function main() {
     CrudService,
     ...ENV_PROVIDERS,
     ...HTTP_PROVIDERS,
-    //RouteParams,
     provide(LocationStrategy, { useClass: PathLocationStrategy })
   ])
    .catch(err => console.error(err));
@@ -48,12 +42,3 @@ document.addEventListener('DOMContentLoaded', function main() {
 
 // For vendors for example jQuery, Lodash, angular2-jwt just import them anywhere in your app
 // Also see custom_typings.d.ts as you also need to do `typings install x` where `x` is your module
-
-
-
-// bootstrap(AppComponent, [
-//   ROUTER_PROVIDERS,
-//   provide(LocationStrategy, { useClass: HashLocationStrategy })
-//   DialogService,
-//   HeroService
-// ]);

@@ -3,7 +3,6 @@ import {View, Component, OnInit, AfterViewInit,
 import {MdPatternValidator, MdMinValueValidator, MdNumberRequiredValidator, MdMaxValueValidator, MATERIAL_DIRECTIVES} from 'ng2-material/all';
 import {FORM_DIRECTIVES, Validators, FormBuilder, Control, ControlGroup, ControlArray, FORM_BINDINGS, AbstractControl} from 'angular2/common';
 import {CrudService}   from '../services/crud.service';
-//import {Artist}              from './user';
 import {SpinnerComponent} from '../utils/spinner.cmp';
 import {ApiService}       from '../services/api.service';
 import * as _ from 'lodash';
@@ -41,9 +40,6 @@ enum Role {
   providers: [ApiService]
 })
 export class UserForm implements OnInit {
-
-
-
   user: any;
   show: Boolean = false;
   userForm: ControlGroup;
@@ -55,7 +51,6 @@ export class UserForm implements OnInit {
       { class: ['album'] },
     ],
     properties: {
-
       name: '',
       email: '',
       role: 0
@@ -68,9 +63,7 @@ export class UserForm implements OnInit {
     this._crudService.edit$.subscribe(object => this.onEdit(object));
     this._crudService.create$.subscribe(object => this.onCreate(object));
 
-
     this.userForm = fb.group({
-      //'user':fb.group({
       name: [undefined, Validators.compose([
         Validators.required,
         Validators.maxLength(30)
@@ -93,43 +86,24 @@ export class UserForm implements OnInit {
         Validators.required,
         MdNumberRequiredValidator
       ])],
-
-      // genre_id: [undefined, validate]
-      // /users_attributes: new ControlArray(this.ctrlAlbums)
     })
-
-    console.log('this.FB', this.fb);
-    console.log('userForm.control');
 
   }
 
   ngOnInit() {
-    //this.titleCtrl = this.userForm.controls['user'].controls['title'];
-
     this.user = this.new_user;
-
-    this._crudService.show_details$.subscribe(object => this.onObjectShow(object));
-    console.log('Track Form started')
+    //this._crudService.show_details$.subscribe(object => this.onObjectShow(object));
   }
 
-  ngAfterViewInit() {
-
-
-  }
   onEdit(object: any) {
-    console.log('onEFIT USER', object);
     if (object.item.class[0] == 'user') {
       this.form_action = FormAction.Update
       this.show = true;
       this.user = object.item as any;
-
     }
   }
 
   onCreate(object: any) {
-    // this.user = null;
-    // this.user = <Artist>object;
-    console.log('object in USER FORM', object);
     if (object.list_type == 'user') {
       console.log('USER CREATED RUN')
       this.form_action = FormAction.Create
@@ -150,34 +124,11 @@ export class UserForm implements OnInit {
     }
   }
 
-
-
-
-  onObjectShow(object: any) {
-
-    console.log('user onObjectShow in form', this.user)
-    console.log('this.userForm.value ON SELECT', this.userForm.value)
-    console.log('FORMBUILDER userForm', this.userForm)
-
-  }
-
-
-
   handleForm(user: any) {
 
-    console.log('user in UYPDATE', user)
-    console.log('this.userForm.value', this.userForm.value)
     let user_payload = {
       user: this.userForm.value
     }
-
-   // user_payload.user.role = parseInt(user_payload.user.role);
-
-
-
-
-    console.log('user_paylod in user_form   ', user_payload);
-
     var uri: string;
     var action: string;
     if (this.form_action == FormAction.Create) {
@@ -188,7 +139,6 @@ export class UserForm implements OnInit {
       uri = `users/${this.user.properties.id}`
       action = 'put'
     }
-    //var uri = `users/${this.user.properties.id}`;
     this.spinner_active = true;
     this._apiService.req(action,
                                 uri,
@@ -204,27 +154,17 @@ export class UserForm implements OnInit {
   }
 
   updateSuccess(response: any) {
-    //this.users = response.entities;
-
     this.spinner_active = false;
     if (this.form_action == FormAction.Create) {
       this._crudService.create_success(response)
-
-      console.log('CREAT HANDLED');
     } else {
       this._crudService.update(response)
-      console.log('UPDATE HANDLED');
-
     }
     this.show = false;
-    console.log('this.show', this.show)
-    //this.total_pages = response.total_pages;
-    //this.total_count = response.total_count;
-    //this.page_size = response.page_size;
   };
 
   updateError(error: any) {
-    console.log('ERROR UPDATE', error);
+    console.log('Update Error', error);
   };
 
 

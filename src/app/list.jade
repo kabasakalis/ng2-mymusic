@@ -1,11 +1,7 @@
-
-
 button.md-raised.md-primary((click)="getList('artists')") Artists
 button.md-raised.md-primary( (click)="getList('genres')") Genres
 button.md-raised.md-primary( (click)="getList('users')") Users
 button.md-raised.md-primary( (click)="getList('playlists')") Playlists
-//button.md-raised.md-primary( (click)="spinner_active = true") Spinner On
-//button.md-raised.md-primary( (click)="spinner_active = false") Spinner Off
 h6 Welcome {{user_email}}
 div.spinner-wrapper
   my-spinner.mm-spinner([isRunning]="spinner_active")
@@ -45,10 +41,6 @@ div.wf-container(*ngIf="initialized")
     md-whiteframe.md-whiteframe-1dp(*ngFor="#item of list | paginate: { id: 'paging', itemsPerPage: page_size, currentPage: page, totalItems: total_count }" flex-sm='45', flex-gt-sm='35', flex-gt-md='25', layout='', layout-align='center center', style="cursor:pointer;" , (click)='show_details(item)', [class.selected-item]="selected_item && (selected_item.properties.id == item.properties.id)" )
       strong {{ item.properties.title }}
       strong {{ item.properties?.name }}
-//pre.
-  {{ list_type  }}
-//pre.
-  {{ list |json  }}
 
 
 pagination-controls(#p, id='paging', (pageChange)='page = $event;getList(list_uri,$event)' style='cursor: pointer!important;',*ngIf="initialized")
