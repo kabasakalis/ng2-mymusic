@@ -24,5 +24,9 @@ some limitations and glitches  I stumbled upon on (Routing). The animation libra
  * [AngularClass/angular2-webpack-starter](https://github.com/AngularClass/angular2-webpack-starter)
  * [Webpack](https://webpack.github.io/)
  * [Typescript Deep Dive](https://basarat.gitbooks.io/typescript/content/docs/getting-started.html)
+ * [Jade Template Engine](http://jade-lang.com/)
  * [ng2-Material Design](https://justindujardin.github.io/ng2-material/)
  * [Angular 2 JWT](https://github.com/auth0/angular2-jwt)
+
+
+
