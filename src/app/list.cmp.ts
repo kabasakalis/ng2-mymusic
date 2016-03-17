@@ -36,7 +36,7 @@ import * as pluralize from 'pluralize'
  })
 
 
-@CanActivate(() => tokenNotExpired())
+@CanActivate(() => true )
 export class MMList implements OnInit {
   constructor (
              // private _router:Router,
@@ -65,6 +65,8 @@ export class MMList implements OnInit {
   total_count: number;
   page_size: number;
   public spinner_active: boolean = true;
+  initialized: boolean = false;
+  user_email: string = '';
 
 
 
@@ -74,7 +76,8 @@ export class MMList implements OnInit {
 
      //let list_type = this._routeParams
     // console.log('type', list_type)
-
+    this.user_email = localStorage.getItem('user_email')
+   this.initialized=true;
     this.spinner_active = true;
     this.getList('artists',1);
     this._crudService.update$.subscribe(object => this.onItemUpdate(object));
@@ -150,6 +153,7 @@ export class MMList implements OnInit {
      let deleted_item = this.selected_item;
      if (this.selected_item) {  //Temporary Workaround for double trigger TODO Fix,Removal from list should move in first callback
       this.delete_from_list(this.find_in_list_by_id(this.selected_item.properties.id));
+      //console.log('DELETION TRIGGERED')
       this.spinner_active =true
       this._apiService.req('delete',
                             resource_uri + '/' + object.properties.id,
@@ -222,7 +226,7 @@ export class MMList implements OnInit {
     this.list_type = pluralize.plural(resource.type)
 
 
-    this.getList(resource.uri);
+    //this.getList(resource.uri);
 
   }
 

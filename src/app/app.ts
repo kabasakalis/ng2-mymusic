@@ -68,7 +68,7 @@ export class App implements OnInit {
   url = 'https://twitter.com/AngularClass';
   jwtHelper: JwtHelper = new JwtHelper();
 
-  user_email: string = '';
+
 
   public spinner_active: boolean = true;
   constructor(private _router: Router,
@@ -81,24 +81,23 @@ export class App implements OnInit {
 
   ngOnInit() {
 
+    var token = localStorage.getItem('id_token');
+
+      // console.log(
+      //   this.jwtHelper.decodeToken(token),
+      //   this.jwtHelper.getTokenExpirationDate(token),
+      //   this.jwtHelper.isTokenExpired(token)
+      // );
+
+    console.log('!tokenNotExpired()',tokenNotExpired());
        if (!tokenNotExpired()) {
          this._router.navigate(['/LoginForm']);
+         console.log('TOKEN EXPIRED NAVIGATE TO LOGIN')
        } else {
         this._router.navigate(['/MMList']);
+
        }
   }
-
-  onAuthSuccess(response: any) {
-    console.log('authsuccess',response);
-
-  }
-
-  onAuthError(response: any) {
-
-  }
-
-
-
 
 
 

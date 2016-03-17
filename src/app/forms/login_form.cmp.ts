@@ -112,10 +112,12 @@ export class LoginForm implements OnInit {
         localStorage.setItem('id_token',jwt.token);
         localStorage.setItem('user_email',jwt.user.email);
         localStorage.setItem('user_id',jwt.user.id);
+        // /this._apiService.default_headers.Authorization = `Bearer ${jwt.token}`
+
         this._router.navigate(['/MMList']);
 
 
-      console.log('LOGIN RESAPONSE', jwt);
+      console.log('LOGIN RESPONSE', jwt);
     };
 
     loginError(error: any) {
