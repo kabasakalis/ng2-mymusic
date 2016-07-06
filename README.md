@@ -4,6 +4,9 @@
 ![My music](https://github.com/drumaddict/ng2-mymusic/blob/master/screenshot_2.png)
 ----
 
+### [Live Demo in Heroku](https://mymusic-api.herokuapp.com/spa/login)
+Login credentialas - Email: kabasakalis@gmail.com, Password: 11111111
+
 ### Overview
 This is an Angular 2 Single Page Application/mockup of an administration panel of a Spotify-like Music Service.
 It consumes my demo Ruby On Rails API, [MyMusic](https://github.com/drumaddict/mymusic-rails-api) and it helped me to get familiar with Angular 2.
