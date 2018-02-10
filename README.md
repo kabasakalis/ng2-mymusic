@@ -1,9 +1,9 @@
 # Angular 2 (`angular2@2.0.0-beta.7`) Single Page Application
-### Consuming a [Rails API](https://github.com/drumaddict/mymusic-rails-api)
+### Consuming a [Rails API](https://github.com/kabasakalis/mymusic-rails-api)
 ### [Live Demo in Heroku](https://mymusic-api.herokuapp.com/spa)
 Login credentialas - Email: kabasakalis@gmail.com, Password: 11111111
-![My music](https://github.com/drumaddict/ng2-mymusic/blob/master/screenshot_1.png)
-![My music](https://github.com/drumaddict/ng2-mymusic/blob/master/screenshot_2.png)
+![My music](https://github.com/kabasakalis/ng2-mymusic/blob/master/screenshot_1.png)
+![My music](https://github.com/kabasakalis/ng2-mymusic/blob/master/screenshot_2.png)
 ----
 
 
